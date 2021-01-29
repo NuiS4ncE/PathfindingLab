@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PathfindingLab.main" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="PathfindingLab.Main" />
-    <module name="PathfindingLab.main" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>
