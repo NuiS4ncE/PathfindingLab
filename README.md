@@ -1,7 +1,6 @@
 # PathfindingLab
-![GitHub Actions](https://github.com/NuiS4ncE/SeaTurtle/workflows/Java%20CI%20with%20Gradle/badge.svg) </br>
-[![codecov](https://codecov.io/gh/NuiS4ncE/SeaTurtle/branch/main/graph/badge.svg?token=Q60VYB8G3A)](https://codecov.io/gh/NuiS4ncE/SeaTurtle)
-
+![GitHub Actions](https://github.com/NuiS4ncE/PathfindingLab/workflows/Java%20CI%20with%20Gradle/badge.svg) </br>
+[![codecov](https://codecov.io/gh/NuiS4ncE/PathfindingLab/branch/master/graph/badge.svg?token=R7TGDXB6IR)](https://codecov.io/gh/NuiS4ncE/PathfindingLab)
 
 # Links to documentation 
 
