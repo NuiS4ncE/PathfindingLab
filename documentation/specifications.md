@@ -1,8 +1,8 @@
 # Specifications 
 
-The project is a lab work for the University of Helsinki's data structures and algorithms lab course. The topic is pathfinding and different data structures and algorithms will be used. Used language is English and the course is part of the bachelor's in science degree in computer science. 
+The project is a lab work for the University of Helsinki's data structures and PathfindingLab.ui.algorithms lab course. The topic is pathfinding and different data structures and PathfindingLab.ui.algorithms will be used. Used language is English and the course is part of the bachelor's in science degree in computer science. 
 
-# Data structures and algorithms 
+# Data structures and PathfindingLab.ui.algorithms 
 
 Algorithms used in the project will be Dijkstra's Shortest Path First algorithm, A-star search algorithm and jump point search algorithm. Different data structures will be used, most common one with each is the priority queue. 
 Maps from the Moving AI Lab will be used as input. 

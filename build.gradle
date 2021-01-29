@@ -1,5 +1,7 @@
-apply plugin: 'jacoco'
-
+plugins {
+    id 'application'
+    id 'jacoco'
+}
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -8,3 +10,11 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
