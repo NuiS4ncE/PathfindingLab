@@ -8,10 +8,12 @@ import javafx.stage.Stage;
 public class UIMain extends Application {
 
     private Scene mainScene;
+    private GUI gui;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        gui = new GUI(primaryStage);
+        this.mainScene = gui.buildScene("PathfindingLab");
         primaryStage.setTitle("PathfindingLab");
         primaryStage.setScene(mainScene);
         primaryStage.show();

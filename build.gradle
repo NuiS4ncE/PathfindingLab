@@ -1,7 +1,11 @@
 plugins {
     id 'application'
     id 'jacoco'
+    id 'java'
+    id 'checkstyle'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
 }
+
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -9,12 +13,27 @@ jacocoTestReport {
     }
 }
 
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
 check.dependsOn jacocoTestReport
 
-repositories {
-    jcenter()
+jar {
+    manifest {
+        attributes 'Main-Class': 'PathfindingLab.Main'
+    }
 }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
-}
+mainClassName = 'PathfindingLab.Main'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
+
+
+
