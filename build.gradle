@@ -3,7 +3,7 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'checkstyle'
-    id 'org.openjfx.javafxplugin' version '0.0.3'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 jacocoTestReport {
@@ -13,9 +13,6 @@ jacocoTestReport {
     }
 }
 
-javafx {
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
 
 check.dependsOn jacocoTestReport
 
