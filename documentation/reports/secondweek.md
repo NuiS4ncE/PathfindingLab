@@ -10,3 +10,5 @@ Testing is non-existent right now and javadoc is missing.
 <br>
 Next up is to make at least a skeleton of the algorithms. The idea is to use the 
 color values of adjacent pixels and use them as nodes. 
+<br>
+Time spent on the project this week was around 10h. 
