@@ -11,11 +11,16 @@ jacocoTestReport {
         xml.enabled = true
         html.enabled = true
     }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['/ui**'])
+        }))
+    }
 }
 
 javafx {
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-    version = '11.0.2'
+    modules = [ 'javafx.controls']
+    version = '12.0.2'
 }
 
 check.dependsOn jacocoTestReport
