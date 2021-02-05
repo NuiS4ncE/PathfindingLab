@@ -14,33 +14,32 @@ public class DijkstraPath {
     boolean truthTable[][];
     float[][] distance;
     BufferedImage buffImg;
+    int[][] dropTheCourse;
 
     public DijkstraPath() {
         ioImg = new IOImg();
-    }
-
-    public void DPathFind(int startY, int startX, int endY, int endX) throws IOException {
-        int[][] dropTheCourse = new int[][] {
+        //truthTable marks visited coordinates
+        dropTheCourse = new int[][] {
                 {1,1,0},
                 {0,1,1}
         };
-        buffImg = ioImg.getBuffImg();
-        buffImg = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-
-
-        startX = 0;
-        startY = 0;
-        //truthTable marks visited coordinates
         for (int i = 1; i < dropTheCourse.length; i++) {
             for (int j = 1; j < dropTheCourse.length; j++) {
                 distance[i][j] = Integer.MAX_VALUE;
             }
         }
+    }
+
+    public void DPathFind(int startY, int startX, int endY, int endX) throws IOException {
+        buffImg = ioImg.getBuffImg();
+        buffImg = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        startX = 0;
+        startY = 0;
         Node startNode = new Node(startY, startX);
         distance[startY][startX] = 0;
         pq.add(startNode);
-        while (!pq.isEmpty()) {
+       /* while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
             int yNow = currentNode.getY();
             int xNow = currentNode.getX();
@@ -50,7 +49,7 @@ public class DijkstraPath {
                 System.out.println("Dijkstra completed successfully!");
             }
 
-        }
+        } */
 
     }
 }
