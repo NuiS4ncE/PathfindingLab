@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
-
+import javax.swing.border.EtchedBorder;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
@@ -32,10 +32,6 @@ import java.util.Map;
 public class GUI {
 
     private JFrame frame;
-/*
-    private int width;
-    private int height;
-*/
     private Stage primaryStage;
     private BorderPane borderPane;
     private Scene mainScene;
@@ -44,42 +40,45 @@ public class GUI {
     private int endPosX;
     private int endPosY;
     private GridPane gridPane;
-    private Group root;
     private DijkstraPath dPath;
     private IOImg ioImg;
 
-    /*
-    public void initializeGUI() {
-        width = 850;
-        height = 650;
-        frame = new JFrame();
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setSize(width, height);
-        frame.setTitle("PathfindingLab");
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
-    } */
+
 
     public GUI(Stage primStage) {
         this.primaryStage = primStage;
     }
 
-    public Scene mainSceneGUI() throws IOException {
+    /*
+    public void mainSceneGUI() throws IOException {
+
         frame = new JFrame();
         ioImg = new IOImg();
+        frame.setSize(600, 600);
+        frame.setTitle("PathfindingLab");
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+
         String[] algorithms = {"Dijkstra"};
+
         JToggleButton startButton = new JToggleButton("Start");
         JToggleButton endButton = new JToggleButton("End");
         JButton runButton = new JButton("Run");
-        JLabel label = new JLabel(new ImageIcon(ioImg.getBuffImg()));
+        JLabel imgLabel = new JLabel(new ImageIcon(ioImg.getBuffImg()));
+        JLabel algoLabel = new JLabel("Algorithms");
         JComboBox algoBox = new JComboBox(algorithms);
+        JPanel toolPanel = new JPanel();
         Map canvas;
-        return
+
+        toolPanel.setLayout(null);
+        toolPanel.setBounds(10,10,210,600);
+        toolPanel.add(startButton, runButton);
+
+        frame.setVisible(true);
     }
-    // THIS WENT OUT THE WINDOW BECAUSE IT'S A PAIN IN THE ASS
-    /*
+
+    */
     public Scene buildScene(String stageTitle) throws IOException {
         ioImg = new IOImg();
         dPath = new DijkstraPath();
@@ -87,7 +86,7 @@ public class GUI {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         StackPane stackPane = new StackPane();
-        root = new Group();
+
 
         mainScene = new Scene(stackPane, 600, 600, Color.BLACK);
         Canvas canvas = new Canvas(600, 600);
@@ -171,7 +170,7 @@ public class GUI {
         //borderPane.setBottom(buttonPane);
 
         return mainScene;
-    } */
+    }
 
     public double getStartPosX() {
         return this.startPosX;

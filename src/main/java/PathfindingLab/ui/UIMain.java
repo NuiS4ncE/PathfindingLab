@@ -14,6 +14,7 @@ public class UIMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         gui = new GUI(primaryStage);
         this.mainScene = gui.buildScene("PathfindingLab");
+        //gui.mainSceneGUI();
         primaryStage.setTitle("PathfindingLab");
         primaryStage.setScene(mainScene);
         primaryStage.show();
