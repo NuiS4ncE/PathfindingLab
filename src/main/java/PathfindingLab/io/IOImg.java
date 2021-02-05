@@ -1,10 +1,15 @@
 package PathfindingLab.io;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+
 import javax.imageio.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.awt.Image;
 
 
 public class IOImg {
@@ -25,8 +30,12 @@ public class IOImg {
         }
     }
 
+
     public BufferedImage getBuffImg() throws IOException {
-        return buffImg = imgIo.read(new File("/maps/arena.png"));
+        File currentDir = new File(".");
+        File parentDir = currentDir.getParentFile();
+        //System.out.println("TRYING TO FIND FILE!");
+        return buffImg = imgIo.read(new File("src/main/maps/arena.png"));
     }
 
     public int getRedPxl() {

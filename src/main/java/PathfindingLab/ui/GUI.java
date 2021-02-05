@@ -1,10 +1,12 @@
 package PathfindingLab.ui;
 
-//import javax.swing.*;
+import javax.swing.*;
 //import javax.swing.text.html.ImageView;
 
+import PathfindingLab.algorithms.DijkstraPath;
 import PathfindingLab.io.IOImg;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -14,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -22,22 +25,28 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Map;
+
 public class GUI {
-/*
+
     private JFrame frame;
-    private IOImg ioImg;
+/*
     private int width;
     private int height;
 */
     private Stage primaryStage;
     private BorderPane borderPane;
     private Scene mainScene;
-    private double startPosX;
-    private double startPosY;
-    private double endPosX;
-    private double endPosY;
+    private int startPosX;
+    private int startPosY;
+    private int endPosX;
+    private int endPosY;
     private GridPane gridPane;
     private Group root;
+    private DijkstraPath dPath;
+    private IOImg ioImg;
 
     /*
     public void initializeGUI() {
@@ -57,7 +66,23 @@ public class GUI {
         this.primaryStage = primStage;
     }
 
-    public Scene buildScene(String stageTitle) {
+    public Scene mainSceneGUI() throws IOException {
+        frame = new JFrame();
+        ioImg = new IOImg();
+        String[] algorithms = {"Dijkstra"};
+        JToggleButton startButton = new JToggleButton("Start");
+        JToggleButton endButton = new JToggleButton("End");
+        JButton runButton = new JButton("Run");
+        JLabel label = new JLabel(new ImageIcon(ioImg.getBuffImg()));
+        JComboBox algoBox = new JComboBox(algorithms);
+        Map canvas;
+        return
+    }
+    // THIS WENT OUT THE WINDOW BECAUSE IT'S A PAIN IN THE ASS
+    /*
+    public Scene buildScene(String stageTitle) throws IOException {
+        ioImg = new IOImg();
+        dPath = new DijkstraPath();
         primaryStage.setTitle(stageTitle);
         gridPane = new GridPane();
         borderPane = new BorderPane();
@@ -71,14 +96,18 @@ public class GUI {
         //graphicsContext.setFill(Color.BLUE);
         //graphicsContext.fillRect(10, 10, 400, 400);
 
-        ImageView imageView = new ImageView("https://www.movingai.com/benchmarks/dao/arena.png");
+        //ImageView imageView = new ImageView("https://www.movingai.com/benchmarks/dao/arena.png");
+        BufferedImage capture = ioImg.getBuffImg();
+        Image image = SwingFXUtils.toFXImage(capture, null);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
         imageView.setFitHeight(400);
         imageView.setFitWidth(400);
 
         ToggleButton startButton = new ToggleButton("Start");
         ToggleButton endButton = new ToggleButton("End");
         Button exitButton = new Button("Exit");
-
+        Button runButton = new Button("Run");
         ToggleButton[] toolsArr = {startButton, endButton};
 
         ToggleGroup tools = new ToggleGroup();
@@ -103,23 +132,24 @@ public class GUI {
 
         buttonPane.getChildren().addAll(startButton, endButton);
         //topPane.getChildren().addAll(comboBox);
-        stackPane.setAlignment(startButton, Pos.BOTTOM_CENTER);
-        stackPane.setAlignment(endButton, Pos.BOTTOM_RIGHT);
+        stackPane.setAlignment(startButton, Pos.BOTTOM_LEFT);
+        stackPane.setAlignment(endButton, Pos.BOTTOM_CENTER);
         stackPane.setAlignment(exitButton, Pos.TOP_RIGHT);
-        stackPane.getChildren().addAll(canvas, imageView, startButton, endButton, exitButton);
+        stackPane.setAlignment(runButton, Pos.BOTTOM_RIGHT);
+        stackPane.getChildren().addAll(canvas, imageView, startButton, endButton, exitButton, runButton);
 
 
         imageView.setOnMouseClicked(e -> {
             if(startButton.isSelected()) {
-                this.startPosX = e.getSceneX();
-                this.startPosY = e.getSceneY();
+                this.startPosX = (int)e.getSceneX();
+                this.startPosY = (int)e.getSceneY();
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
                 graphicsContext.fillOval(this.startPosX, this.startPosY, 20,20);
             } else if (endButton.isSelected()) {
-                this.endPosX = e.getSceneX();
-                this.endPosY = e.getSceneY();
+                this.endPosX = (int)e.getSceneX();
+                this.endPosY = (int)e.getSceneY();
                 System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
@@ -128,12 +158,20 @@ public class GUI {
             }
         });
 
+        runButton.setOnMouseClicked(e -> {
+            try {
+                dPath.DPathFind(this.startPosY, this.startPosX, this.endPosY, this.endPosX);
+            } catch (IOException jk) {
+                System.out.println(jk);
+            }
+        });
+
         //borderPane.setTop(comboBox);
         //borderPane.setCenter(stackPane);
         //borderPane.setBottom(buttonPane);
 
         return mainScene;
-    }
+    } */
 
     public double getStartPosX() {
         return this.startPosX;
