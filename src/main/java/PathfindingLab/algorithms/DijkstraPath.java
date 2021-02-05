@@ -30,6 +30,14 @@ public class DijkstraPath {
         }
     }
 
+    /**
+     *
+     * @param startY Starting point for Y coordinates
+     * @param startX Starting pont for X coordinates
+     * @param endY Ending point for Y coordinate
+     * @param endX Ending point for X coordinates
+     * @throws IOException
+     */
     public void DPathFind(int startY, int startX, int endY, int endX) throws IOException {
         buffImg = ioImg.getBuffImg();
         buffImg = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
