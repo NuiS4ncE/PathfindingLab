@@ -44,7 +44,10 @@ public class GUI {
     private IOImg ioImg;
 
 
-
+    /**
+     * Constructor for the class
+     * @param primStage Parameter for receiving a Stage-object
+     */
     public GUI(Stage primStage) {
         this.primaryStage = primStage;
     }
@@ -79,6 +82,13 @@ public class GUI {
     }
 
     */
+
+    /**
+     * Main scene method.
+     * @param stageTitle Parameter for a String
+     * @return Returns Scene-object.
+     * @throws IOException
+     */
     public Scene buildScene(String stageTitle) throws IOException {
         ioImg = new IOImg();
         dPath = new DijkstraPath();

@@ -18,6 +18,10 @@ public class IOImg {
     private BufferedImage buffImg;
     private int red, green, blue;
 
+    /**
+     * Method for getting the colors of the image. Has no use yet.
+     * @throws IOException
+     */
     public void getColors() throws IOException {
         buffImg = imgIo.read(new File("/maps/arena.png"));
         for (int x = 0; x < buffImg.getWidth(); x++) {
@@ -30,7 +34,11 @@ public class IOImg {
         }
     }
 
-
+    /**
+     * Getter for getting the BufferedImage from file
+     * @return Returns the retrieved BufferedImage
+     * @throws IOException
+     */
     public BufferedImage getBuffImg() throws IOException {
         File currentDir = new File(".");
         File parentDir = currentDir.getParentFile();

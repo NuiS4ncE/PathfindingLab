@@ -16,6 +16,9 @@ public class DijkstraPath {
     BufferedImage buffImg;
     int[][] dropTheCourse;
 
+    /**
+     * Constructor for the class
+     */
     public DijkstraPath() {
         ioImg = new IOImg();
         //truthTable marks visited coordinates
@@ -32,10 +35,10 @@ public class DijkstraPath {
 
     /**
      *
-     * @param startY Starting point for Y coordinates
-     * @param startX Starting pont for X coordinates
-     * @param endY Ending point for Y coordinate
-     * @param endX Ending point for X coordinates
+     * @param startY Integer parameter for starting point for Y coordinates
+     * @param startX Integer parameter for starting pont for X coordinates
+     * @param endY Integer parameter for ending point for Y coordinate
+     * @param endX Integer parameter for ending point for X coordinates
      * @throws IOException
      */
     public void DPathFind(int startY, int startX, int endY, int endX) throws IOException {
