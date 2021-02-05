@@ -25,6 +25,10 @@ public class IOImg {
         }
     }
 
+    public BufferedImage getBuffImg() throws IOException {
+        return buffImg = imgIo.read(new File("/maps/arena.png"));
+    }
+
     public int getRedPxl() {
         return this.red;
     }
