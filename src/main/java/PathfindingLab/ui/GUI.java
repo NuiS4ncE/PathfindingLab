@@ -20,13 +20,17 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javax.swing.border.EtchedBorder;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 public class GUI {
@@ -96,22 +100,14 @@ public class GUI {
         gridPane = new GridPane();
         borderPane = new BorderPane();
         StackPane stackPane = new StackPane();
-
-
-        mainScene = new Scene(stackPane, 600, 600, Color.BLACK);
+        
         Canvas canvas = new Canvas(600, 600);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
-        //graphicsContext.setFill(Color.BLUE);
-        //graphicsContext.fillRect(10, 10, 400, 400);
-
-        //ImageView imageView = new ImageView("https://www.movingai.com/benchmarks/dao/arena.png");
         BufferedImage capture = ioImg.getBuffImg();
         Image image = SwingFXUtils.toFXImage(capture, null);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
-        imageView.setFitHeight(400);
-        imageView.setFitWidth(400);
+
+        graphicsContext.drawImage(image, 0, 0);
 
         ToggleButton startButton = new ToggleButton("Start");
         ToggleButton endButton = new ToggleButton("End");
@@ -127,47 +123,39 @@ public class GUI {
             tool.setCursor(Cursor.HAND);
         }
 
+        Button openButton = new Button("Open");
+
         exitButton.setOnMouseClicked(e -> {
             Platform.exit();
         });
-        exitButton.setPrefSize(50,40);
 
-
-        //ComboBox<String> comboBox = new ComboBox<>();
         VBox buttonPane = new VBox(10);
         buttonPane.setPadding(new Insets(5));
         buttonPane.setStyle("-fx-background-color: #999");
         buttonPane.setPrefWidth(100);
 
-        buttonPane.getChildren().addAll(startButton, endButton);
-        //topPane.getChildren().addAll(comboBox);
-        stackPane.setAlignment(startButton, Pos.BOTTOM_LEFT);
-        stackPane.setAlignment(endButton, Pos.BOTTOM_CENTER);
-        stackPane.setAlignment(exitButton, Pos.TOP_RIGHT);
-        stackPane.setAlignment(runButton, Pos.BOTTOM_RIGHT);
-        stackPane.getChildren().addAll(canvas, imageView, startButton, endButton, exitButton, runButton);
+        buttonPane.getChildren().addAll(openButton, startButton, endButton, runButton, exitButton);
 
-
-        imageView.setOnMouseClicked(e -> {
+        canvas.setOnMouseClicked(e -> {
             if(startButton.isSelected()) {
-                this.startPosX = (int)e.getSceneX();
-                this.startPosY = (int)e.getSceneY();
+                this.startPosX = (int)e.getX();
+                this.startPosY = (int)e.getY();
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
-                graphicsContext.fillOval(this.startPosX, this.startPosY, 20,20);
+                graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 20,20);
             } else if (endButton.isSelected()) {
-                this.endPosX = (int)e.getSceneX();
-                this.endPosY = (int)e.getSceneY();
+                this.endPosX = (int)e.getX();
+                this.endPosY = (int)e.getY();
                 System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
-                graphicsContext.fillOval(this.endPosX, this.endPosY, 20,20);
+                graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 20,20);
 
             }
         });
 
-        runButton.setOnMouseClicked(e -> {
+        runButton.setOnMouseClicked((e) -> {
             try {
                 dPath.DPathFind(this.startPosY, this.startPosX, this.endPosY, this.endPosX);
             } catch (IOException jk) {
@@ -175,9 +163,24 @@ public class GUI {
             }
         });
 
-        //borderPane.setTop(comboBox);
-        //borderPane.setCenter(stackPane);
-        //borderPane.setBottom(buttonPane);
+        openButton.setOnAction((e) -> {
+            FileChooser openFile = new FileChooser();
+            openFile.setTitle("Open File");
+            File file = openFile.showOpenDialog(primaryStage);
+            if(file != null) {
+                try {
+                    InputStream inputStream = new FileInputStream(file);
+                    Image img = new Image(inputStream);
+                    graphicsContext.drawImage(img, 0, 0);
+                } catch (IOException exception) {
+                    System.out.println(exception);
+                }
+            }
+        });
+
+        mainScene = new Scene(borderPane, 800, 800, Color.BLACK);
+        borderPane.setRight(buttonPane);
+        borderPane.setCenter(canvas);
 
         return mainScene;
     }

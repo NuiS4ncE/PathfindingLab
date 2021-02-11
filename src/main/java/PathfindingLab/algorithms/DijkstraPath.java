@@ -21,16 +21,9 @@ public class DijkstraPath {
      */
     public DijkstraPath() {
         ioImg = new IOImg();
-        //truthTable marks visited coordinates
-        dropTheCourse = new int[][] {
-                {1,1,0},
-                {0,1,1}
-        };
-        for (int i = 1; i < dropTheCourse.length; i++) {
-            for (int j = 1; j < dropTheCourse.length; j++) {
-                distance[i][j] = Integer.MAX_VALUE;
-            }
-        }
+
+
+
     }
 
     /**
@@ -48,6 +41,17 @@ public class DijkstraPath {
         startX = 0;
         startY = 0;
         Node startNode = new Node(startY, startX);
+
+        dropTheCourse = new int[][] {
+                {1,1,0},
+                {0,1,1}
+        };
+        distance = new float[dropTheCourse.length][dropTheCourse.length];
+        for (int i = 1; i < dropTheCourse.length; i++) {
+            for (int j = 1; j < dropTheCourse.length; j++) {
+                distance[i][j] = Float.MAX_VALUE;
+            }
+        }
         distance[startY][startX] = 0;
         pq.add(startNode);
        /* while (!pq.isEmpty()) {
