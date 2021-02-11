@@ -23,7 +23,7 @@ public class IOImg {
      * @throws IOException
      */
     public void getColors() throws IOException {
-        buffImg = imgIo.read(new File("/maps/arena.png"));
+        buffImg = imgIo.read(new File("maps/arena.png"));
         for (int x = 0; x < buffImg.getWidth(); x++) {
             for (int y = 0; y < buffImg.getHeight(); y++) {
                 Color colorImg = new Color(buffImg.getRGB(x,y));
@@ -43,7 +43,7 @@ public class IOImg {
         File currentDir = new File(".");
         File parentDir = currentDir.getParentFile();
         //System.out.println("TRYING TO FIND FILE!");
-        return buffImg = imgIo.read(new File("src/main/maps/arena.png"));
+        return buffImg = imgIo.read(new File("maps/arena.png"));
     }
 
     public int getRedPxl() {

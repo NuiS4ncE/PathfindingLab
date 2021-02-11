@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -46,6 +47,8 @@ public class GUI {
     private GridPane gridPane;
     private DijkstraPath dPath;
     private IOImg ioImg;
+    private int wantedHeight;
+    private int wantedWidth;
 
 
     /**
@@ -99,15 +102,18 @@ public class GUI {
         primaryStage.setTitle(stageTitle);
         gridPane = new GridPane();
         borderPane = new BorderPane();
-        StackPane stackPane = new StackPane();
-        
+
+        wantedHeight = 600;
+        wantedWidth = 600;
+
         Canvas canvas = new Canvas(600, 600);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
-        BufferedImage capture = ioImg.getBuffImg();
-        Image image = SwingFXUtils.toFXImage(capture, null);
+        //BufferedImage buffImg = ioImg.getBuffImg();
+        //Image image = SwingFXUtils.toFXImage(buffImg, null);
+        //WritableImage refittedImage = new WritableImage(image.getPixelReader(), )
 
-        graphicsContext.drawImage(image, 0, 0);
+        //graphicsContext.drawImage(image, 0, 0);
 
         ToggleButton startButton = new ToggleButton("Start");
         ToggleButton endButton = new ToggleButton("End");
@@ -170,7 +176,7 @@ public class GUI {
             if(file != null) {
                 try {
                     InputStream inputStream = new FileInputStream(file);
-                    Image img = new Image(inputStream);
+                    Image img = new Image(inputStream, wantedWidth, wantedHeight, false, true);
                     graphicsContext.drawImage(img, 0, 0);
                 } catch (IOException exception) {
                     System.out.println(exception);
