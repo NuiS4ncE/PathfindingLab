@@ -69,11 +69,18 @@ public class DijkstraPath {
             truthTable[yNow][xNow] = true;
             for(int movementY = -1; movementY < 2; movementY++) {
                 for (int movementX = -1; movementX < 2; movementX++) {
+
+                    if(movementX == 0 && movementY == 0) {
+                        continue;
+                    }
+
+                    int moveY = yNow + movementY;
+                    int moveX = xNow + movementX;
+
                     if(dropTheCourse[yNow][xNow] == 0) {
                         continue;
                     }
-                    int moveY = yNow + movementY;
-                    int moveX = xNow + movementX;
+
                     Node pushNode = new Node(moveY, moveX);
                     pq.add(pushNode);
                 }
