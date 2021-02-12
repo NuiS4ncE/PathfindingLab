@@ -12,7 +12,7 @@ public class DijkstraPath {
     IOImg ioImg;
     boolean solved;
     boolean truthTable[][];
-    float[][] distance;
+    int[][] distance;
     BufferedImage buffImg;
     int[][] dropTheCourse;
 
@@ -21,8 +21,6 @@ public class DijkstraPath {
      */
     public DijkstraPath() {
         ioImg = new IOImg();
-
-
 
     }
 
@@ -48,11 +46,11 @@ public class DijkstraPath {
                 {1,1,0},
                 {0,1,1}
         };
-        distance = new float[dropTheCourse.length][dropTheCourse.length];
+        distance = new int[dropTheCourse.length][dropTheCourse.length];
         truthTable = new boolean[dropTheCourse.length][dropTheCourse.length];
         for (int i = 0; i < dropTheCourse.length; i++) {
             for (int j = 0; j < dropTheCourse.length; j++) {
-                distance[i][j] = Float.MAX_VALUE;
+                distance[i][j] = Integer.MAX_VALUE;
             }
         }
         distance[startY][startX] = 0;
@@ -80,9 +78,13 @@ public class DijkstraPath {
                     if(dropTheCourse[yNow][xNow] == 0) {
                         continue;
                     }
-
-                    Node pushNode = new Node(moveY, moveX);
-                    pq.add(pushNode);
+                    //int distanceNow = distance[moveY][moveX];
+                    int distanceNext = currentNode.getDistance() + 1;
+                    if (distanceNext < distance[moveY][moveX]){
+                        distance[moveY][moveX] = distanceNext;
+                        Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
+                        pq.add(pushNode);
+                    }
                 }
             }
 
