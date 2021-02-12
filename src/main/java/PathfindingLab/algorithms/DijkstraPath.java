@@ -40,6 +40,8 @@ public class DijkstraPath {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         startX = 0;
         startY = 0;
+        endX = 3;
+        endY = 3;
         Node startNode = new Node(startY, startX);
 
         dropTheCourse = new int[][] {
@@ -47,24 +49,37 @@ public class DijkstraPath {
                 {0,1,1}
         };
         distance = new float[dropTheCourse.length][dropTheCourse.length];
-        for (int i = 1; i < dropTheCourse.length; i++) {
-            for (int j = 1; j < dropTheCourse.length; j++) {
+        truthTable = new boolean[dropTheCourse.length][dropTheCourse.length];
+        for (int i = 0; i < dropTheCourse.length; i++) {
+            for (int j = 0; j < dropTheCourse.length; j++) {
                 distance[i][j] = Float.MAX_VALUE;
             }
         }
         distance[startY][startX] = 0;
         pq.add(startNode);
-       /* while (!pq.isEmpty()) {
+       while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
             int yNow = currentNode.getY();
             int xNow = currentNode.getX();
-            if(truthTable[currentNode.getX()][currentNode.getY()]) continue;
-            if(yNow == endY && xNow == endX) return;
-            if(currentNode.getX() == endX && currentNode.getY() == endY) {
+            if(truthTable[yNow][xNow]) continue;
+            if(xNow == endX && yNow == endY) {
                 System.out.println("Dijkstra completed successfully!");
+                return;
+            }
+            truthTable[yNow][xNow] = true;
+            for(int movementY = -1; movementY < 2; movementY++) {
+                for (int movementX = -1; movementX < 2; movementX++) {
+                    if(dropTheCourse[yNow][xNow] == 0) {
+                        continue;
+                    }
+                    int moveY = yNow + movementY;
+                    int moveX = xNow + movementX;
+                    Node pushNode = new Node(moveY, moveX);
+                    pq.add(pushNode);
+                }
             }
 
-        } */
+        }
 
     }
 }
