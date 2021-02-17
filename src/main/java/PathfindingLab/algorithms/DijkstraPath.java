@@ -56,7 +56,7 @@ public class DijkstraPath {
         };
         int xLength = dropTheCourse[0].length;
         int yLength = dropTheCourse.length;
-        
+
         distance = new int[yLength][xLength];
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
@@ -80,56 +80,65 @@ public class DijkstraPath {
             }
 
             truthTable[yNow][xNow] = true;
-            for (int movementY = -1; movementY < 2; movementY++) {
-                for (int movementX = -1; movementX < 2; movementX++) {
-
-                    if (movementX == 0 && movementY == 0) {
-                        continue;
-                    }
-
-                    moveY = yNow + movementY;
-                    moveX = xNow + movementX;
-                    //System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
-                    if(moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
-                        continue;
-                    }
-                    System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
-
-                    System.out.println("After limit check: " + " moveY: " + moveY + " moveX: " + moveX);
-
-                    if (dropTheCourse[yNow][xNow] == 0) {
-                        continue;
-                    }
-                    System.out.println("Number in array pos: " + dropTheCourse[yNow][xNow] + " pos on array Y: " + yNow + " X: " + xNow);
-
-                    //System.out.println("Did we get past if thingies?");
-                    //int distanceNow = distance[moveY][moveX];
-                    int distanceNext = currentNode.getDistance() + 1;
-
-                    if (distanceNext < distance[moveY][moveX]) {
-                        distance[moveY][moveX] = distanceNext;
-                        Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
-                        pq.add(pushNode);
-                    }
-                }
-            }
-
+            checkNeighbours(dropTheCourse, currentNode, yLength, xLength, pq);
         }
 
     }
 
+
     public void setRoute(Node route) {
         this.routeFinal = route;
-
+        routeNodes.add(route);
     }
+
 
     public ArrayList<Node> getRoute() {
         return routeNodes;
     }
 
     public void printRoute() {
-        for(Node node : routeNodes) {
-            System.out.println(node);
+        Node node = routeFinal.getPrevNode();
+        while (node != null) {
+            routeNodes.add(node);
+            node = node.getPrevNode();
+        }
+        for (Node nodes : routeNodes) {
+            System.out.println(nodes);
+        }
+
+    }
+
+    public void checkNeighbours(int[][] dropTheCourse, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq) {
+        for (int movementY = -1; movementY <= 1; movementY++) {
+            for (int movementX = -1; movementX <= 1; movementX++) {
+
+                if (movementX == 0 && movementY == 0) {
+                    continue;
+                }
+
+                moveY = yNow + movementY;
+                moveX = xNow + movementX;
+                //System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
+                if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
+                    continue;
+                }
+                //System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
+                //System.out.println("After limit check: " + " moveY: " + moveY + " moveX: " + moveX);
+                if (dropTheCourse[yNow][xNow] == 0) {
+                    continue;
+                }
+                //System.out.println("Number in array pos: " + dropTheCourse[yNow][xNow] + " pos on array Y: " + yNow + " X: " + xNow);
+                //System.out.println("Did we get past if thingies?");
+                //int distanceNow = distance[moveY][moveX];
+                int distanceNext = currentNode.getDistance() + 1;
+
+                if (distanceNext < distance[moveY][moveX]) {
+                    distance[moveY][moveX] = distanceNext;
+                    Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
+                    pq.add(pushNode);
+                }
+            }
         }
     }
+
 }
