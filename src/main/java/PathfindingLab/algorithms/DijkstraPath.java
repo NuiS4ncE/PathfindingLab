@@ -21,6 +21,7 @@ public class DijkstraPath {
     int moveX;
     int moveY;
     ArrayList<Node> routeNodes;
+    Node routeFinal;
 
     /**
      * Constructor for the class
@@ -53,12 +54,13 @@ public class DijkstraPath {
                 {1, 1, 0},
                 {0, 1, 1}
         };
-        int xLength = dropTheCourse.length - 1;
-        int yLength = dropTheCourse.length - 1;
-        distance = new int[dropTheCourse.length][dropTheCourse.length];
-        truthTable = new boolean[dropTheCourse.length][dropTheCourse.length];
-        for (int i = 0; i < dropTheCourse.length; i++) {
-            for (int j = 0; j < dropTheCourse.length; j++) {
+        int xLength = dropTheCourse[0].length;
+        int yLength = dropTheCourse.length;
+        
+        distance = new int[yLength][xLength];
+        truthTable = new boolean[yLength][xLength];
+        for (int i = 0; i < yLength; i++) {
+            for (int j = 0; j < xLength; j++) {
                 distance[i][j] = Integer.MAX_VALUE;
             }
         }
@@ -72,6 +74,7 @@ public class DijkstraPath {
             if (truthTable[yNow][xNow]) continue;
 
             if (xNow == endX && yNow == endY) {
+                setRoute(currentNode);
                 System.out.println("Dijkstra completed successfully!");
                 return;
             }
@@ -86,10 +89,11 @@ public class DijkstraPath {
 
                     moveY = yNow + movementY;
                     moveX = xNow + movementX;
-                    //System.out.println("Did we get past move init?" + " moveY: " + moveY + " moveX: " + moveX);
-                    if(moveY < 0 || moveX < 0 || moveX > xLength || moveY > yLength) {
+                    //System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
+                    if(moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                         continue;
                     }
+                    System.out.println("Move coordinates. moveY: " + moveY + " moveX: " + moveX);
 
                     System.out.println("After limit check: " + " moveY: " + moveY + " moveX: " + moveX);
 
@@ -101,12 +105,11 @@ public class DijkstraPath {
                     //System.out.println("Did we get past if thingies?");
                     //int distanceNow = distance[moveY][moveX];
                     int distanceNext = currentNode.getDistance() + 1;
+
                     if (distanceNext < distance[moveY][moveX]) {
                         distance[moveY][moveX] = distanceNext;
                         Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
-                        routeNodes.add(pushNode);
                         pq.add(pushNode);
-                        System.out.println("Did we put something into the queue?");
                     }
                 }
             }
@@ -116,7 +119,7 @@ public class DijkstraPath {
     }
 
     public void setRoute(Node route) {
-        routeNodes.add(route);
+        this.routeFinal = route;
 
     }
 
