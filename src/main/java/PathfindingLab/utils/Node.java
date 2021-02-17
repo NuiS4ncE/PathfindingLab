@@ -15,9 +15,10 @@ public class Node implements Comparable<Node>{
     }
 
 
-    public Node(int y, int x) {
+    public Node(int y, int x, int distance) {
         this.x = x;
         this.y = y;
+        this.distance = distance;
     }
 
     public Node(int y, int x, int distance, Node prevNode) {
@@ -38,5 +39,10 @@ public class Node implements Comparable<Node>{
     @Override
     public int compareTo(Node node) {
         return this.distance - node.distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Y: " + this.y + " X: " + this.x + " Distance: " + this.distance;
     }
 }

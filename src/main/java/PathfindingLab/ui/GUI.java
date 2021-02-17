@@ -163,7 +163,8 @@ public class GUI {
 
         runButton.setOnMouseClicked((e) -> {
             try {
-                dPath.DPathFind(this.startPosY, this.startPosX, this.endPosY, this.endPosX);
+                dPath.DPathFind(this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
+                dPath.printRoute();
             } catch (IOException jk) {
                 System.out.println(jk);
             }

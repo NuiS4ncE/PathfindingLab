@@ -3,8 +3,10 @@ package PathfindingLab.algorithms;
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.Node;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class DijkstraPath {
@@ -18,12 +20,14 @@ public class DijkstraPath {
     int xNow;
     int moveX;
     int moveY;
+    ArrayList<Node> routeNodes;
 
     /**
      * Constructor for the class
      */
     public DijkstraPath() {
         ioImg = new IOImg();
+        routeNodes = new ArrayList<>();
 
     }
 
@@ -34,22 +38,23 @@ public class DijkstraPath {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public void DPathFind(int startY, int startX, int endY, int endX) throws IOException {
+    public void DPathFind(int startY, int startX, int endY, int endX, int startDistance) throws IOException {
         buffImg = ioImg.getBuffImg();
         buffImg = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        startX = 0;
         startY = 0;
+        startX = 0;
+        endY = 1;
         endX = 2;
-        endY = 2;
-        Node startNode = new Node(startY, startX);
+        startDistance = 0;
+        Node startNode = new Node(startY, startX, startDistance);
 
         dropTheCourse = new int[][]{
                 {1, 1, 0},
                 {0, 1, 1}
         };
-        int xLength = dropTheCourse.length;
-        int yLength = dropTheCourse.length;
+        int xLength = dropTheCourse.length - 1;
+        int yLength = dropTheCourse.length - 1;
         distance = new int[dropTheCourse.length][dropTheCourse.length];
         truthTable = new boolean[dropTheCourse.length][dropTheCourse.length];
         for (int i = 0; i < dropTheCourse.length; i++) {
@@ -63,11 +68,14 @@ public class DijkstraPath {
             Node currentNode = pq.poll();
             yNow = currentNode.getY();
             xNow = currentNode.getX();
+
             if (truthTable[yNow][xNow]) continue;
+
             if (xNow == endX && yNow == endY) {
                 System.out.println("Dijkstra completed successfully!");
                 return;
             }
+
             truthTable[yNow][xNow] = true;
             for (int movementY = -1; movementY < 2; movementY++) {
                 for (int movementX = -1; movementX < 2; movementX++) {
@@ -78,21 +86,25 @@ public class DijkstraPath {
 
                     moveY = yNow + movementY;
                     moveX = xNow + movementX;
-                    System.out.println("Did we get past move init?");
-                    if(moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
+                    //System.out.println("Did we get past move init?" + " moveY: " + moveY + " moveX: " + moveX);
+                    if(moveY < 0 || moveX < 0 || moveX > xLength || moveY > yLength) {
                         continue;
                     }
+
+                    System.out.println("After limit check: " + " moveY: " + moveY + " moveX: " + moveX);
 
                     if (dropTheCourse[yNow][xNow] == 0) {
                         continue;
                     }
-                    System.out.println(dropTheCourse[yNow][xNow] + " pos on array Y: " + yNow + " X: " + xNow);
-                    System.out.println("Did we get past if thingies?");
+                    System.out.println("Number in array pos: " + dropTheCourse[yNow][xNow] + " pos on array Y: " + yNow + " X: " + xNow);
+
+                    //System.out.println("Did we get past if thingies?");
                     //int distanceNow = distance[moveY][moveX];
                     int distanceNext = currentNode.getDistance() + 1;
                     if (distanceNext < distance[moveY][moveX]) {
                         distance[moveY][moveX] = distanceNext;
                         Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
+                        routeNodes.add(pushNode);
                         pq.add(pushNode);
                         System.out.println("Did we put something into the queue?");
                     }
@@ -101,5 +113,20 @@ public class DijkstraPath {
 
         }
 
+    }
+
+    public void setRoute(Node route) {
+        routeNodes.add(route);
+
+    }
+
+    public ArrayList<Node> getRoute() {
+        return routeNodes;
+    }
+
+    public void printRoute() {
+        for(Node node : routeNodes) {
+            System.out.println(node);
+        }
     }
 }
