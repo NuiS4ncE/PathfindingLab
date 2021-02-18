@@ -17,8 +17,6 @@ public class DijkstraPath {
     double[][] distance;
     BufferedImage buffImg;
     int[][] map;
-    int yNow;
-    int xNow;
     ArrayList<Node> routeNodes;
     Node routeFinal;
 
@@ -37,12 +35,13 @@ public class DijkstraPath {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public void DPathFind(double[][] map, int startY, int startX, int endY, int endX, int startDistance) throws IOException {
+    public void DPathFind(double[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         Node startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
         int yLength = map.length;
-
+        int yNow = 0;
+        int xNow = 0;
         distance = new double[yLength][xLength];
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
@@ -65,12 +64,12 @@ public class DijkstraPath {
                 return;
             }
             truthTable[yNow][xNow] = true;
-            checkNeighbours(map, currentNode, yLength, xLength, pq);
+            checkNeighbours(map, currentNode, yLength, xLength, pq, yNow, xNow);
         }
 
     }
 
-    public void checkNeighbours(double[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq) {
+    public void checkNeighbours(double[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
         for (int movementY = -1; movementY <= 1; movementY++) {
             for (int movementX = -1; movementX <= 1; movementX++) {
 
@@ -99,11 +98,10 @@ public class DijkstraPath {
         if (moveOfY < 0 || moveOfX < 0 || moveOfX >= xLengthNow || moveOfY >= yLengthNow) {
             return false;
         }
-        else if (mapFull[yOfNow][xOfNow] == 0) {
+        if (mapFull[yOfNow][xOfNow] == 0) {
             return false;
-        } else {
-            return true;
         }
+            return true;
     }
 
     public double movementChecks(int moveY, int moveX, Node currentNode, double[][] mapFull) {
