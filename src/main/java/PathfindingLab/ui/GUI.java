@@ -164,7 +164,7 @@ public class GUI {
 
         runButton.setOnMouseClicked((e) -> {
             try {
-                dPath.DPathFind(ioImg.getPixelMap(img), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
+                dPath.DPathFind(ioImg.getMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
                 dPath.printRoute();
             } catch (IOException jk) {
                 System.out.println(jk);
@@ -179,6 +179,7 @@ public class GUI {
                 try {
                     InputStream inputStream = new FileInputStream(file);
                     img = new Image(inputStream, wantedWidth, wantedHeight, false, true);
+                    ioImg.setBuffImg(file);
                     graphicsContext.drawImage(img, 0, 0);
                 } catch (IOException exception) {
                     System.out.println(exception);

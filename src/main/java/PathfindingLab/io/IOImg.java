@@ -1,10 +1,5 @@
 package PathfindingLab.io;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-
 import javax.imageio.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,31 +13,30 @@ public class IOImg {
     private ImageIO imgIo;
     private BufferedImage buffImg;
     private int red, green, blue;
-    private int[][] pixelMap;
+    private int[][] map;
+    private int defaultGroundColor = 229;
 
     /**
      * Method for getting the colors of the image. Has no use yet.
      * @throws IOException
      */
-    public int[][] getPixelMap(Image inputImg) throws IOException {
-        BufferedImage buffImg = SwingFXUtils.fromFXImage(inputImg, null);
-        pixelMap = new int[buffImg.getHeight()][buffImg.getWidth()];
-        for (int i = 0; i < buffImg.getWidth(); i++) {
-            for (int j = 0; j < buffImg.getHeight(); j++) {
-                Color colorImg = new Color(buffImg.getRGB(i,j));
+    public int[][] getMap() throws IOException {
+        map = new int[this.buffImg.getHeight()][this.buffImg.getWidth()];
+        for (int i = 0; i < this.buffImg.getWidth(); i++) {
+            for (int j = 0; j < this.buffImg.getHeight(); j++) {
+                Color colorImg = new Color(this.buffImg.getRGB(i,j));
                 red = colorImg.getRed();
                 green = colorImg.getGreen();
                 blue = colorImg.getBlue();
-                if(red == 255 && green == 255 && blue == 255 ) {
-                    pixelMap[i][j] = 1;
+                //System.out.println("Red: " + red + " green: " + green + " blue: "+ blue);
+                if(red == defaultGroundColor && green == defaultGroundColor && blue == defaultGroundColor ) {
+                    map[i][j] = 1;
                 } else {
-                    pixelMap[i][j] = 0;
+                    map[i][j] = 0;
                 }
             }
         }
-        System.out.println(Arrays.toString(pixelMap[0]));
-        System.out.println(Arrays.toString(pixelMap[1]));
-        return pixelMap;
+        return map;
     }
 
     /**
@@ -51,10 +45,11 @@ public class IOImg {
      * @throws IOException
      */
     public BufferedImage getBuffImg() throws IOException {
-        File currentDir = new File(".");
-        File parentDir = currentDir.getParentFile();
-        //System.out.println("TRYING TO FIND FILE!");
-        return buffImg = imgIo.read(new File("maps/arena.png"));
+        return this.buffImg;
+    }
+
+    public void setBuffImg(File file) throws IOException{
+        this.buffImg = imgIo.read(file);
     }
 
     public int getRedPxl() {
