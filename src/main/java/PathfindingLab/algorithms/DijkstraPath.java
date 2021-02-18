@@ -3,7 +3,6 @@ package PathfindingLab.algorithms;
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.Node;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class DijkstraPath {
     boolean truthTable[][];
     int[][] distance;
     BufferedImage buffImg;
-    int[][] dropTheCourse;
+    int[][] map;
     int yNow;
     int xNow;
     int moveX;
@@ -39,23 +38,22 @@ public class DijkstraPath {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public void DPathFind(int startY, int startX, int endY, int endX, int startDistance) throws IOException {
-        buffImg = ioImg.getBuffImg();
-        buffImg = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+    public void DPathFind(int[][] map, int startY, int startX, int endY, int endX, int startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        startY = 0;
+        /*startY = 0;
         startX = 0;
         endY = 1;
-        endX = 2;
+        endX = 2;*/
         startDistance = 0;
         Node startNode = new Node(startY, startX, startDistance);
 
-        dropTheCourse = new int[][]{
+        /*map = new int[][]{
                 {1, 1, 0},
                 {0, 1, 1}
-        };
-        int xLength = dropTheCourse[0].length;
-        int yLength = dropTheCourse.length;
+        };*/
+        System.out.println(map);
+        int xLength = map[0].length;
+        int yLength = map.length;
 
         distance = new int[yLength][xLength];
         truthTable = new boolean[yLength][xLength];
@@ -80,7 +78,7 @@ public class DijkstraPath {
             }
 
             truthTable[yNow][xNow] = true;
-            checkNeighbours(dropTheCourse, currentNode, yLength, xLength, pq);
+            checkNeighbours(map, currentNode, yLength, xLength, pq);
         }
 
     }
