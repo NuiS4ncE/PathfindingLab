@@ -13,15 +13,15 @@ public class IOImg {
     private ImageIO imgIo;
     private BufferedImage buffImg;
     private int red, green, blue;
-    private int[][] map;
+    private double[][] map;
     private int defaultGroundColor = 229;
 
     /**
      * Method for getting the colors of the image. Has no use yet.
      * @throws IOException
      */
-    public int[][] getMap() throws IOException {
-        map = new int[this.buffImg.getHeight()][this.buffImg.getWidth()];
+    public double[][] getMap() throws IOException {
+        map = new double[this.buffImg.getHeight()][this.buffImg.getWidth()];
         for (int i = 0; i < this.buffImg.getWidth(); i++) {
             for (int j = 0; j < this.buffImg.getHeight(); j++) {
                 Color colorImg = new Color(this.buffImg.getRGB(i,j));

@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import static java.lang.Math.sqrt;
+
 public class DijkstraPath {
 
     IOImg ioImg;
     boolean truthTable[][];
-    int[][] distance;
+    double[][] distance;
     BufferedImage buffImg;
     int[][] map;
     int yNow;
@@ -37,17 +39,17 @@ public class DijkstraPath {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public void DPathFind(int[][] map, int startY, int startX, int endY, int endX, int startDistance) throws IOException {
+    public void DPathFind(double[][] map, int startY, int startX, int endY, int endX, int startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         Node startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
         int yLength = map.length;
 
-        distance = new int[yLength][xLength];
+        distance = new double[yLength][xLength];
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
             for (int j = 0; j < xLength; j++) {
-                distance[i][j] = Integer.MAX_VALUE;
+                distance[i][j] = Double.MAX_VALUE;
             }
         }
         distance[startY][startX] = 0;
@@ -91,7 +93,7 @@ public class DijkstraPath {
 
     }
 
-    public void checkNeighbours(int[][] map, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq) {
+    public void checkNeighbours(double[][] map, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq) {
         for (int movementY = -1; movementY <= 1; movementY++) {
             for (int movementX = -1; movementX <= 1; movementX++) {
 
@@ -105,7 +107,7 @@ public class DijkstraPath {
                 if(!ifChecks(yLength, xLength, moveY, moveX, map)) {
                     continue;
                 }
-                int distanceNext = currentNode.getDistance() + 1;
+                double distanceNext = movementChecks(moveY, moveX, currentNode);
 
                 if (distanceNext < distance[moveY][moveX]) {
                     distance[moveY][moveX] = distanceNext;
@@ -116,7 +118,7 @@ public class DijkstraPath {
         }
     }
 
-    public boolean ifChecks(int yLength, int xLength, int moveY, int moveX, int[][] map) {
+    public boolean ifChecks(int yLength, int xLength, int moveY, int moveX, double[][] map) {
         if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
             return false;
         }
@@ -126,9 +128,16 @@ public class DijkstraPath {
         return true;
     }
 
-    public void movementChecks(int moveY, int moveX) {
-        if(map[moveY][moveX] == 0) {
-
+    public double movementChecks(int moveY, int moveX, Node currentNode) {
+        int plusOne = 1;
+        int minusOne = -1;
+        int zeroNum = 0;
+        double distance = 0;
+        if(moveY == -1 && moveX == -1 && map[moveY][moveX] == 1 || moveY == 1 && moveX == -1 && map[moveY][moveX] == 1 || moveY == -1 && moveX == 1 && map[moveY][moveX] == 1 ||
+                moveY == 1 && moveX == 1 && map[moveY][moveX] == 1) {
+           return distance = currentNode.getDistance() + sqrt(2);
+        } else {
+             return distance = currentNode.getDistance() + 1;
         }
     }
 
