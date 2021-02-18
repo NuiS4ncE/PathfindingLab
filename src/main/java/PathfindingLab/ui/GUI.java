@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import PathfindingLab.algorithms.DijkstraPath;
 import PathfindingLab.io.IOImg;
+import PathfindingLab.utils.Node;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
@@ -21,17 +22,22 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javax.swing.border.EtchedBorder;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GUI {
@@ -50,6 +56,7 @@ public class GUI {
     private int wantedHeight;
     private int wantedWidth;
     private Image img;
+    private Group root;
 
 
     /**
@@ -103,11 +110,13 @@ public class GUI {
         primaryStage.setTitle(stageTitle);
         gridPane = new GridPane();
         borderPane = new BorderPane();
+        root = new Group();
 
         wantedHeight = 600;
         wantedWidth = 600;
 
         Canvas canvas = new Canvas(600, 600);
+        //Canvas drawCanvas = new Canvas(600, 600);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
         //BufferedImage buffImg = ioImg.getBuffImg();
@@ -131,6 +140,7 @@ public class GUI {
         }
 
         Button openButton = new Button("Open");
+        Button clearButton = new Button("Clear");
 
         exitButton.setOnMouseClicked(e -> {
             Platform.exit();
@@ -145,6 +155,7 @@ public class GUI {
 
         canvas.setOnMouseClicked(e -> {
             if(startButton.isSelected()) {
+
                 this.startPosX = (int)e.getX();
                 this.startPosY = (int)e.getY();
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
@@ -162,10 +173,16 @@ public class GUI {
             }
         });
 
+        clearButton.setOnMouseClicked((e) -> {
+            canvas.getGraphicsContext2D().clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+        });
+
+
         runButton.setOnMouseClicked((e) -> {
             try {
                 dPath.DPathFind(ioImg.getMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
-                dPath.printRoute();
+                drawPath(canvas);
+                dPath.clearRoute();
             } catch (IOException jk) {
                 System.out.println(jk);
             }
@@ -187,6 +204,7 @@ public class GUI {
             }
         });
 
+        //root.getChildren().addAll(canvas, drawCanvas);
         mainScene = new Scene(borderPane, 800, 800, Color.BLACK);
         borderPane.setRight(buttonPane);
         borderPane.setCenter(canvas);
@@ -194,19 +212,16 @@ public class GUI {
         return mainScene;
     }
 
-    public double getStartPosX() {
-        return this.startPosX;
+    public void drawPath(Canvas canvas) {
+        ArrayList<Node> pathAL = dPath.printRoute();
+        //Path routePath = new Path();
+        //root.getChildren().add(routePath);
+        for(int i = 0; i < pathAL.size(); i++) {
+            canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
+            canvas.getGraphicsContext2D().stroke();
+        }
+        pathAL.clear();
+
     }
 
-    public double getPosY() {
-        return this.startPosY;
-    }
-
-    public double getEndPosX() {
-        return this.endPosX;
-    }
-
-    public double getEndPosY() {
-        return this.endPosY;
-    }
 }
