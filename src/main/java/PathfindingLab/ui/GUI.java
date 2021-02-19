@@ -112,10 +112,10 @@ public class GUI {
         borderPane = new BorderPane();
         root = new Group();
 
-        wantedHeight = 600;
-        wantedWidth = 600;
+        wantedHeight = 800;
+        wantedWidth = 800;
 
-        Canvas canvas = new Canvas(600, 600);
+        Canvas canvas = new Canvas(wantedWidth, wantedHeight);
         //Canvas drawCanvas = new Canvas(600, 600);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
@@ -151,11 +151,10 @@ public class GUI {
         buttonPane.setStyle("-fx-background-color: #999");
         buttonPane.setPrefWidth(100);
 
-        buttonPane.getChildren().addAll(openButton, startButton, endButton, runButton, exitButton);
+        buttonPane.getChildren().addAll(openButton, startButton, endButton, runButton, clearButton, exitButton);
 
         canvas.setOnMouseClicked(e -> {
             if(startButton.isSelected()) {
-
                 this.startPosX = (int)e.getX();
                 this.startPosY = (int)e.getY();
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
@@ -175,6 +174,12 @@ public class GUI {
 
         clearButton.setOnMouseClicked((e) -> {
             canvas.getGraphicsContext2D().clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+            this.startPosX = 0;
+            this.startPosY = 0;
+            this.endPosX = 0;
+            this.startPosY = 0;
+            startButton.setSelected(false);
+            endButton.setSelected(false);
         });
 
 
@@ -196,7 +201,7 @@ public class GUI {
                 try {
                     InputStream inputStream = new FileInputStream(file);
                     img = new Image(inputStream, wantedWidth, wantedHeight, false, true);
-                    ioImg.setBuffImg(file);
+                    ioImg.setBuffImg(file, wantedWidth, wantedHeight);
                     graphicsContext.drawImage(img, 0, 0);
                 } catch (IOException exception) {
                     System.out.println(exception);
@@ -205,7 +210,7 @@ public class GUI {
         });
 
         //root.getChildren().addAll(canvas, drawCanvas);
-        mainScene = new Scene(borderPane, 800, 800, Color.BLACK);
+        mainScene = new Scene(borderPane, 1000, 1000, Color.BLACK);
         borderPane.setRight(buttonPane);
         borderPane.setCenter(canvas);
 
@@ -221,6 +226,7 @@ public class GUI {
             canvas.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
+        //System.out.println(pathAL.toString());
 
 
     }

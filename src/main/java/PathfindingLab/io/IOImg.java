@@ -1,27 +1,31 @@
 package PathfindingLab.io;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 import javax.imageio.*;
 import java.awt.*;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
+import java.awt.image.AffineTransformOp;
 
 public class IOImg {
 
     private ImageIO imgIo;
     private BufferedImage buffImg;
     private int red, green, blue;
-    private double[][] map;
+    private int[][] map;
     private int defaultGroundColor = 229;
 
     /**
      * Method for getting the colors of the image. Has no use yet.
      * @throws IOException
      */
-    public double[][] getMap() throws IOException {
-        map = new double[this.buffImg.getHeight()][this.buffImg.getWidth()];
+    public int[][] getMap() throws IOException {
+        map = new int[this.buffImg.getHeight()][this.buffImg.getWidth()];
+        System.out.println("Img width: " + this.buffImg.getWidth() + " img height: " + this.buffImg.getHeight());
         for (int i = 0; i < this.buffImg.getWidth(); i++) {
             for (int j = 0; j < this.buffImg.getHeight(); j++) {
                 Color colorImg = new Color(this.buffImg.getRGB(i,j));
@@ -36,6 +40,9 @@ public class IOImg {
                 }
             }
         }
+        for(int k = 0; k < map.length; k++) {
+            System.out.println(Arrays.toString(map[k]));
+        }
         return map;
     }
 
@@ -48,8 +55,10 @@ public class IOImg {
         return this.buffImg;
     }
 
-    public void setBuffImg(File file) throws IOException{
-        this.buffImg = imgIo.read(file);
+    public void setBuffImg(File file, int wantedWidth, int wantedHeight) throws IOException{
+        BufferedImage beforeImg = imgIo.read(file);
+        BufferedImage resizedImg = Thumbnails.of(beforeImg).size(wantedWidth, wantedHeight).asBufferedImage();
+        this.buffImg = resizedImg;
     }
 
     public int getRedPxl() {
