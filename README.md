@@ -7,4 +7,6 @@
 [Specifications](https://github.com/NuiS4ncE/PathfindingLab/blob/master/documentation/specifications.md)
 </br>
 [Reports](https://github.com/NuiS4ncE/PathfindingLab/tree/master/documentation/reports)
+</br>
+[Test documentation](https://github.com/NuiS4ncE/PathfindingLab/blob/master/documentation/testdocumentation.md)
 
