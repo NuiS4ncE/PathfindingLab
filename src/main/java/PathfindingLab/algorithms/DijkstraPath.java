@@ -41,7 +41,6 @@ public class DijkstraPath {
      */
     public boolean DPathFind(int[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
-
         Node startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
         int yLength = map.length;

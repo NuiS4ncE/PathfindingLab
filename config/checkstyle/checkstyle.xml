@@ -22,9 +22,6 @@
         </module>
         <module name="LeftCurly">
         </module>
-        <module name="CyclomaticComplexity">
-            <property name="max" value="5"/>
-        </module>
     </module>
 
 </module>
