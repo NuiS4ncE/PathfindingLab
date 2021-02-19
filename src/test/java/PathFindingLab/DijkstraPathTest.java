@@ -39,10 +39,10 @@ public class DijkstraPathTest {
         };
         startX = 0;
         startY = 0;
-        endXSmall = 0;
-        endYSmall = 0;
+        endXSmall = 1;
+        endYSmall = 2;
         endXBigger = 6;
-        endYBigger = 0;
+        endYBigger = 2;
         startDistance = 0;
     }
 

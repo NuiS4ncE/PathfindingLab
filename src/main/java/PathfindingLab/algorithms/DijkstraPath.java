@@ -31,7 +31,7 @@ public class DijkstraPath {
         visitedNodes = new ArrayList<>();
     }
 
-    /**
+    /** Main pathfinding method
      * @param startY Integer parameter for starting point for Y coordinates
      * @param startX Integer parameter for starting pont for X coordinates
      * @param endY   Integer parameter for ending point for Y coordinate
@@ -71,6 +71,16 @@ public class DijkstraPath {
         return false;
     }
 
+    /**
+     * Method for checking the neighbours and moving in the array
+     * @param mapFull Two dimensional integer array parameter
+     * @param currentNode Node object parameter
+     * @param yLength Integer parameter for length of y-coordinates
+     * @param xLength Integer parameter for length of x-coordinates
+     * @param pq PriorityQueue parameter
+     * @param yNow Integer parameter for current y-position
+     * @param xNow Integer parameter for current x-position
+     */
     public void checkNeighbours(int[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
         for (int movementY = -1; movementY <= 1; movementY++) {
             for (int movementX = -1; movementX <= 1; movementX++) {
@@ -98,6 +108,13 @@ public class DijkstraPath {
         }
     }
 
+    /**
+     * Method for checking if movement is done diagonally or horizontally and vertically
+     * @param moveY Integer parameter for current move on Y-axel
+     * @param moveX Integer parameter for current move on X-axel
+     * @param currentNode Node parameter for the current node being inspected
+     * @return Returns a double value of distance
+     */
     public double movementChecks(int moveY, int moveX, Node currentNode) {
         double distance = 0;
         if(Math.abs(moveY) + Math.abs(moveX) == 1) {
@@ -107,6 +124,10 @@ public class DijkstraPath {
         }
     }
 
+    /**
+     * Method for printing, adding and returning the route in an ArrayList
+     * @return Returns and ArrayList with Node objects
+     */
     public ArrayList<Node> printRoute() {
         Node node = routeFinal.getPrevNode();
         while (node != null) {
@@ -119,24 +140,43 @@ public class DijkstraPath {
         return routeNodes;
     }
 
+    /**
+     * Method for clearing the route ArrayList
+     */
     public void clearRoute() {
         routeNodes.clear();
     }
 
+    /**
+     * Method for setting the route
+     * @param route Parameter for node object
+     */
     public void setRoute(Node route) {
         this.routeFinal = route;
         routeNodes.add(route);
     }
 
+    /**
+     * Method for setting the visited nodes
+     * @param visitedNode Parameter for node object
+     */
     public void setVisitedNode(Node visitedNode) {
         this.visitedNode = visitedNode;
         visitedNodes.add(visitedNode);
     }
 
+    /**
+     * Getter for the route ArrayList
+     * @return Returns route in an ArrayList
+     */
     public ArrayList<Node> getRoute() {
         return routeNodes;
     }
 
+    /**
+     * Method for printing, adding and returning the visited nodes in an ArrayList
+     * @return Returns visited nodes in an ArrayList
+     */
     public ArrayList<Node> printVisitedNodes() {
         Node node = visitedNode;
         while (node != null) {
