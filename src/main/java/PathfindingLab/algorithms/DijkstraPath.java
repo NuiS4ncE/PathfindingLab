@@ -17,7 +17,6 @@ public class DijkstraPath {
     boolean truthTable[][];
     double[][] distance;
     BufferedImage buffImg;
-    //int[][] map;
     ArrayList<Node> routeNodes;
     Node routeFinal;
     ArrayList<Node> visitedNodes;
@@ -70,31 +69,22 @@ public class DijkstraPath {
             checkNeighbours(map, currentNode, yLength, xLength, pq, yNow, xNow);
         }
         return false;
-
     }
 
     public void checkNeighbours(int[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
-        //double distanceNext = 0;
         for (int movementY = -1; movementY <= 1; movementY++) {
             for (int movementX = -1; movementX <= 1; movementX++) {
-
                 if (movementX == 0 && movementY == 0) {
                     continue;
                 }
-
                 int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
-
-
                 if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
                 if (mapFull[yNow][xNow] == 0) {
                     continue;
                 }
-
-                //distanceNext = currentNode.getDistance() + 1;
-                //if (Math.abs(moveY) + Math.abs(moveX) == 1) distanceNext = currentNode.getDistance() + sqrt(2);
 
                 double distanceNext = movementChecks(moveY, moveX, currentNode);
 
