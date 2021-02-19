@@ -1,6 +1,6 @@
 package PathfindingLab.utils;
 
-public class Node implements Comparable<Node>{
+public class Node implements Comparable<Node> {
     private double distance;
     private Node prevNode;
     private int x;
@@ -39,7 +39,7 @@ public class Node implements Comparable<Node>{
     @Override
     public int compareTo(Node node) {
         if (this.distance - node.distance > 0) {
-           return 1;
+            return 1;
         } else if (this.distance - node.distance < 0) {
             return -1;
         } else {
