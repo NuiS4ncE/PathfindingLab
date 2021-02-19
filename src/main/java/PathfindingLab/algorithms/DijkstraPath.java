@@ -20,6 +20,8 @@ public class DijkstraPath {
     //int[][] map;
     ArrayList<Node> routeNodes;
     Node routeFinal;
+    ArrayList<Node> visitedNodes;
+    Node visitedNode;
 
     /**
      * Constructor for the class
@@ -27,6 +29,7 @@ public class DijkstraPath {
     public DijkstraPath() {
         ioImg = new IOImg();
         routeNodes = new ArrayList<>();
+        visitedNodes = new ArrayList<>();
     }
 
     /**
@@ -36,7 +39,7 @@ public class DijkstraPath {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public void DPathFind(int[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
+    public boolean DPathFind(int[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         Node startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
@@ -58,17 +61,15 @@ public class DijkstraPath {
             xNow = currentNode.getX();
 
             if (truthTable[yNow][xNow]) continue;
-            //System.out.println("truthTable first: " + Arrays.toString(truthTable[0]));
-            //System.out.println("truthTable second: " + Arrays.toString(truthTable[1]));
-            //System.out.println("truthTable length: " + truthTable.length);
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
                 System.out.println("Dijkstra completed successfully!");
-                return;
+                return true;
             }
             truthTable[yNow][xNow] = true;
             checkNeighbours(map, currentNode, yLength, xLength, pq, yNow, xNow);
         }
+        return false;
 
     }
 
@@ -83,42 +84,41 @@ public class DijkstraPath {
                 int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
 
-                //System.out.println("If checks first?");
+                //if(!ifChecks(yLength, xLength, moveY, moveY, mapFull, yNow, xNow)) {
+                //    continue;
+                //}
+
                 if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
                 if (mapFull[yNow][xNow] == 0) {
                     continue;
                 }
-                //if(!ifChecks(yLength, xLength, moveY, moveY, mapFull, yNow, xNow)) {
-                //    continue;
-                //}
-                //System.out.println("If checks second?");
-                double distanceNext = movementChecks(moveY, moveX, currentNode, mapFull);
-                //System.out.println("distanceNext: " + distanceNext);
-                //System.out.println("distance array first: " + Arrays.toString(distance[0]));
-                //System.out.println("distance array second: " + Arrays.toString(distance[1]));
+
+                double distanceNext = movementChecks(moveY, moveX, currentNode);
 
                 if (distanceNext < distance[moveY][moveX]) {
                     distance[moveY][moveX] = distanceNext;
                     Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
+                    setVisitedNode(pushNode);
                     pq.add(pushNode);
                 }
             }
         }
     }
-
+/*
     public boolean ifChecks(int yLengthNow, int xLengthNow, int moveOfY, int moveOfX, int[][] mapFull, int yOfNow, int xOfNow) {
         if (moveOfY < 0 || moveOfX < 0 || moveOfX >= xLengthNow || moveOfY >= yLengthNow) {
             return false;
         }
-        if (mapFull[yOfNow][xOfNow] == 0) {
+         else if (mapFull[yOfNow][xOfNow] == 0) {
             return false;
-        }
+        } else {
             return true;
-    }
+        }
+    } */
 
-    public double movementChecks(int moveY, int moveX, Node currentNode, int[][] mapFull) {
+    public double movementChecks(int moveY, int moveX, Node currentNode) {
         double distance = 0;
         if(Math.abs(moveY) + Math.abs(moveX) == 1) {
             return distance = currentNode.getDistance() + 1;
@@ -148,10 +148,25 @@ public class DijkstraPath {
         routeNodes.add(route);
     }
 
+    public void setVisitedNode(Node visitedNode) {
+        this.visitedNode = visitedNode;
+        visitedNodes.add(visitedNode);
+    }
+
     public ArrayList<Node> getRoute() {
         return routeNodes;
     }
 
-
+    public ArrayList<Node> printVisitedNodes() {
+        Node node = visitedNode;
+        while (node != null) {
+            visitedNodes.add(node);
+            node = node.getPrevNode();
+        }
+        for(Node nodes : visitedNodes) {
+            System.out.println("visitedNodes: " + nodes);
+        }
+        return visitedNodes;
+    }
 
 }

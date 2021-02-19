@@ -187,6 +187,7 @@ public class GUI {
             try {
                 dPath.DPathFind(ioImg.getMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
                 drawPath(canvas);
+                //drawVisited(canvas);
                 dPath.clearRoute();
             } catch (IOException jk) {
                 System.out.println(jk);
@@ -228,7 +229,15 @@ public class GUI {
         pathAL.clear();
         //System.out.println(pathAL.toString());
 
+    }
 
+    public void drawVisited(Canvas canvas) {
+        ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
+
+        for (int i = 0; i < visitedNodes.size(); i++) {
+            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getY(),visitedNodes.get(i).getX(),1.0,1.0);
+            canvas.getGraphicsContext2D().setFill(Color.RED);
+        }
     }
 
 }

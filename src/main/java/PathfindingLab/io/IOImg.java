@@ -40,9 +40,9 @@ public class IOImg {
                 }
             }
         }
-        for(int k = 0; k < map.length; k++) {
+        /*for(int k = 0; k < map.length; k++) {
             System.out.println(Arrays.toString(map[k]));
-        }
+        }*/
         return map;
     }
 
