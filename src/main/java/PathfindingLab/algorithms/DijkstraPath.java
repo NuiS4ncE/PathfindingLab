@@ -41,6 +41,7 @@ public class DijkstraPath {
      */
     public boolean DPathFind(int[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
+
         Node startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
         int yLength = map.length;
@@ -74,6 +75,7 @@ public class DijkstraPath {
     }
 
     public void checkNeighbours(int[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
+        //double distanceNext = 0;
         for (int movementY = -1; movementY <= 1; movementY++) {
             for (int movementX = -1; movementX <= 1; movementX++) {
 
@@ -84,9 +86,6 @@ public class DijkstraPath {
                 int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
 
-                //if(!ifChecks(yLength, xLength, moveY, moveY, mapFull, yNow, xNow)) {
-                //    continue;
-                //}
 
                 if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
@@ -94,6 +93,9 @@ public class DijkstraPath {
                 if (mapFull[yNow][xNow] == 0) {
                     continue;
                 }
+
+                //distanceNext = currentNode.getDistance() + 1;
+                //if (Math.abs(moveY) + Math.abs(moveX) == 1) distanceNext = currentNode.getDistance() + sqrt(2);
 
                 double distanceNext = movementChecks(moveY, moveX, currentNode);
 
@@ -106,17 +108,6 @@ public class DijkstraPath {
             }
         }
     }
-/*
-    public boolean ifChecks(int yLengthNow, int xLengthNow, int moveOfY, int moveOfX, int[][] mapFull, int yOfNow, int xOfNow) {
-        if (moveOfY < 0 || moveOfX < 0 || moveOfX >= xLengthNow || moveOfY >= yLengthNow) {
-            return false;
-        }
-         else if (mapFull[yOfNow][xOfNow] == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    } */
 
     public double movementChecks(int moveY, int moveX, Node currentNode) {
         double distance = 0;
@@ -170,3 +161,20 @@ public class DijkstraPath {
     }
 
 }
+
+
+//if(!ifChecks(yLength, xLength, moveY, moveY, mapFull, yNow, xNow)) {
+//    continue;
+//}
+
+/*
+    public boolean ifChecks(int yLengthNow, int xLengthNow, int moveOfY, int moveOfX, int[][] mapFull, int yOfNow, int xOfNow) {
+        if (moveOfY < 0 || moveOfX < 0 || moveOfX >= xLengthNow || moveOfY >= yLengthNow) {
+            return false;
+        }
+         else if (mapFull[yOfNow][xOfNow] == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } */

@@ -185,7 +185,7 @@ public class GUI {
 
         runButton.setOnMouseClicked((e) -> {
             try {
-                dPath.DPathFind(ioImg.getMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
+                dPath.DPathFind(ioImg.getFullMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
                 drawPath(canvas);
                 //drawVisited(canvas);
                 dPath.clearRoute();
@@ -202,7 +202,9 @@ public class GUI {
                 try {
                     InputStream inputStream = new FileInputStream(file);
                     img = new Image(inputStream, wantedWidth, wantedHeight, false, true);
+                    System.out.println(file);
                     ioImg.setBuffImg(file, wantedWidth, wantedHeight);
+                    ioImg.setMap();
                     graphicsContext.drawImage(img, 0, 0);
                 } catch (IOException exception) {
                     System.out.println(exception);
@@ -220,15 +222,12 @@ public class GUI {
 
     public void drawPath(Canvas canvas) {
         ArrayList<Node> pathAL = dPath.printRoute();
-        //Path routePath = new Path();
-        //root.getChildren().add(routePath);
         for(int i = 0; i < pathAL.size(); i++) {
             canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
             canvas.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
         //System.out.println(pathAL.toString());
-
     }
 
     public void drawVisited(Canvas canvas) {

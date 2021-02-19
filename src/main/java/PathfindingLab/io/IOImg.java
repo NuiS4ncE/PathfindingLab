@@ -16,15 +16,15 @@ public class IOImg {
     private ImageIO imgIo;
     private BufferedImage buffImg;
     private int red, green, blue;
-    private int[][] map;
+    private int[][] fullMap;
     private int defaultGroundColor = 229;
 
     /**
      * Method for getting the colors of the image. Has no use yet.
      * @throws IOException
      */
-    public int[][] getMap() throws IOException {
-        map = new int[this.buffImg.getHeight()][this.buffImg.getWidth()];
+    public void setMap() throws IOException {
+        int[][] map = new int[this.buffImg.getHeight()][this.buffImg.getWidth()];
         System.out.println("Img width: " + this.buffImg.getWidth() + " img height: " + this.buffImg.getHeight());
         for (int i = 0; i < this.buffImg.getWidth(); i++) {
             for (int j = 0; j < this.buffImg.getHeight(); j++) {
@@ -43,7 +43,7 @@ public class IOImg {
         /*for(int k = 0; k < map.length; k++) {
             System.out.println(Arrays.toString(map[k]));
         }*/
-        return map;
+        this.fullMap = map;
     }
 
     /**
@@ -58,7 +58,12 @@ public class IOImg {
     public void setBuffImg(File file, int wantedWidth, int wantedHeight) throws IOException{
         BufferedImage beforeImg = imgIo.read(file);
         BufferedImage resizedImg = Thumbnails.of(beforeImg).size(wantedWidth, wantedHeight).asBufferedImage();
+        System.out.println(resizedImg);
         this.buffImg = resizedImg;
+    }
+
+    public int[][] getFullMap() {
+        return this.fullMap;
     }
 
     public int getRedPxl() {
