@@ -160,14 +160,14 @@ public class GUI {
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
-                graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 20,20);
+                graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10,10);
             } else if (endButton.isSelected()) {
                 this.endPosX = (int)e.getX();
                 this.endPosY = (int)e.getY();
                 System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
-                graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 20,20);
+                graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10,10);
 
             }
         });
@@ -185,7 +185,8 @@ public class GUI {
 
         runButton.setOnMouseClicked((e) -> {
             try {
-                dPath.DPathFind(ioImg.getFullMap(), this.startPosY, this.startPosX, this.endPosY, this.endPosX, 0);
+                //dPath.DPathFind(ioImg.getFullMap(), 386, 184, 419, 424, 0);
+                dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
                 drawPath(canvas);
                 //drawVisited(canvas);
                 dPath.clearRoute();
@@ -223,7 +224,7 @@ public class GUI {
     public void drawPath(Canvas canvas) {
         ArrayList<Node> pathAL = dPath.printRoute();
         for(int i = 0; i < pathAL.size(); i++) {
-            canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
+            canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getY(),pathAL.get(i).getX());
             canvas.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
@@ -234,7 +235,7 @@ public class GUI {
         ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
 
         for (int i = 0; i < visitedNodes.size(); i++) {
-            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getY(),visitedNodes.get(i).getX(),1.0,1.0);
+            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getY(),visitedNodes.get(i).getX(),0.75,0.75);
             canvas.getGraphicsContext2D().setFill(Color.RED);
         }
     }

@@ -5,7 +5,6 @@ plugins {
     id 'checkstyle'
     id 'org.openjfx.javafxplugin' version '0.0.9'
 
-
 }
 
 

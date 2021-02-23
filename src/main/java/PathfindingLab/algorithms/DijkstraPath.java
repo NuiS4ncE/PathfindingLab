@@ -89,6 +89,7 @@ public class DijkstraPath {
                 }
                 int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
+                //System.out.println(moveY + " " +  moveX);
                 if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
@@ -102,6 +103,7 @@ public class DijkstraPath {
                     distance[moveY][moveX] = distanceNext;
                     Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
                     setVisitedNode(pushNode);
+                    //System.out.println("Node going to pq " + pushNode.toString());
                     pq.add(pushNode);
                 }
             }
@@ -129,6 +131,8 @@ public class DijkstraPath {
      * @return Returns and ArrayList with Node objects
      */
     public ArrayList<Node> printRoute() {
+        //Node finalNode = routeFinal;
+        //System.out.println(finalNode.toString());
         Node node = routeFinal.getPrevNode();
         while (node != null) {
             routeNodes.add(node);

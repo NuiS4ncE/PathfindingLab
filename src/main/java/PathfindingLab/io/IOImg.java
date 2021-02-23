@@ -20,7 +20,7 @@ public class IOImg {
     private int defaultGroundColor = 229;
 
     /**
-     * Method for getting the colors of the image. Has no use yet.
+     * Method for setting the map into binary 0 1 form in an array
      * @throws IOException
      */
     public void setMap() throws IOException {
@@ -55,6 +55,13 @@ public class IOImg {
         return this.buffImg;
     }
 
+    /**
+     * Setter for converting the image file into a BufferedImage
+     * @param file File object parameter
+     * @param wantedWidth Integer parameter for the wanted width
+     * @param wantedHeight Integer parameter for the wanted height
+     * @throws IOException
+     */
     public void setBuffImg(File file, int wantedWidth, int wantedHeight) throws IOException{
         BufferedImage beforeImg = imgIo.read(file);
         BufferedImage resizedImg = Thumbnails.of(beforeImg).size(wantedWidth, wantedHeight).asBufferedImage();
@@ -66,15 +73,4 @@ public class IOImg {
         return this.fullMap;
     }
 
-    public int getRedPxl() {
-        return this.red;
-    }
-
-    public int getGreenPxl() {
-        return this.green;
-    }
-
-    public int getBluePxl() {
-        return this.blue;
-    }
 }
