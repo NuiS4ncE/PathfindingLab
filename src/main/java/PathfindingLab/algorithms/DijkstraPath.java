@@ -49,7 +49,7 @@ public class DijkstraPath {
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
             for (int j = 0; j < xLength; j++) {
-                distance[i][j] = 9999;
+                distance[i][j] = heuristicDistance(startY, startX, endY, endX);
             }
         }
         distance[startY][startX] = 0;
@@ -69,6 +69,10 @@ public class DijkstraPath {
             checkNeighbours(map, currentNode, yLength, xLength, pq, yNow, xNow);
         }
         return false;
+    }
+
+    public double heuristicDistance (int startY, int startX, int endY, int endX) {
+        return Math.abs(endY - startY) + Math.abs(endX - startX);
     }
 
     /**
@@ -98,6 +102,7 @@ public class DijkstraPath {
                 }
 
                 double distanceNext = movementChecks(moveY, moveX, currentNode);
+
 
                 //System.out.println("Distance before if-check: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                 if (distanceNext < distance[moveY][moveX]) {
