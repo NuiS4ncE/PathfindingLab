@@ -1,4 +1,4 @@
-package PathFindingLab;
+package PathfindingLab;
 
 import PathfindingLab.algorithms.DijkstraPath;
 import org.junit.Before;

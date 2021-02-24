@@ -49,7 +49,7 @@ public class DijkstraPath {
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
             for (int j = 0; j < xLength; j++) {
-                distance[i][j] = Double.MAX_VALUE / 2;
+                distance[i][j] = 9999;
             }
         }
         distance[startY][startX] = 0;
@@ -99,7 +99,9 @@ public class DijkstraPath {
 
                 double distanceNext = movementChecks(moveY, moveX, currentNode);
 
+                //System.out.println("Distance before if-check: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                 if (distanceNext < distance[moveY][moveX]) {
+                    //System.out.println("Distance going into pq: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                     distance[moveY][moveX] = distanceNext;
                     Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
                     setVisitedNode(pushNode);
@@ -126,6 +128,7 @@ public class DijkstraPath {
         }
     }
 
+
     /**
      * Method for printing, adding and returning the route in an ArrayList
      * @return Returns and ArrayList with Node objects
@@ -148,6 +151,8 @@ public class DijkstraPath {
      * Method for clearing the route ArrayList
      */
     public void clearRoute() {
+        routeFinal.clearNode();
+        routeFinal = null;
         routeNodes.clear();
     }
 
@@ -193,21 +198,9 @@ public class DijkstraPath {
         return visitedNodes;
     }
 
+
 }
 
 
-//if(!ifChecks(yLength, xLength, moveY, moveY, mapFull, yNow, xNow)) {
-//    continue;
-//}
 
-/*
-    public boolean ifChecks(int yLengthNow, int xLengthNow, int moveOfY, int moveOfX, int[][] mapFull, int yOfNow, int xOfNow) {
-        if (moveOfY < 0 || moveOfX < 0 || moveOfX >= xLengthNow || moveOfY >= yLengthNow) {
-            return false;
-        }
-         else if (mapFull[yOfNow][xOfNow] == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    } */
+

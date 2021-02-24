@@ -28,6 +28,13 @@ public class Node implements Comparable<Node> {
         this.prevNode = prevNode;
     }
 
+    public void clearNode() {
+        this.prevNode = null;
+        this.x = 0;
+        this.y = 0;
+        this.distance = 0;
+    }
+
     public double getDistance() {
         return this.distance;
     }

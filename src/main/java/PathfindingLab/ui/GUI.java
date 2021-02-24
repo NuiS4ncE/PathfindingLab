@@ -178,6 +178,7 @@ public class GUI {
             this.startPosY = 0;
             this.endPosX = 0;
             this.startPosY = 0;
+
             startButton.setSelected(false);
             endButton.setSelected(false);
         });
