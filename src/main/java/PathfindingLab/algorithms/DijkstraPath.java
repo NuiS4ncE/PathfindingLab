@@ -16,9 +16,8 @@ public class DijkstraPath {
     IOImg ioImg;
     boolean truthTable[][];
     double[][] distance;
-    BufferedImage buffImg;
     ArrayList<Node> routeNodes;
-    Node routeFinal;
+    Node routeFinal, startNode;
     ArrayList<Node> visitedNodes;
     Node visitedNode;
 
@@ -40,7 +39,7 @@ public class DijkstraPath {
      */
     public boolean DPathFind(int[][] map, int startY, int startX, int endY, int endX, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        Node startNode = new Node(startY, startX, startDistance);
+        startNode = new Node(startY, startX, startDistance);
         int xLength = map[0].length;
         int yLength = map.length;
         int yNow = 0;
@@ -49,7 +48,7 @@ public class DijkstraPath {
         truthTable = new boolean[yLength][xLength];
         for (int i = 0; i < yLength; i++) {
             for (int j = 0; j < xLength; j++) {
-                distance[i][j] = heuristicDistance(startY, startX, endY, endX);
+                distance[i][j] = 999;
             }
         }
         distance[startY][startX] = 0;
@@ -71,9 +70,6 @@ public class DijkstraPath {
         return false;
     }
 
-    public double heuristicDistance (int startY, int startX, int endY, int endX) {
-        return Math.abs(endY - startY) + Math.abs(endX - startX);
-    }
 
     /**
      * Method for checking the neighbours and moving in the array
@@ -103,8 +99,6 @@ public class DijkstraPath {
 
                 double distanceNext = movementChecks(moveY, moveX, currentNode);
 
-
-                //System.out.println("Distance before if-check: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                 if (distanceNext < distance[moveY][moveX]) {
                     //System.out.println("Distance going into pq: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                     distance[moveY][moveX] = distanceNext;
@@ -139,15 +133,16 @@ public class DijkstraPath {
      * @return Returns and ArrayList with Node objects
      */
     public ArrayList<Node> printRoute() {
-        //Node finalNode = routeFinal;
-        //System.out.println(finalNode.toString());
-        Node node = routeFinal.getPrevNode();
-        while (node != null) {
-            routeNodes.add(node);
-            node = node.getPrevNode();
-        }
-        for (Node nodes : routeNodes) {
-            System.out.println(nodes);
+        if (routeFinal != null) {
+            while (routeFinal != startNode) {
+                routeNodes.add(routeFinal.getPrevNode());
+                routeFinal = routeFinal.getPrevNode();
+            }
+            for (Node nodes : routeNodes) {
+                System.out.println(nodes);
+            }
+        } else {
+            System.out.println("Route not found! " + routeNodes.toString());
         }
         return routeNodes;
     }
@@ -156,9 +151,13 @@ public class DijkstraPath {
      * Method for clearing the route ArrayList
      */
     public void clearRoute() {
-        routeFinal.clearNode();
-        routeFinal = null;
-        routeNodes.clear();
+        if (routeFinal != null) {
+            routeFinal.clearNode();
+            routeFinal = null;
+            routeNodes.clear();
+            visitedNodes.clear();
+        }
+        System.out.println("Clearing of dijkstra failed! ");
     }
 
     /**
@@ -192,10 +191,9 @@ public class DijkstraPath {
      * @return Returns visited nodes in an ArrayList
      */
     public ArrayList<Node> printVisitedNodes() {
-        Node node = visitedNode;
-        while (node != null) {
-            visitedNodes.add(node);
-            node = node.getPrevNode();
+        while (visitedNode != startNode) {
+            visitedNodes.add(visitedNode.getPrevNode());
+            visitedNode = visitedNode.getPrevNode();
         }
         for(Node nodes : visitedNodes) {
             System.out.println("visitedNodes: " + nodes);

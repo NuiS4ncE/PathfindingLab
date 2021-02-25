@@ -3,6 +3,7 @@ package PathfindingLab.ui;
 import javax.swing.*;
 //import javax.swing.text.html.ImageView;
 
+import PathfindingLab.algorithms.AStar;
 import PathfindingLab.algorithms.DijkstraPath;
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.Node;
@@ -57,6 +58,7 @@ public class GUI {
     private int wantedWidth;
     private Image img;
     private Group root;
+    private AStar aStar;
 
 
     /**
@@ -107,6 +109,7 @@ public class GUI {
     public Scene buildScene(String stageTitle) throws IOException {
         ioImg = new IOImg();
         dPath = new DijkstraPath();
+        aStar = new AStar();
         primaryStage.setTitle(stageTitle);
         gridPane = new GridPane();
         borderPane = new BorderPane();
@@ -186,11 +189,13 @@ public class GUI {
 
         runButton.setOnMouseClicked((e) -> {
             try {
-                //dPath.DPathFind(ioImg.getFullMap(), 386, 184, 419, 424, 0);
-                dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                drawPath(canvas);
-                //drawVisited(canvas);
-                dPath.clearRoute();
+                //dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                //drawPathDijkstra(canvas);
+                drawPathAStar(canvas);
+                //drawVisitedDijkstra(canvas);
+                //dPath.clearRoute();
+                aStar.clearRoute();
             } catch (IOException jk) {
                 System.out.println(jk);
             }
@@ -222,7 +227,7 @@ public class GUI {
         return mainScene;
     }
 
-    public void drawPath(Canvas canvas) {
+    public void drawPathDijkstra(Canvas canvas) {
         ArrayList<Node> pathAL = dPath.printRoute();
         for(int i = 0; i < pathAL.size(); i++) {
             canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getY(),pathAL.get(i).getX());
@@ -232,7 +237,17 @@ public class GUI {
         //System.out.println(pathAL.toString());
     }
 
-    public void drawVisited(Canvas canvas) {
+    public void drawPathAStar(Canvas canvas) {
+        ArrayList<Node> pathAL = aStar.printRoute();
+        for(int i = 0; i < pathAL.size(); i++) {
+            canvas.getGraphicsContext2D().lineTo(pathAL.get(i).getY(),pathAL.get(i).getX());
+            canvas.getGraphicsContext2D().stroke();
+        }
+        pathAL.clear();
+        //System.out.println(pathAL.toString());
+    }
+
+    public void drawVisitedDijkstra(Canvas canvas) {
         ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
 
         for (int i = 0; i < visitedNodes.size(); i++) {
