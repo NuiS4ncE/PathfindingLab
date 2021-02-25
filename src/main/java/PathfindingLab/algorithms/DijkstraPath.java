@@ -89,7 +89,7 @@ public class DijkstraPath {
                 }
                 int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
-                //System.out.println(moveY + " " +  moveX);
+
                 if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
@@ -97,14 +97,12 @@ public class DijkstraPath {
                     continue;
                 }
 
-                double distanceNext = movementChecks(moveY, moveX, currentNode);
+                double distanceNext = movementChecks(moveY, moveX, currentNode, mapFull);
 
                 if (distanceNext < distance[moveY][moveX]) {
-                    //System.out.println("Distance going into pq: " + distanceNext + " distance inside array: " + distance[moveY][moveX] + " moveY: " + moveY + " moveX: " + moveX);
                     distance[moveY][moveX] = distanceNext;
                     Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
                     setVisitedNode(pushNode);
-                    //System.out.println("Node going to pq " + pushNode.toString());
                     pq.add(pushNode);
                 }
             }
@@ -118,11 +116,13 @@ public class DijkstraPath {
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
-    public double movementChecks(int moveY, int moveX, Node currentNode) {
+    public double movementChecks(int moveY, int moveX, Node currentNode, int[][] mapFull) {
         double distance = 0;
         if(Math.abs(moveY) + Math.abs(moveX) == 1) {
+            //System.out.println("Straight movement: " + currentNode.getDistance() + 1);
             return distance = currentNode.getDistance() + 1;
         } else {
+            //System.out.println("Diagonal movement: " + currentNode.getDistance() + sqrt(2));
             return distance = currentNode.getDistance() + sqrt(2);
         }
     }
@@ -138,11 +138,8 @@ public class DijkstraPath {
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
             }
-            for (Node nodes : routeNodes) {
-                System.out.println(nodes);
-            }
         } else {
-            System.out.println("Route not found! " + routeNodes.toString());
+            System.out.println("Dijkstra route not found! " + routeNodes.toString());
         }
         return routeNodes;
     }
