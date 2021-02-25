@@ -17,6 +17,8 @@ public class DijkstraPathTest {
     private int[][] smallInputMap, biggerInputMap, biggestInputMap;
     private int startY;
     private int startX;
+    private int startBiggestX;
+    private  int startBiggestY;
     private int endYSmall;
     private int endXSmall;
     private int endYBigger;
@@ -40,13 +42,13 @@ public class DijkstraPathTest {
                 {0, 0, 1, 1, 1, 1, 1}
         };
         biggestInputMap = new int[][]{
-                {1, 0, 1, 1, 0, 0, 0, 1, 0},
-                {1, 0, 1, 1, 0, 0, 0, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 0},
+                {1, 0, 1, 1, 1, 1, 0, 1, 0},
                 {1, 0, 1, 1, 1, 1, 1, 0, 1},
-                {1, 1, 1, 1, 1, 1, 1, 0, 1},
-                {1, 0, 1, 0, 1, 0, 1, 1, 0},
-                {1, 1, 1, 0, 1, 0, 1, 1, 1},
-                {1, 0, 1, 0, 1, 0, 1, 1, 0},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1, 0},
                 {1, 0, 1, 0, 1, 1, 0, 0, 1},
                 {1, 1, 1, 0, 1, 1, 0, 0, 0},
                 {1, 1, 1, 1, 0, 0, 1, 1, 1},
@@ -54,12 +56,14 @@ public class DijkstraPathTest {
         };
         startX = 0;
         startY = 0;
+        startBiggestX = 4;
+        startBiggestY = 0;
         endYSmall = 2;
         endXSmall = 1;
         endYBigger = 5;
         endXBigger = 0;
-        endXBiggest = 9;
-        endYBiggest = 8;
+        endXBiggest = 4;
+        endYBiggest = 7;
         startDistance = 0;
     }
 
@@ -70,7 +74,7 @@ public class DijkstraPathTest {
 
     @Test
     public void dijkstraFindsRouteBiggest() throws IOException {
-        assertEquals(true, dPath.DPathFind(biggestInputMap, endXBiggest, endYBiggest, startX, startY, startDistance));
+        assertEquals(true, dPath.DPathFind(biggestInputMap, endXBiggest, endYBiggest, startBiggestX, startBiggestY, startDistance));
         //assertEquals(true, dPath.DPathFind(biggestInputMap, startY, startX, endYBiggest, endXBiggest, startDistance));
         dPath.printRoute();
 

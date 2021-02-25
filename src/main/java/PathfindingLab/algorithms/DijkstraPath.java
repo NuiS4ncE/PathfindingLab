@@ -50,7 +50,7 @@ public class DijkstraPath {
         truthTable = new boolean[xLength][yLength];
         for (int i = 0; i < xLength; i++) {
             for (int j = 0; j < yLength; j++) {
-                distance[i][j] = 999;
+                distance[i][j] = 999999;
             }
         }
         distance[startX][startY] = 0;
@@ -103,7 +103,7 @@ public class DijkstraPath {
                 }
                 //System.out.println("movementX: " + movementX + " movementY: " + movementY);
 
-                double distanceNext = movementChecks(moveX, moveY, currentNode);
+                double distanceNext = movementChecks(movementX, movementY, currentNode);
                 //double distanceNext = currentNode.getDistance() + 1;
                 //System.out.println("Distance in distance table: " + distance[moveY][moveX] + " Distance next: " + distanceNext);
 
@@ -121,22 +121,16 @@ public class DijkstraPath {
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
      *
-     * @param moveY       Integer parameter for current move on Y-axel
-     * @param moveX       Integer parameter for current move on X-axel
+     * @param movementY       Integer parameter for current move on Y-axel
+     * @param movementX       Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
-    public double movementChecks(int moveX, int moveY, Node currentNode) {
+    public double movementChecks(int movementX, int movementY, Node currentNode) {
         double distance = 0;
-        //System.out.println("Movement check moveY: " + moveY + " moveX: " + moveX);
-
-        if (moveY == 0 || moveX == 0) {
-            //System.out.println("Straight movement: " + currentNode.getDistance() + 1);
+        if (Math.abs(movementX) + Math.abs(movementY) == 1) {
             return distance = currentNode.getDistance() + 1;
-        } /*else {
-            //System.out.println("Diagonal movement: " + currentNode.getDistance() + sqrt(2));
-            return distance = currentNode.getDistance() + sqrt(2);
-       } */
+        }
         return distance = currentNode.getDistance() + sqrt(2);
     }
 
@@ -155,7 +149,7 @@ public class DijkstraPath {
 
             }
             for (Node nodes: routeNodes) {
-                System.out.println(nodes.toString());
+                System.out.println(nodes);
             }
 
         } else {
@@ -219,7 +213,7 @@ public class DijkstraPath {
             visitedNode = visitedNode.getPrevNode();
         }
         for (Node nodes : visitedNodes) {
-            System.out.println("visitedNodes: " + nodes);
+            System.out.println("visitedNodes: " + nodes + " " + visitedNodes.toString());
         }
         return visitedNodes;
     }

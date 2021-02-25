@@ -52,6 +52,6 @@ public class Node implements Comparable<Node> {
 
     @Override
     public String toString() {
-        return "X: " + this.y + " Y: " + this.x + " Distance: " + this.distance;
+        return "X: " + this.x + " Y: " + this.y + " Distance: " + this.distance;
     }
 }
