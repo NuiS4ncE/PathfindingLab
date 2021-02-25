@@ -124,14 +124,20 @@ public class AStar {
     public double movementChecks(int movementX, int movementY, int yNow, int xNow, Node currentNode, double[][] distance) {
         double distanceNow = 0;
         if (Math.abs(movementX) + Math.abs(movementY) == 1) {
-            return distanceNow = distance[xNow][yNow] + 1 + heuristicDistance(xNow, yNow, this.endX, this.endY);
+            return distanceNow = distance[xNow][yNow] + 1;
         } else {
-            return distanceNow = distance[xNow][yNow] + sqrt(2) + heuristicDistance(xNow, yNow, this.endX, this.endY);
+            return distanceNow = distance[xNow][yNow] + sqrt(2);
         }
     }
 
-    public double heuristicDistance(int xNow, int yNow, int endX, int endY) {
-            return Math.abs(endY - yNow) + Math.abs(endX - xNow);
+    public double manhattanDistance(int xNow, int yNow, int endX, int endY) {
+        //Manhattan
+        return Math.abs(endY - yNow) + Math.abs(endX - xNow);
+    }
+
+    public double euclideanDistance(int xNow, int yNow, int endX, int endY) {
+        //Euclidean
+        return Math.pow(endX - xNow, 2.0) + Math.pow(endY - yNow, 2.0);
     }
 
     /**
