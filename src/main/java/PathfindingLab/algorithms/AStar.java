@@ -35,40 +35,39 @@ public class AStar {
      * @param endX   Integer parameter for ending point for X coordinates
      * @throws IOException
      */
-    public boolean aStarFind(int[][] map, int startY, int startX, int endY, int endX, int startDistance) throws IOException {
-        this.endY = endY;
-        this.endX = endX;
+    public boolean aStarFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        startNode = new Node(startY, startX, startDistance);
-        int xLength = map[0].length;
-        int yLength = map.length;
-        int yNow = 0;
+        startNode = new Node(startX, startY, startDistance);
+        int yLength = map[0].length;
+        int xLength = map.length;
         int xNow = 0;
-        distance = new double[yLength][xLength];
-        truthTable = new boolean[yLength][xLength];
-        for (int i = 0; i < yLength; i++) {
-            for (int j = 0; j < xLength; j++) {
-                distance[i][j] = 9999;
+        int yNow = 0;
+        distance = new double[xLength][yLength];
+        truthTable = new boolean[xLength][yLength];
+        for (int i = 0; i < xLength; i++) {
+            for (int j = 0; j < yLength; j++) {
+                distance[i][j] = 999999;
             }
         }
-        distance[startY][startX] = 0;
+        distance[startX][startY] = 0;
         pq.add(startNode);
         while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
-            yNow = currentNode.getY();
             xNow = currentNode.getX();
+            yNow = currentNode.getY();
 
-            if (truthTable[yNow][xNow]) continue;
+            if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
-                System.out.println("Dijkstra completed successfully!");
+                System.out.println("AStar completed successfully!");
                 return true;
             }
-            truthTable[yNow][xNow] = true;
-            checkNeighbours(map, currentNode, yLength, xLength, pq, yNow, xNow);
+            truthTable[xNow][yNow] = true;
+            checkNeighbours(map, currentNode, xLength, yLength, pq, xNow, yNow, distance);
         }
         return false;
     }
+
 
     /**
      * Method for checking the neighbours and moving in the array
@@ -81,58 +80,58 @@ public class AStar {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
-        for (int movementY = -1; movementY <= 1; movementY++) {
-            for (int movementX = -1; movementX <= 1; movementX++) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow, double[][] distance) {
+        for (int movementX = -1; movementX <= 1; movementX++) {
+            for (int movementY = -1; movementY <= 1; movementY++) {
+
                 if (movementX == 0 && movementY == 0) {
                     continue;
                 }
-                int moveY = yNow + movementY;
                 int moveX = xNow + movementX;
-                if (moveY < 0 || moveX < 0 || moveX >= xLength || moveY >= yLength) {
+                int moveY = yNow + movementY;
+
+                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
+                if (moveX < 0 || moveY < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
-                if (mapFull[yNow][xNow] == 0) {
+                if (mapFull[xNow][yNow] == 0) {
                     continue;
                 }
+                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
 
-                double distanceNext = movementChecks(moveY, moveX, yNow, xNow, currentNode);
+                double distanceNext = movementChecks(movementX, movementY, xNow, yNow, currentNode, distance);
+                //double distanceNext = currentNode.getDistance() + 1;
+                //System.out.println("Distance in distance table: " + distance[moveY][moveX] + " Distance next: " + distanceNext);
 
-                //double distanceNext = currentNode.getDistance() + 1 + heuristicDistance(moveY, moveX, this.endY, this.endX);
-
-                if (distanceNext < distance[moveY][moveX]) {
-                    distance[moveY][moveX] = distanceNext;
-                    Node pushNode = new Node(moveY, moveX, distanceNext, currentNode);
+                if (distanceNext < distance[moveX][moveY]) {
+                    distance[moveX][moveY] = distanceNext;
+                    Node pushNode = new Node(moveX, moveY, distanceNext, currentNode);
                     setVisitedNode(pushNode);
                     pq.add(pushNode);
+                    //System.out.println(pq.toString());
                 }
             }
         }
     }
-
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
      *
-     * @param moveY       Integer parameter for current move on Y-axel
-     * @param moveX       Integer parameter for current move on X-axel
+     * @param movementX       Integer parameter for current move on Y-axel
+     * @param movementY       Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
-    public double movementChecks(int moveY, int moveX, int yNow, int xNow, Node currentNode) {
-        double distance = 0;
-        if (Math.abs(moveY) + Math.abs(moveX) == 1) {
-            return distance = currentNode.getDistance() + 1 + heuristicDistance(yNow, xNow, this.endY, this.endX, 0);
+    public double movementChecks(int movementX, int movementY, int yNow, int xNow, Node currentNode, double[][] distance) {
+        double distanceNow = 0;
+        if (Math.abs(movementX) + Math.abs(movementY) == 1) {
+            return distanceNow = distance[xNow][yNow] + 1 + heuristicDistance(xNow, yNow, this.endX, this.endY);
         } else {
-            return distance = currentNode.getDistance() + sqrt(2) + heuristicDistance(yNow, xNow, this.endY, this.endX, 1);
+            return distanceNow = distance[xNow][yNow] + sqrt(2) + heuristicDistance(xNow, yNow, this.endX, this.endY);
         }
     }
 
-    public double heuristicDistance(int moveY, int moveX, int endY, int endX, int checkNum) {
-        if (checkNum == 0) {
-            return Math.abs(endY - moveY) + Math.abs(endX - moveX);
-        } else {
-            return 0;
-        }
+    public double heuristicDistance(int xNow, int yNow, int endX, int endY) {
+            return Math.abs(endY - yNow) + Math.abs(endX - xNow);
     }
 
     /**

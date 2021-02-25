@@ -26,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.control.ComboBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -104,6 +105,7 @@ public class GUI {
         Button exitButton = new Button("Exit");
         Button runButton = new Button("Run");
         ToggleButton[] toolsArr = {startButton, endButton};
+        Button comboButton = new Button("Run");
 
         ToggleGroup tools = new ToggleGroup();
 
@@ -112,6 +114,22 @@ public class GUI {
             tool.setToggleGroup(tools);
             tool.setCursor(Cursor.HAND);
         }
+
+        ComboBox<String> comboFilter = comboBoxFilter();
+        //comboFilter.setPadding(new Insets(5));
+
+        if(comboFilter.getValue().equals("Dijkstra")) {
+            runButton = runDijkstra(runButton);
+        }
+            if (comboFilter.getValue().equals("Dijkstra")) {
+                runButton = runDijkstra(comboButton);
+            }
+            if (comboFilter.getValue().equals("AStar")){
+                runButton = runAStar(comboButton);
+            }
+            /*if (comboFilter.getValue().equals("JPS")) {
+                runButton = runJPS(comboButton);
+            }*/
 
         Button openButton = new Button("Open");
         Button clearButton = new Button("Clear");
@@ -125,7 +143,7 @@ public class GUI {
         buttonPane.setStyle("-fx-background-color: #999");
         buttonPane.setPrefWidth(100);
 
-        buttonPane.getChildren().addAll(openButton, startButton, endButton, runButton, clearButton, exitButton);
+        buttonPane.getChildren().addAll(openButton, comboFilter, startButton, endButton, runButton, clearButton, exitButton);
 
         canvas.setOnMouseClicked(e -> {
             if(startButton.isSelected()) {
@@ -143,22 +161,6 @@ public class GUI {
                 graphicsContext.setFill(Color.BLUE);
                 graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10,10);
 
-            }
-        });
-
-        runButton.setOnMouseClicked((e) -> {
-            try {
-                DijkstraPath dPath = new DijkstraPath();
-                AStar aStar = new AStar();
-                dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                //aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                drawPathDijkstra(dPath);
-                //drawPathAStar(aStar);
-                //drawVisitedDijkstra(canvas);
-                //dPath.clearRoute();
-                //aStar.clearRoute();
-            } catch (IOException jk) {
-                System.out.println(jk);
             }
         });
 
@@ -198,6 +200,47 @@ public class GUI {
         borderPane.setCenter(canvas);
 
         return mainScene;
+    }
+
+    public Button runDijkstra(Button runButton) {
+        runButton.setOnMouseClicked((f) -> {
+            try {
+                DijkstraPath dPath = new DijkstraPath();
+                dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                drawPathDijkstra(dPath);
+                //drawVisitedDijkstra(canvas);
+                //dPath.clearRoute();
+
+            } catch (IOException jk) {
+                System.out.println(jk);
+            }
+        });
+        return runButton;
+    }
+
+    public Button runAStar(Button runButton) {
+        runButton.setOnMouseClicked((z) -> {
+            try {
+                AStar aStar = new AStar();
+                aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                drawPathAStar(aStar);
+                //aStar.clearRoute();
+            } catch (IOException jk) {
+                System.out.println(jk);
+            }
+        });
+        return runButton;
+    }
+
+    public ComboBox<String> comboBoxFilter() {
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().add("Dijkstra");
+        comboBox.getItems().add("A-Star");
+        comboBox.getItems().add("JPS");
+        comboBox.setEditable(false);
+        comboBox.setValue("Dijkstra");
+
+        return comboBox;
     }
 
     public void drawPathDijkstra(DijkstraPath dPath) {

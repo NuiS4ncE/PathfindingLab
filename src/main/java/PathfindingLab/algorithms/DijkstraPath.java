@@ -67,7 +67,7 @@ public class DijkstraPath {
                 return true;
             }
             truthTable[xNow][yNow] = true;
-            checkNeighbours(map, currentNode, xLength, yLength, pq, xNow, yNow);
+            checkNeighbours(map, currentNode, xLength, yLength, pq, xNow, yNow, distance);
         }
         return false;
     }
@@ -84,7 +84,7 @@ public class DijkstraPath {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow, double[][] distance) {
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
 
@@ -103,7 +103,7 @@ public class DijkstraPath {
                 }
                 //System.out.println("movementX: " + movementX + " movementY: " + movementY);
 
-                double distanceNext = movementChecks(movementX, movementY, currentNode);
+                double distanceNext = movementChecks(movementX, movementY, currentNode, distance);
                 //double distanceNext = currentNode.getDistance() + 1;
                 //System.out.println("Distance in distance table: " + distance[moveY][moveX] + " Distance next: " + distanceNext);
 
@@ -126,12 +126,12 @@ public class DijkstraPath {
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
-    public double movementChecks(int movementX, int movementY, Node currentNode) {
-        double distance = 0;
+    public double movementChecks(int movementX, int movementY, Node currentNode, double[][] distance) {
+        double distanceNext = 0;
         if (Math.abs(movementX) + Math.abs(movementY) == 1) {
-            return distance = currentNode.getDistance() + 1;
+            return distanceNext = distance[currentNode.getX()][currentNode.getY()] + 1;
         }
-        return distance = currentNode.getDistance() + sqrt(2);
+        return distanceNext = distance[currentNode.getX()][currentNode.getY()] + sqrt(2);
     }
 
 
