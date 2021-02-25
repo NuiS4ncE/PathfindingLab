@@ -15,13 +15,13 @@ public class Node implements Comparable<Node> {
     }
 
 
-    public Node(int y, int x, double distance) {
+    public Node(int x, int y, double distance) {
         this.x = x;
         this.y = y;
         this.distance = distance;
     }
 
-    public Node(int y, int x, double distance, Node prevNode) {
+    public Node(int x, int y, double distance, Node prevNode) {
         this.x = x;
         this.y = y;
         this.distance = distance;
@@ -45,17 +45,13 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node node) {
-        if (this.distance - node.distance > 0) {
-            return 1;
-        } else if (this.distance - node.distance < 0) {
-            return -1;
-        } else {
-            return 0;
-        }
+        int compare = Double.compare(this.distance, node.distance);
+        if(compare == 0) compare = node.compareTo(this.prevNode);
+        return compare;
     }
 
     @Override
     public String toString() {
-        return "Y: " + this.y + " X: " + this.x + " Distance: " + this.distance;
+        return "X: " + this.y + " Y: " + this.x + " Distance: " + this.distance;
     }
 }

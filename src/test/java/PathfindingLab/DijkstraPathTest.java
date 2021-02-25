@@ -54,23 +54,23 @@ public class DijkstraPathTest {
         };
         startX = 0;
         startY = 0;
-        endXSmall = 2;
-        endYSmall = 1;
-        endXBigger = 5;
-        endYBigger = 0;
-        endYBiggest = 9;
-        endXBiggest = 8;
+        endYSmall = 2;
+        endXSmall = 1;
+        endYBigger = 5;
+        endXBigger = 0;
+        endXBiggest = 9;
+        endYBiggest = 8;
         startDistance = 0;
     }
 
     @Test
     public void dijkstraFindsRoute() throws IOException {
-        assertEquals(true, dPath.DPathFind(smallInputMap, startY,startX,endYSmall,endXSmall, startDistance));
+        assertEquals(true, dPath.DPathFind(smallInputMap, startX,startY,endXSmall,endYSmall, startDistance));
     }
 
     @Test
     public void dijkstraFindsRouteBiggest() throws IOException {
-        assertEquals(true, dPath.DPathFind(biggestInputMap, endYBiggest, endXBiggest, startY, startX, startDistance));
+        assertEquals(true, dPath.DPathFind(biggestInputMap, endXBiggest, endYBiggest, startX, startY, startDistance));
         //assertEquals(true, dPath.DPathFind(biggestInputMap, startY, startX, endYBiggest, endXBiggest, startDistance));
         dPath.printRoute();
 
@@ -84,7 +84,7 @@ public class DijkstraPathTest {
         nodeArrayList.add(node);
         node = new Node(1,2,2.414213562373095);
         nodeArrayList.add(node);
-        assertEquals(true, dPath.DPathFind(smallInputMap, startY, startX, endYSmall, endXSmall, startDistance));
+        assertEquals(true, dPath.DPathFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
         assertEquals(nodeArrayList.size(), dPath.printRoute().size());
     }
 
@@ -97,8 +97,8 @@ public class DijkstraPathTest {
 
     @Test
     public void visitedNodesSize() throws IOException{
-        assertEquals(true, dPath.DPathFind(biggerInputMap, startY, startX, endYBigger, endXBigger, startDistance));
-        assertEquals(26, dPath.printVisitedNodes().size());
+        assertEquals(true, dPath.DPathFind(biggerInputMap, startX, startY, endXBigger, endYBigger, startDistance));
+        assertEquals(25, dPath.printVisitedNodes().size());
     }
 
 }

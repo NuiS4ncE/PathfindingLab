@@ -26,7 +26,9 @@ public class AStar {
         visitedNodes = new ArrayList<>();
     }
 
-    /** Main pathfinding method
+    /**
+     * Main pathfinding method
+     *
      * @param startY Integer parameter for starting point for Y coordinates
      * @param startX Integer parameter for starting pont for X coordinates
      * @param endY   Integer parameter for ending point for Y coordinate
@@ -70,13 +72,14 @@ public class AStar {
 
     /**
      * Method for checking the neighbours and moving in the array
-     * @param mapFull Two dimensional integer array parameter
+     *
+     * @param mapFull     Two dimensional integer array parameter
      * @param currentNode Node object parameter
-     * @param yLength Integer parameter for length of y-coordinates
-     * @param xLength Integer parameter for length of x-coordinates
-     * @param pq PriorityQueue parameter
-     * @param yNow Integer parameter for current y-position
-     * @param xNow Integer parameter for current x-position
+     * @param yLength     Integer parameter for length of y-coordinates
+     * @param xLength     Integer parameter for length of x-coordinates
+     * @param pq          PriorityQueue parameter
+     * @param yNow        Integer parameter for current y-position
+     * @param xNow        Integer parameter for current x-position
      */
     public void checkNeighbours(int[][] mapFull, Node currentNode, int yLength, int xLength, PriorityQueue<Node> pq, int yNow, int xNow) {
         for (int movementY = -1; movementY <= 1; movementY++) {
@@ -109,8 +112,9 @@ public class AStar {
 
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
-     * @param moveY Integer parameter for current move on Y-axel
-     * @param moveX Integer parameter for current move on X-axel
+     *
+     * @param moveY       Integer parameter for current move on Y-axel
+     * @param moveX       Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */

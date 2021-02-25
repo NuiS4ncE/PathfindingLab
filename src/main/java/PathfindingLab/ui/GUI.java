@@ -207,10 +207,11 @@ public class GUI {
             System.out.println(node.toString());
         }
         for(int i = 0; i < pathAL.size(); i++) {
-            canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getY(),pathAL.get(i).getX());
+            canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
             canvas1.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
+        //drawVisitedDijkstra(canvas1, dPath);
         borderPane.setCenter(canvas1);
     }
 
@@ -229,7 +230,7 @@ public class GUI {
         Canvas canvas2 = drawPoints();
         ArrayList<Node> pathAL = aStar.printRoute();
         for(int i = 0; i < pathAL.size(); i++) {
-            canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getY(),pathAL.get(i).getX());
+            canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
             canvas2.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
@@ -239,9 +240,8 @@ public class GUI {
 
     public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath) {
         ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
-
         for (int i = 0; i < visitedNodes.size(); i++) {
-            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getY(),visitedNodes.get(i).getX(),0.75,0.75);
+            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getX(),visitedNodes.get(i).getY(),0.75,0.75);
             canvas.getGraphicsContext2D().setFill(Color.RED);
         }
     }
