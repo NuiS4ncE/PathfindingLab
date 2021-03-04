@@ -90,25 +90,20 @@ public class AStar {
                 int moveX = xNow + movementX;
                 int moveY = yNow + movementY;
 
-                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
                 if (moveX < 0 || moveY < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
                 if (mapFull[xNow][yNow] == 0) {
                     continue;
                 }
-                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
 
                 double distanceNext = movementChecks(movementX, movementY, xNow, yNow, currentNode, distance);
-                //double distanceNext = currentNode.getDistance() + 1;
-                //System.out.println("Distance in distance table: " + distance[moveY][moveX] + " Distance next: " + distanceNext);
 
                 if (distanceNext < distance[moveX][moveY]) {
                     distance[moveX][moveY] = distanceNext;
-                    Node pushNode = new Node(moveX, moveY, distanceNext, currentNode);
+                    Node pushNode = new Node(moveX, moveY, distanceNext + euclideanDistance(moveX, moveY, endX, endY), currentNode);
                     setVisitedNode(pushNode);
                     pq.add(pushNode);
-                    //System.out.println(pq.toString());
                 }
             }
         }

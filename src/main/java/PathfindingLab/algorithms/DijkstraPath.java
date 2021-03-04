@@ -1,6 +1,7 @@
 package PathfindingLab.algorithms;
 
 import PathfindingLab.io.IOImg;
+import PathfindingLab.utils.Heap;
 import PathfindingLab.utils.Node;
 
 import java.awt.image.BufferedImage;
@@ -41,6 +42,7 @@ public class DijkstraPath {
      */
     public boolean DPathFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         PriorityQueue<Node> pq = new PriorityQueue<>();
+        //Heap pq = new Heap(1);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -55,11 +57,14 @@ public class DijkstraPath {
         }
         distance[startX][startY] = 0;
         pq.add(startNode);
+        //while (pq != null) {
         while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
             xNow = currentNode.getX();
             yNow = currentNode.getY();
 
+            System.out.println("DO WE GET HERE?");
+            //pq.printHeap();
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
@@ -84,7 +89,8 @@ public class DijkstraPath {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow, double[][] distance) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue pq, int xNow, int yNow, double[][] distance) {
+        //Heap pq
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
 
@@ -94,25 +100,20 @@ public class DijkstraPath {
                 int moveX = xNow + movementX;
                 int moveY = yNow + movementY;
 
-                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
                 if (moveX < 0 || moveY < 0 || moveX >= xLength || moveY >= yLength) {
                     continue;
                 }
                 if (mapFull[xNow][yNow] == 0) {
                     continue;
                 }
-                //System.out.println("movementX: " + movementX + " movementY: " + movementY);
 
                 double distanceNext = movementChecks(movementX, movementY, currentNode, distance);
-                //double distanceNext = currentNode.getDistance() + 1;
-                //System.out.println("Distance in distance table: " + distance[moveY][moveX] + " Distance next: " + distanceNext);
 
                 if (distanceNext < distance[moveX][moveY]) {
                     distance[moveX][moveY] = distanceNext;
                     Node pushNode = new Node(moveX, moveY, distanceNext, currentNode);
                     setVisitedNode(pushNode);
                     pq.add(pushNode);
-                    //System.out.println(pq.toString());
                 }
             }
         }
