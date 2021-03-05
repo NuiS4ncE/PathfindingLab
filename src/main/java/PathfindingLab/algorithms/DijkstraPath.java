@@ -32,7 +32,7 @@ public class DijkstraPath {
     }
 
     /**
-     * Main pathfinding method
+     * Main pathfinding method for dijkstra
      *
      * @param startY Integer parameter for starting point for Y coordinates
      * @param startX Integer parameter for starting pont for X coordinates
@@ -41,8 +41,8 @@ public class DijkstraPath {
      * @throws IOException
      */
     public boolean DPathFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        //Heap pq = new Heap(1);
+        //PriorityQueue<Node> pq = new PriorityQueue<>();
+        Heap pq = new Heap(999999);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -57,13 +57,13 @@ public class DijkstraPath {
         }
         distance[startX][startY] = 0;
         pq.add(startNode);
-        //while (pq != null) {
-        while (!pq.isEmpty()) {
+        while (pq != null) {
+        //while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
             xNow = currentNode.getX();
             yNow = currentNode.getY();
 
-            System.out.println("DO WE GET HERE?");
+            //System.out.println("DO WE GET HERE?");
             //pq.printHeap();
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
@@ -89,8 +89,9 @@ public class DijkstraPath {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue pq, int xNow, int yNow, double[][] distance) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, Heap pq, int xNow, int yNow, double[][] distance) {
         //Heap pq
+        //PriorityQueue pq
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
 

@@ -1,4 +1,4 @@
 package PathfindingLab.algorithms;
 
-public class JPS {
+public class IDAStar {
 }

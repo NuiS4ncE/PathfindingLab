@@ -33,6 +33,7 @@ jar {
     }
 }
 
+
 mainClassName = 'PathfindingLab.Main'
 
     repositories {
@@ -43,6 +44,5 @@ mainClassName = 'PathfindingLab.Main'
         testCompile 'junit:junit:4.12'
         compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.6'
     }
-
 
 

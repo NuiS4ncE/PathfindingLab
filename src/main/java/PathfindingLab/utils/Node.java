@@ -45,9 +45,17 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node node) {
-        int compare = Double.compare(this.distance, node.distance);
+        //System.out.println("This.distance: " + this.distance + " node.distance: " + node.distance);
+        /*int compare = Double.compare(this.distance, node.distance);
         if(compare == 0) compare = node.compareTo(this.prevNode);
-        return compare;
+        return compare; */
+        if((this.distance - node.distance) > 0) {
+            return 1;
+        } else if((this.distance - node.distance) < 0) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
