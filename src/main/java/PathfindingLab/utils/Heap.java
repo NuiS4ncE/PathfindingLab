@@ -83,18 +83,19 @@ public class Heap {
             size++;
             return;
         }*/
-        /*if (size >= maxSize) {
+        if (size >= maxSize) {
             return;
-        }*/
+        }
         minHeap[++size] = node;
         int current = size;
         int counter = 0;
-        //System.out.println("minHeap after adding: " + Arrays.toString(minHeap) + " Current: " + current);
+        System.out.println("minHeap after adding: " + Arrays.toString(minHeap) + " Current: " + current);
         //if(minHeap[parent(current)] != null) {
+        //current > 1 &&
             while (current > 1 && (minHeap[current].compareTo(minHeap[parent(current)]) < 0)) {
                 swapNodes(current, parent(current));
                 current = parent(current);
-                System.out.println("This loop has been done: " + counter++ + " times.");
+                //System.out.println("This loop has been done: " + counter++ + " times.");
 
             }
         //}
@@ -102,13 +103,9 @@ public class Heap {
     }
 
     public Node poll() throws NoSuchElementException {
-        //System.out.println("minHeap in poll: " + Arrays.toString(minHeap) + " and size: " + size + " and minHeap's size: " + minHeap.length);
         Node polled = minHeap[firstEl];
-        //if (size > 0) {
-            minHeap[firstEl] = minHeap[--size];
-        //} else {
-            //minHeap[firstEl] = minHeap[0];
-        //}
+        minHeap[firstEl] = minHeap[--size];
+        minHeapify(firstEl);
         return polled;
     }
 
