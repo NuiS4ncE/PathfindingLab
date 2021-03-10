@@ -159,31 +159,10 @@ public class GUI {
                     drawPathAStar(aStar);
                     //aStar.clearRoute();
                 }
-                if (runValue == 4) {
-                    System.out.println("All selected");
-                    DijkstraPath dPath = new DijkstraPath();
-                    dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathDijkstra(dPath);
-                    AStar aStar = new AStar();
-                    aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathAStar(aStar);
-                    //aStar.clearRoute();
-                }
             } catch (IOException jk) {
                 System.out.println(jk);
             }
         });
-
-
-        /*if (comboFilter.getValue().equals("Dijkstra")) {
-            runButton = runDijkstra(comboButton);
-        }
-        if (comboFilter.getValue().equals("AStar")) {
-            runButton = runAStar(comboButton);
-        }
-            /*if (comboFilter.getValue().equals("JPS")) {
-                runButton = runJPS(comboButton);
-            }*/
 
         Button openButton = new Button("Open");
         Button clearButton = new Button("Clear");
@@ -256,42 +235,11 @@ public class GUI {
         return mainScene;
     }
 
-    public Button runDijkstra(Button runButton) {
-        runButton.setOnMouseClicked((f) -> {
-            try {
-                DijkstraPath dPath = new DijkstraPath();
-                dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                drawPathDijkstra(dPath);
-                //drawVisitedDijkstra(canvas);
-                //dPath.clearRoute();
-
-            } catch (IOException jk) {
-                System.out.println(jk);
-            }
-        });
-        return runButton;
-    }
-
-    public Button runAStar(Button runButton) {
-        runButton.setOnMouseClicked((z) -> {
-            try {
-                AStar aStar = new AStar();
-                aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                drawPathAStar(aStar);
-                //aStar.clearRoute();
-            } catch (IOException jk) {
-                System.out.println(jk);
-            }
-        });
-        return runButton;
-    }
-
     public ComboBox<String> comboBoxFilter() {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().add("Dijkstra");
         comboBox.getItems().add("AStar");
         comboBox.getItems().add("IDAStar");
-        comboBox.getItems().add("All");
         comboBox.setEditable(false);
         comboBox.setValue("");
 
