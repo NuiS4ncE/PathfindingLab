@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
+
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -59,11 +60,13 @@ public class GUI {
     private int wantedWidth;
     private Image img;
     private Group root;
+    private int runValue;
     //private AStar aStar;
 
 
     /**
      * Constructor for the class
+     *
      * @param primStage Parameter for receiving a Stage-object
      */
     public GUI(Stage primStage) {
@@ -73,6 +76,7 @@ public class GUI {
 
     /**
      * Main scene method.
+     *
      * @param stageTitle Parameter for a String
      * @return Returns Scene-object.
      * @throws IOException
@@ -105,7 +109,7 @@ public class GUI {
         Button exitButton = new Button("Exit");
         Button runButton = new Button("Run");
         ToggleButton[] toolsArr = {startButton, endButton};
-        Button comboButton = new Button("Run");
+
 
         ToggleGroup tools = new ToggleGroup();
 
@@ -118,15 +122,65 @@ public class GUI {
         ComboBox<String> comboFilter = comboBoxFilter();
         //comboFilter.setPadding(new Insets(5));
 
-        if(comboFilter.getValue().equals("Dijkstra")) {
-            runButton = runDijkstra(runButton);
-        }
+        comboFilter.setOnAction((e) -> {
+            System.out.println("test");
             if (comboFilter.getValue().equals("Dijkstra")) {
-                runButton = runDijkstra(comboButton);
+                runValue = 1;
+                System.out.println("runValue: " + runValue);
             }
-            if (comboFilter.getValue().equals("AStar")){
-                runButton = runAStar(comboButton);
+            if (comboFilter.getValue().equals("AStar")) {
+                runValue = 2;
+                System.out.println("runValue: " + runValue);
             }
+            if (comboFilter.getValue().equals("IDAStar")) {
+                runValue = 3;
+                System.out.println("runValue: " + runValue);
+            }
+            if (comboFilter.getValue().equals("All")) {
+                runValue = 4;
+                System.out.println("runValue: " + runValue);
+            }
+        });
+
+        runButton.setOnMouseClicked((f) -> {
+            try {
+                if (runValue == 1) {
+                    System.out.println("Dijkstra selected");
+                    DijkstraPath dPath = new DijkstraPath();
+                    dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                    drawPathDijkstra(dPath);
+                    //drawVisitedDijkstra(canvas);
+                    //dPath.clearRoute();
+                }
+                if (runValue == 2) {
+                    System.out.println("AStar selected");
+                    AStar aStar = new AStar();
+                    aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                    drawPathAStar(aStar);
+                    //aStar.clearRoute();
+                }
+                if (runValue == 4) {
+                    System.out.println("All selected");
+                    DijkstraPath dPath = new DijkstraPath();
+                    dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                    drawPathDijkstra(dPath);
+                    AStar aStar = new AStar();
+                    aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
+                    drawPathAStar(aStar);
+                    //aStar.clearRoute();
+                }
+            } catch (IOException jk) {
+                System.out.println(jk);
+            }
+        });
+
+
+        /*if (comboFilter.getValue().equals("Dijkstra")) {
+            runButton = runDijkstra(comboButton);
+        }
+        if (comboFilter.getValue().equals("AStar")) {
+            runButton = runAStar(comboButton);
+        }
             /*if (comboFilter.getValue().equals("JPS")) {
                 runButton = runJPS(comboButton);
             }*/
@@ -146,26 +200,26 @@ public class GUI {
         buttonPane.getChildren().addAll(openButton, comboFilter, startButton, endButton, runButton, clearButton, exitButton);
 
         canvas.setOnMouseClicked(e -> {
-            if(startButton.isSelected()) {
-                this.startPosX = (int)e.getX();
-                this.startPosY = (int)e.getY();
+            if (startButton.isSelected()) {
+                this.startPosX = (int) e.getX();
+                this.startPosY = (int) e.getY();
                 System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
-                graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10,10);
+                graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10, 10);
             } else if (endButton.isSelected()) {
-                this.endPosX = (int)e.getX();
-                this.endPosY = (int)e.getY();
+                this.endPosX = (int) e.getX();
+                this.endPosY = (int) e.getY();
                 System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
-                graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10,10);
+                graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10, 10);
 
             }
         });
 
         clearButton.setOnMouseClicked((e) -> {
-            canvas.getGraphicsContext2D().clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             this.startPosX = 0;
             this.startPosY = 0;
             this.endPosX = 0;
@@ -180,7 +234,7 @@ public class GUI {
             FileChooser openFile = new FileChooser();
             openFile.setTitle("Open File");
             File file = openFile.showOpenDialog(primaryStage);
-            if(file != null) {
+            if (file != null) {
                 try {
                     InputStream inputStream = new FileInputStream(file);
                     img = new Image(inputStream, wantedWidth, wantedHeight, false, true);
@@ -235,10 +289,11 @@ public class GUI {
     public ComboBox<String> comboBoxFilter() {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().add("Dijkstra");
-        comboBox.getItems().add("A-Star");
-        comboBox.getItems().add("JPS");
+        comboBox.getItems().add("AStar");
+        comboBox.getItems().add("IDAStar");
+        comboBox.getItems().add("All");
         comboBox.setEditable(false);
-        comboBox.setValue("Dijkstra");
+        comboBox.setValue("");
 
         return comboBox;
     }
@@ -246,11 +301,11 @@ public class GUI {
     public void drawPathDijkstra(DijkstraPath dPath) {
         Canvas canvas1 = drawPoints();
         ArrayList<Node> pathAL = dPath.printRoute();
-        for (Node node: pathAL) {
+        for (Node node : pathAL) {
             System.out.println(node.toString());
         }
-        for(int i = 0; i < pathAL.size(); i++) {
-            canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
+        for (int i = 0; i < pathAL.size(); i++) {
+            canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas1.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
@@ -263,17 +318,17 @@ public class GUI {
         GraphicsContext graphicsContext1 = canvas1.getGraphicsContext2D();
         graphicsContext1.drawImage(img, 0, 0);
         graphicsContext1.setFill(Color.RED);
-        graphicsContext1.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10,10);
+        graphicsContext1.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10, 10);
         graphicsContext1.setFill(Color.BLUE);
-        graphicsContext1.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10,10);
+        graphicsContext1.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10, 10);
         return canvas1;
     }
 
     public void drawPathAStar(AStar aStar) {
         Canvas canvas2 = drawPoints();
         ArrayList<Node> pathAL = aStar.printRoute();
-        for(int i = 0; i < pathAL.size(); i++) {
-            canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getX(),pathAL.get(i).getY());
+        for (int i = 0; i < pathAL.size(); i++) {
+            canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas2.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
@@ -284,7 +339,7 @@ public class GUI {
     public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath) {
         ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
         for (int i = 0; i < visitedNodes.size(); i++) {
-            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getX(),visitedNodes.get(i).getY(),0.75,0.75);
+            canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getX(), visitedNodes.get(i).getY(), 0.75, 0.75);
             canvas.getGraphicsContext2D().setFill(Color.RED);
         }
     }

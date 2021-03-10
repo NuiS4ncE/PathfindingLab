@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.sqrt;
 
@@ -41,8 +42,9 @@ public class DijkstraPath {
      * @throws IOException
      */
     public boolean DPathFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
-        //PriorityQueue<Node> pq = new PriorityQueue<>();
-        Heap pq = new Heap(999999);
+        long timeStart = System.nanoTime();
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        //Heap pq = new Heap(14);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -68,7 +70,9 @@ public class DijkstraPath {
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
-                System.out.println("Dijkstra completed successfully!");
+                long timeEnd = System.nanoTime();
+                long timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
+                System.out.println("Dijkstra completed successfully! Time elapsed: " + timeElapsed + " ms");
                 return true;
             }
             truthTable[xNow][yNow] = true;
@@ -89,7 +93,7 @@ public class DijkstraPath {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, Heap pq, int xNow, int yNow, double[][] distance) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue pq, int xNow, int yNow, double[][] distance) {
         //Heap pq
         //PriorityQueue pq
         for (int movementX = -1; movementX <= 1; movementX++) {

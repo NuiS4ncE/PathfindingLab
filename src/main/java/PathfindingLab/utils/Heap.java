@@ -1,5 +1,6 @@
 package PathfindingLab.utils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -50,6 +51,7 @@ public class Heap {
         int leftChildVal = leftChild(i);
         int rightChildVal = rightChild(i);
 
+        System.out.println("minHeap in minHeapify: " + Arrays.toString(minHeap));
         int smallestChild = leftChildVal;
         if (rightChildVal <= size && minHeap[rightChildVal].compareTo(minHeap[leftChildVal]) < 0) {
             smallestChild = rightChildVal;
@@ -76,7 +78,7 @@ public class Heap {
     }
 
     public void add(Node node) {
-        //System.out.println("Size: " + size + " maxSize: " + maxSize + " in add");
+        System.out.println("Size: " + size + " maxSize: " + maxSize + " in add");
         //System.out.println("minHeap in add beginning: " + Arrays.toString(minHeap));
         /*if(size == 0) { //This screws up the system
             minHeap[size] = node;
@@ -89,10 +91,13 @@ public class Heap {
         minHeap[++size] = node;
         int current = size;
         int counter = 0;
+        //System.out.println("Size in add: " + size + " current in add: " + current);
         System.out.println("minHeap after adding: " + Arrays.toString(minHeap) + " Current: " + current);
         //if(minHeap[parent(current)] != null) {
         //current > 1 &&
+        //System.out.println((minHeap[current].compareTo(minHeap[parent(current)]) < 0));
             while (current > 1 && (minHeap[current].compareTo(minHeap[parent(current)]) < 0)) {
+                System.out.println("WHAT?");
                 swapNodes(current, parent(current));
                 current = parent(current);
                 //System.out.println("This loop has been done: " + counter++ + " times.");
@@ -102,8 +107,16 @@ public class Heap {
         //setMinHeap();
     }
 
-    public Node poll() throws NoSuchElementException {
+    public Node poll() {
+        if(minHeap.length == 1) {
+            Node polled = minHeap[firstEl];
+            return polled;
+        }
         Node polled = minHeap[firstEl];
+        if(size <= 0){
+            size = 1;
+        }
+        if(minHeap[--size] == null) return polled;
         minHeap[firstEl] = minHeap[--size];
         minHeapify(firstEl);
         return polled;
