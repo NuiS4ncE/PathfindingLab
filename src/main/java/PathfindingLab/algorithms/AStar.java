@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class AStar {
@@ -123,22 +124,17 @@ public class AStar {
      */
     public double movementChecks(int movementX, int movementY, Node currentNode, double[][] distance) {
         double distanceNext = 0;
-        if (Math.abs(movementX) + Math.abs(movementY) == 1) {
+        if (abs(movementX) + abs(movementY) == 1) {
             return distanceNext = distance[currentNode.getX()][currentNode.getY()] + 1;
         }
         return distanceNext = distance[currentNode.getX()][currentNode.getY()] + sqrt(2);
     }
 
-    public double manhattanDistance(int xNow, int yNow, int endX, int endY) {
-        //Manhattan
-        return Math.abs(endY - yNow) + Math.abs(endX - xNow);
-    }
-
     public double euclideanDistance(int xNow, int yNow, int endX, int endY) {
         //Euclidean
-        double x = Math.pow(endX - xNow, 2.0);
-        double y = Math.pow(endY - yNow, 2.0);
-        return x + y;
+        double dx = abs(xNow - endX);
+        double dy = abs(yNow - endY);
+        return sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -152,9 +148,9 @@ public class AStar {
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
             }
-            for (Node nodes : routeNodes) {
+           /* for (Node nodes : routeNodes) {
                 System.out.println(nodes);
-            }
+            }*/
             return routeNodes;
         } else {
             System.out.println("No route available! " + routeNodes.toString());

@@ -154,9 +154,9 @@ public class DijkstraPath {
                 routeFinal = routeFinal.getPrevNode();
 
             }
-            for (Node nodes: routeNodes) {
+         /*   for (Node nodes: routeNodes) {
                 System.out.println(nodes);
-            }
+            }*/
 
         } else {
             System.out.println("Dijkstra route not found! " + routeNodes.toString());

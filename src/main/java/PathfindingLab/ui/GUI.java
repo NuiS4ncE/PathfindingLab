@@ -249,9 +249,6 @@ public class GUI {
     public void drawPathDijkstra(DijkstraPath dPath) {
         Canvas canvas1 = drawPoints();
         ArrayList<Node> pathAL = dPath.printRoute();
-        for (Node node : pathAL) {
-            System.out.println(node.toString());
-        }
         for (int i = 0; i < pathAL.size(); i++) {
             canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas1.getGraphicsContext2D().stroke();
