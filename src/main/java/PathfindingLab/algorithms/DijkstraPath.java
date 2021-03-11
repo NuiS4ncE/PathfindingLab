@@ -148,15 +148,16 @@ public class DijkstraPath {
      */
     public ArrayList<Node> printRoute() {
         if (routeFinal != null) {
+            System.out.println("routeFinal distance in Dijkstra: " + routeFinal.getDistance());
             while (routeFinal != startNode) {
                 if (routeFinal.getPrevNode() == null) break;
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
 
             }
-         /*   for (Node nodes: routeNodes) {
-                System.out.println(nodes);
-            }*/
+           // for (Node nodes: routeNodes) {
+             //   System.out.println(nodes);
+            //}
 
         } else {
             System.out.println("Dijkstra route not found! " + routeNodes.toString());

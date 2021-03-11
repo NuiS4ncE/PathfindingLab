@@ -40,7 +40,6 @@ public class AStar {
     public boolean aStarFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         long timeStart = System.nanoTime();
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        System.out.println("We're in AStar");
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -130,8 +129,15 @@ public class AStar {
         return distanceNext = distance[currentNode.getX()][currentNode.getY()] + sqrt(2);
     }
 
+    /**
+     * Method for euclidean distance from current position till the end
+     * @param xNow Integer parameter for current x-coordinate
+     * @param yNow Integer parameter for current y-coordinate
+     * @param endX Integer parameter for end x-coordinate
+     * @param endY Integer parameter for end y-coordinate
+     * @return Returns the square root of the sum of the product of the multiplication of the end and start x- and y-coordinates
+     */
     public double euclideanDistance(int xNow, int yNow, int endX, int endY) {
-        //Euclidean
         double dx = abs(xNow - endX);
         double dy = abs(yNow - endY);
         return sqrt(dx * dx + dy * dy);
@@ -144,13 +150,14 @@ public class AStar {
      */
     public ArrayList<Node> printRoute() {
         if (routeFinal != null) {
+            System.out.println("routeFinal distance in AStar: " + routeFinal.getDistance());
             while (routeFinal != startNode) {
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
             }
-           /* for (Node nodes : routeNodes) {
-                System.out.println(nodes);
-            }*/
+            //for (Node nodes : routeNodes) {
+              //  System.out.println(nodes);
+            //}
             return routeNodes;
         } else {
             System.out.println("No route available! " + routeNodes.toString());

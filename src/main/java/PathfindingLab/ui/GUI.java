@@ -123,7 +123,6 @@ public class GUI {
         //comboFilter.setPadding(new Insets(5));
 
         comboFilter.setOnAction((e) -> {
-            System.out.println("test");
             if (comboFilter.getValue().equals("Dijkstra")) {
                 runValue = 1;
                 System.out.println("runValue: " + runValue);
