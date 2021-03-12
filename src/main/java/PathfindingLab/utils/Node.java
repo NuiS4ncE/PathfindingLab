@@ -2,6 +2,7 @@ package PathfindingLab.utils;
 
 public class Node implements Comparable<Node> {
     private double distance;
+    private double aStarDistance;
     private Node prevNode;
     private int x;
     private int y;
@@ -28,6 +29,14 @@ public class Node implements Comparable<Node> {
         this.prevNode = prevNode;
     }
 
+    public Node(int x, int y, double distance, Node prevNode, double aStarDistance) {
+        this.x = x;
+        this.y = y;
+        this.distance = distance;
+        this.prevNode = prevNode;
+        this.aStarDistance = aStarDistance;
+    }
+
     public void clearNode() {
         this.prevNode = null;
         this.x = 0;
@@ -37,6 +46,10 @@ public class Node implements Comparable<Node> {
 
     public double getDistance() {
         return this.distance;
+    }
+
+    public double getAStarDistance() {
+        return aStarDistance;
     }
 
     public Node getPrevNode() {

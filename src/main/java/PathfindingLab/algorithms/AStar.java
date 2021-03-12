@@ -65,6 +65,7 @@ public class AStar {
                 long timeEnd = System.nanoTime();
                 long timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
                 System.out.println("AStar completed successfully! Time elapsed: " + timeElapsed + " ms");
+                System.out.println("Distance in AStar: " + routeFinal.getAStarDistance());
                 return true;
             }
             truthTable[xNow][yNow] = true;
@@ -106,7 +107,7 @@ public class AStar {
 
                 if (distanceNext < distance[moveX][moveY]) {
                     distance[moveX][moveY] = distanceNext;
-                    Node pushNode = new Node(moveX, moveY, distanceNext + euclideanDistance(moveX, moveY, endX, endY), currentNode);
+                    Node pushNode = new Node(moveX, moveY, distanceNext + euclideanDistance(moveX, moveY, endX, endY), currentNode, distanceNext);
                     setVisitedNode(pushNode);
                     pq.add(pushNode);
                 }
@@ -150,7 +151,6 @@ public class AStar {
      */
     public ArrayList<Node> printRoute() {
         if (routeFinal != null) {
-            System.out.println("routeFinal distance in AStar: " + routeFinal.getDistance());
             while (routeFinal != startNode) {
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();

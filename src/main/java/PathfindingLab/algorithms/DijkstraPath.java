@@ -73,6 +73,7 @@ public class DijkstraPath {
                 long timeEnd = System.nanoTime();
                 long timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
                 System.out.println("Dijkstra completed successfully! Time elapsed: " + timeElapsed + " ms");
+                System.out.println("routeFinal distance in Dijkstra: " + routeFinal.getDistance());
                 return true;
             }
             truthTable[xNow][yNow] = true;
@@ -148,7 +149,6 @@ public class DijkstraPath {
      */
     public ArrayList<Node> printRoute() {
         if (routeFinal != null) {
-            System.out.println("routeFinal distance in Dijkstra: " + routeFinal.getDistance());
             while (routeFinal != startNode) {
                 if (routeFinal.getPrevNode() == null) break;
                 routeNodes.add(routeFinal.getPrevNode());
