@@ -81,6 +81,12 @@ public class DijkstraPathTest {
     }
 
     @Test
+    public void dijkstraFindsRouteBigger() throws IOException {
+        assertEquals(true, dPath.DPathFind(biggerInputMap, endXBigger, endYBigger, startX, startY, startDistance));
+
+    }
+
+    @Test
     public void nodesAreSaved() throws IOException{
         Node node = new Node(0,0,0);
         nodeArrayList.add(node);

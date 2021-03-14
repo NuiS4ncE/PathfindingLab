@@ -39,6 +39,8 @@ public class AStar {
      */
     public boolean aStarFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         long timeStart = System.nanoTime();
+        this.endX = endX;
+        this.endY = endY;
         PriorityQueue<Node> pq = new PriorityQueue<>();
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;

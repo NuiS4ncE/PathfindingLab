@@ -1,20 +1,19 @@
 package PathfindingLab.utils;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 public class Heap {
 
     private Node[] minHeap;
-    private int size;
+    private int lastEl;
     private int maxSize;
     private static final int firstEl = 1;
+    int pollCounter = 0;
+    //private int lastEl;
 
     public Heap(int maxSize) {
         this.maxSize = maxSize;
-        this.size = 0;
+        this.lastEl = 0;
         minHeap = new Node[this.maxSize + 1];
         //minHeap[0] = null;
     }
@@ -33,7 +32,7 @@ public class Heap {
     }
 
     private boolean isLeaf(int i) {
-        if (i >= (size / 2) && i <= size) {
+        if (i >= (lastEl / 2) && i <= lastEl) {
             return true;
         }
         return false;
@@ -53,10 +52,10 @@ public class Heap {
 
         System.out.println("minHeap in minHeapify: " + Arrays.toString(minHeap));
         int smallestChild = leftChildVal;
-        if (rightChildVal <= size && minHeap[rightChildVal].compareTo(minHeap[leftChildVal]) < 0) {
+        if (rightChildVal <= lastEl && minHeap[rightChildVal].compareTo(minHeap[leftChildVal]) < 0) {
             smallestChild = rightChildVal;
         }
-        if(minHeap[i].compareTo(minHeap[smallestChild]) > 0) {
+        if(minHeap[i].compareTo(minHeap[smallestChild]) > 0 || minHeap[1] == null) {
             swapNodes(i, smallestChild);
             minHeapify(smallestChild);
         }
@@ -78,33 +77,31 @@ public class Heap {
     }
 
     public void add(Node node) {
-        System.out.println("Size: " + size + " maxSize: " + maxSize + " in add");
+        //System.out.println("lastEl: " + lastEl + " maxSize: " + maxSize + " in add");
         //System.out.println("minHeap in add beginning: " + Arrays.toString(minHeap));
         /*if(size == 0) { //This screws up the system
             minHeap[size] = node;
             size++;
             return;
         }*/
-        if (size >= maxSize) {
+        if (lastEl >= maxSize) {
             return;
         }
-        minHeap[++size] = node;
-        int current = size;
+        minHeap[++lastEl] = node;
+        int current = lastEl;
         int counter = 0;
         //System.out.println("Size in add: " + size + " current in add: " + current);
-        System.out.println("minHeap after adding: " + Arrays.toString(minHeap) + " Current: " + current);
+        //System.out.println("minHeap after adding: " + Arrays.toString(minHeap) + " Current: " + current);
         //if(minHeap[parent(current)] != null) {
         //current > 1 &&
         //System.out.println((minHeap[current].compareTo(minHeap[parent(current)]) < 0));
             while (current > 1 && (minHeap[current].compareTo(minHeap[parent(current)]) < 0)) {
-                System.out.println("WHAT?");
                 swapNodes(current, parent(current));
                 current = parent(current);
                 //System.out.println("This loop has been done: " + counter++ + " times.");
-
             }
         //}
-        //setMinHeap();
+        setMinHeap();
     }
 
     public Node poll() {
@@ -112,28 +109,123 @@ public class Heap {
             Node polled = minHeap[firstEl];
             return polled;
         }
+        //System.out.println("lastEl in poll: " + lastEl);
         Node polled = minHeap[firstEl];
-        if(size <= 0){
-            size = 1;
+        if(lastEl <= 0){
+            //System.out.println("minHeap: " + Arrays.toString(minHeap));
+            //return minHeap[3];
+            return lastNode();
         }
-        if(minHeap[--size] == null) return polled;
-        minHeap[firstEl] = minHeap[--size];
+        if(minHeap.length == 0) return polled;
+        if(minHeap[--lastEl] == null) return polled;
+        minHeap[firstEl] = minHeap[--lastEl];
         minHeapify(firstEl);
         return polled;
     }
 
     public void setMinHeap() {
-        for (int pos = (size / 2); pos >= 1; pos--) {
+        for (int pos = (lastEl / 2); pos >= 1; pos--) {
             minHeapify(pos);
         }
     }
 
+    public Node lastNode() {
+        Node lastNode = new Node(0,0,0);
+        for(int i = minHeap.length - 1; i > 0; i--) {
+            if(minHeap[i] != null) {
+                lastNode =  minHeap[i];
+                break;
+            }
+        }
+        return lastNode;
+    }
+
     public void printHeap() {
-        for (int i = 1; i <= size / 2; i++ ) {
+        for (int i = 1; i <= lastEl / 2; i++ ) {
             System.out.print(" PARENT : " + minHeap[i] + " LEFT CHILD : " + minHeap[2*i]
                     + " RIGHT CHILD :" + minHeap[2 * i  + 1]);
             System.out.println();
         }
     }
+/*
+    public Heap(int heapSize) {
+        minHeap = new Node[heapSize + 1];
+        lastEl = 0;
+    }
 
+
+    public Node min() {
+        return minHeap[firstEl];
+    }
+
+    public void add(Node node) {
+        System.out.println("lastEl beginning of add: " + lastEl);
+        lastEl = lastEl + 1;
+        int currentEl = lastEl;
+        System.out.println("currentEl in add: "+ currentEl);
+        System.out.println();
+        if(currentEl == 1) minHeap[currentEl] = node;
+        while ((currentEl > 1) && (node.compareTo(minHeap[parentNode(currentEl)]) < 0)) {
+            minHeap[currentEl] = minHeap[parentNode(currentEl)];
+            currentEl = parentNode(currentEl);
+            minHeap[currentEl] = node;
+            System.out.println("While loop done");
+        }
+    }
+
+    public Node poll() {
+        System.out.println(Arrays.toString(minHeap));
+        Node node = minHeap[firstEl];
+        System.out.println(firstEl);
+        System.out.println(node.toString());
+        System.out.println();
+        minHeap[firstEl] = minHeap[lastEl];
+        lastEl = lastEl - 1;
+        siftDown(firstEl);
+        return node;
+    }
+
+    public void siftDown(int i) {
+        int smallerChild;
+        if(minHeap.length == 1) return;
+        if (left(i) == 0) return;
+        else if (left(i) == lastEl) smallerChild = left(i);
+        else {
+            if (minHeap[left(i)].compareTo(minHeap[right(i)]) < 0) smallerChild = left(i);
+            else smallerChild = right(i);
+        }
+        if (minHeap[i].compareTo(minHeap[smallerChild]) > 0) {
+            swapNodes(i, smallerChild);
+            siftDown(smallerChild);
+        }
+    }
+
+    private void swapNodes(int firstPos, int secondPos) {
+        Node temp;
+        temp = minHeap[firstPos];
+        minHeap[firstPos] = minHeap[secondPos];
+        minHeap[secondPos] = temp;
+    }
+
+    public void makeHeap(Node[] minHeap) {
+        lastEl = minHeap.length;
+        int lastWithChild = parentNode(lastEl);
+        for(int i = lastWithChild; i > 1; i--) {
+            siftDown(i);
+        }
+    }
+    public int left(int i) {
+        if (2 * i > lastEl) return 0;
+        return 2 * i;
+    }
+
+    public int right(int i) {
+        if(2*i + 1 > lastEl) return 0;
+        return (2 * i) + 1;
+    }
+
+    private int parentNode(int i) {
+        return i / 2;
+    }
+*/
 }

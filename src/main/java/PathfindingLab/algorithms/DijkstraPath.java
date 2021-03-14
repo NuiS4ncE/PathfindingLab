@@ -43,8 +43,8 @@ public class DijkstraPath {
      */
     public boolean DPathFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         long timeStart = System.nanoTime();
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        //Heap pq = new Heap(14);
+        //PriorityQueue<Node> pq = new PriorityQueue<>();
+        Heap pq = new Heap(map[0].length);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -61,11 +61,12 @@ public class DijkstraPath {
         pq.add(startNode);
         while (pq != null) {
         //while (!pq.isEmpty()) {
+            //System.out.println("We begin dijkstra");
             Node currentNode = pq.poll();
             xNow = currentNode.getX();
             yNow = currentNode.getY();
 
-            //System.out.println("DO WE GET HERE?");
+            System.out.println("xNow: " + xNow + " yNow: " + yNow);
             //pq.printHeap();
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
@@ -78,7 +79,9 @@ public class DijkstraPath {
             }
             truthTable[xNow][yNow] = true;
             checkNeighbours(map, currentNode, xLength, yLength, pq, xNow, yNow, distance);
+            //System.out.println("We in dijkstra");
         }
+        //System.out.println("Here?");
         return false;
     }
 
@@ -94,7 +97,7 @@ public class DijkstraPath {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue pq, int xNow, int yNow, double[][] distance) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, Heap pq, int xNow, int yNow, double[][] distance) {
         //Heap pq
         //PriorityQueue pq
         for (int movementX = -1; movementX <= 1; movementX++) {
@@ -114,7 +117,7 @@ public class DijkstraPath {
                 }
 
                 double distanceNext = movementChecks(movementX, movementY, currentNode, distance);
-
+                //System.out.println("We in checkneighbours");
                 if (distanceNext < distance[moveX][moveY]) {
                     distance[moveX][moveY] = distanceNext;
                     Node pushNode = new Node(moveX, moveY, distanceNext, currentNode);
