@@ -44,7 +44,7 @@ public class DijkstraPath {
     public boolean DPathFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
         long timeStart = System.nanoTime();
         //PriorityQueue<Node> pq = new PriorityQueue<>();
-        Heap pq = new Heap(map[0].length);
+        Heap pq = new Heap(999999);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -59,15 +59,11 @@ public class DijkstraPath {
         }
         distance[startX][startY] = 0;
         pq.add(startNode);
-        while (pq != null) {
-        //while (!pq.isEmpty()) {
-            //System.out.println("We begin dijkstra");
+        while (!pq.isEmpty()) {
             Node currentNode = pq.poll();
             xNow = currentNode.getX();
             yNow = currentNode.getY();
 
-            System.out.println("xNow: " + xNow + " yNow: " + yNow);
-            //pq.printHeap();
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
@@ -79,9 +75,7 @@ public class DijkstraPath {
             }
             truthTable[xNow][yNow] = true;
             checkNeighbours(map, currentNode, xLength, yLength, pq, xNow, yNow, distance);
-            //System.out.println("We in dijkstra");
         }
-        //System.out.println("Here?");
         return false;
     }
 
@@ -117,7 +111,7 @@ public class DijkstraPath {
                 }
 
                 double distanceNext = movementChecks(movementX, movementY, currentNode, distance);
-                //System.out.println("We in checkneighbours");
+
                 if (distanceNext < distance[moveX][moveY]) {
                     distance[moveX][moveY] = distanceNext;
                     Node pushNode = new Node(moveX, moveY, distanceNext, currentNode);

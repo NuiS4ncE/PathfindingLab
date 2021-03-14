@@ -1,6 +1,7 @@
 package PathfindingLab.algorithms;
 
 import PathfindingLab.io.IOImg;
+import PathfindingLab.utils.Heap;
 import PathfindingLab.utils.Node;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class AStar {
         long timeStart = System.nanoTime();
         this.endX = endX;
         this.endY = endY;
-        PriorityQueue<Node> pq = new PriorityQueue<>();
+        Heap pq = new Heap(999999);
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
@@ -88,7 +89,8 @@ public class AStar {
      * @param yNow        Integer parameter for current y-position
      * @param xNow        Integer parameter for current x-position
      */
-    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow, double[][] distance) {
+    public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, Heap pq, int xNow, int yNow, double[][] distance) {
+
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
 
