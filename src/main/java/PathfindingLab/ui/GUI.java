@@ -5,13 +5,12 @@ import javax.swing.*;
 
 import PathfindingLab.algorithms.AStar;
 import PathfindingLab.algorithms.DijkstraPath;
+import PathfindingLab.algorithms.IDAStar;
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,30 +19,17 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.control.ComboBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.ImageView;
 
-import javax.swing.border.EtchedBorder;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 
 public class GUI {
 
@@ -63,6 +49,8 @@ public class GUI {
     private Image img;
     private Group root;
     private int runValue;
+    private Node routeFinal, visitedNode;
+    private MyList<Node> routeNodes, visitedNodes;
     //private AStar aStar;
 
 
@@ -117,37 +105,37 @@ public class GUI {
         comboFilter.setOnAction((e) -> {
             if (comboFilter.getValue().equals("Dijkstra")) {
                 runValue = 1;
-                System.out.println("runValue: " + runValue);
+                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("AStar")) {
                 runValue = 2;
-                System.out.println("runValue: " + runValue);
+                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("IDAStar")) {
                 runValue = 3;
-                System.out.println("runValue: " + runValue);
+                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("All")) {
                 runValue = 4;
-                System.out.println("runValue: " + runValue);
+                //System.out.println("runValue: " + runValue);
             }
         });
 
         runButton.setOnMouseClicked((f) -> {
             try {
                 if (runValue == 1) {
-                    System.out.println("Dijkstra selected");
+                    //System.out.println("Dijkstra selected");
                     DijkstraPath dPath = new DijkstraPath();
                     dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathDijkstra(dPath);
+                    drawPathDijkstra(dPath, new Node(this.startPosX,this.startPosY, 0));
                     //drawVisitedDijkstra(canvas);
                     //dPath.clearRoute();
                 }
                 if (runValue == 2) {
-                    System.out.println("AStar selected");
+                    //System.out.println("AStar selected");
                     AStar aStar = new AStar();
                     aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathAStar(aStar);
+                    drawPathAStar(aStar, new Node(this.startPosX,this.startPosY, 0));
                     //aStar.clearRoute();
                 }
             } catch (IOException jk) {
@@ -173,14 +161,14 @@ public class GUI {
             if (startButton.isSelected()) {
                 this.startPosX = (int) e.getX();
                 this.startPosY = (int) e.getY();
-                System.out.println("X: " + startPosX + " Y: " + startPosY);
+                //System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
                 graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10, 10);
             } else if (endButton.isSelected()) {
                 this.endPosX = (int) e.getX();
                 this.endPosY = (int) e.getY();
-                System.out.println("X: " + endPosX + " Y: " + endPosY);
+                //System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
                 graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10, 10);
@@ -237,9 +225,9 @@ public class GUI {
         return comboBox;
     }
 
-    public void drawPathDijkstra(DijkstraPath dPath) {
+    public void drawPathDijkstra(DijkstraPath dPath, Node startNode) {
         Canvas canvas1 = drawPoints();
-        MyList<Node> pathAL = dPath.printRoute();
+        MyList<Node> pathAL = printRoute(dPath, null, null, startNode);
         for (int i = 0; i < pathAL.size(); i++) {
             canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas1.getGraphicsContext2D().stroke();
@@ -260,9 +248,9 @@ public class GUI {
         return canvas1;
     }
 
-    public void drawPathAStar(AStar aStar) {
+    public void drawPathAStar(AStar aStar, Node startNode) {
         Canvas canvas2 = drawPoints();
-        MyList<Node> pathAL = aStar.printRoute();
+        MyList<Node> pathAL = printRoute(null, aStar, null, startNode);
         for (int i = 0; i < pathAL.size(); i++) {
             canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas2.getGraphicsContext2D().stroke();
@@ -271,31 +259,74 @@ public class GUI {
         borderPane.setCenter(canvas2);
     }
 
-    public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath) {
-        ArrayList<Node> visitedNodes = dPath.printVisitedNodes();
+    public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath, Node startNode) {
+        MyList<Node> visitedNodes = printVisitedNodes(dPath, null, null, startNode);
         for (int i = 0; i < visitedNodes.size(); i++) {
             canvas.getGraphicsContext2D().fillRect(visitedNodes.get(i).getX(), visitedNodes.get(i).getY(), 0.75, 0.75);
             canvas.getGraphicsContext2D().setFill(Color.RED);
         }
     }
-/*
-    /**
-     * Method for printing, adding and returning the route in an ArrayList
-     *
-     * @return Returns and ArrayList with Node objects
-     *//*
-    public MyList<Node> printRoute(DijkstraPath dijkstraPath) {
-        if (dijkstraPath.getRoute() != null) {
+
+    public MyList<Node> printRoute(DijkstraPath dijkstraPath, AStar aStar, IDAStar idaStar, Node startNode) {
+        if(runValue == 1) {
+            routeFinal = dijkstraPath.getRouteFinal();
+            routeNodes = dijkstraPath.getRoute();
+        }
+        else if(runValue == 2) {
+            routeFinal = aStar.getRouteFinal();
+            routeNodes = aStar.getRoute();
+        }
+        else if (runValue == 3) {
+            routeFinal = idaStar.getRouteFinal();
+            routeNodes = idaStar.getRoute();
+        }
+        if (routeFinal != null) {
             while (routeFinal != startNode) {
                 if (routeFinal.getPrevNode() == null) break;
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
             }
         } else {
-            System.out.println("Dijkstra route not found! " + routeNodes.toString());
+            System.out.println("Route not found! " + routeNodes.toString());
         }
 
         return routeNodes;
-    }*/
+    }
+
+    public MyList printVisitedNodes(DijkstraPath dijkstraPath, AStar aStar, IDAStar idaStar, Node startNode) {
+        if(runValue == 1) {
+            visitedNode = dijkstraPath.getVisitedNode();
+            visitedNodes = dijkstraPath.getVisitedNodes();
+        }
+        else if(runValue == 2) {
+            visitedNode = aStar.getVisitedNode();
+            visitedNodes = aStar.getVisitedNodes();
+        }
+        else if (runValue == 3) {
+            visitedNode = idaStar.getVisitedNode();
+            visitedNodes = idaStar.getVisitedNodes();
+        }
+        while (visitedNode != startNode) {
+            if (routeFinal.getPrevNode() == null) break;
+            visitedNodes.add(visitedNode.getPrevNode());
+            visitedNode = visitedNode.getPrevNode();
+        }
+        return visitedNodes;
+    }
+
+    /**
+     * Method for clearing the route ArrayList
+     */
+    public void clearRoute() {
+        if (routeFinal != null) {
+            routeFinal.clearNode();
+            routeFinal = null;
+            routeNodes.clear();
+        } else {
+            System.out.println("Clearing of AStar failed!");
+        }
+    }
+
+
 
 }

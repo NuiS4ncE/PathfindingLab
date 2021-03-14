@@ -1,5 +1,6 @@
 package PathfindingLab.algorithms;
 
+import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 import javafx.scene.layout.Priority;
 
@@ -11,7 +12,8 @@ import static java.lang.Math.sqrt;
 
 public class IDAStar {
 
-    Node startNode;
+    Node startNode, routeFinal, visitedNode;
+    MyList<Node> routeNodes, visitedNodes;
     int endX, endY;
 
     public IDAStar() {
@@ -148,5 +150,26 @@ public class IDAStar {
         double dx = abs(xNow - endX);
         double dy = abs(yNow - endY);
         return sqrt(dx * dx + dy * dy);
+    }
+
+    public Node getRouteFinal() {
+        return routeFinal;
+    }
+
+
+    /**
+     * Getter for the route ArrayList
+     *
+     * @return Returns route in an ArrayList
+     */
+    public MyList<Node> getRoute() {
+        return routeNodes;
+    }
+
+    public MyList<Node> getVisitedNodes() {
+        return visitedNodes;
+    }
+    public Node getVisitedNode() {
+        return visitedNode;
     }
 }

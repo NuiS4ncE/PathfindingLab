@@ -5,11 +5,7 @@ import PathfindingLab.utils.Heap;
 import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.sqrt;
@@ -21,7 +17,7 @@ public class DijkstraPath {
     double[][] distance;
     MyList<Node> routeNodes;
     Node routeFinal, startNode;
-    ArrayList<Node> visitedNodes;
+    MyList<Node> visitedNodes;
     Node visitedNode;
 
     /**
@@ -30,7 +26,7 @@ public class DijkstraPath {
     public DijkstraPath() {
         ioImg = new IOImg();
         routeNodes = new MyList<>();
-        visitedNodes = new ArrayList<>();
+        visitedNodes = new MyList<>();
     }
 
     /**
@@ -139,37 +135,12 @@ public class DijkstraPath {
         return distanceNext = distance[currentNode.getX()][currentNode.getY()] + sqrt(2);
     }
 
-
     /**
-     * Method for printing, adding and returning the route in an ArrayList
-     *
-     * @return Returns and ArrayList with Node objects
+     * Getter for the last Node in the route
+     * @return returns last Node in the route
      */
-    public MyList<Node> printRoute() {
-        if (routeFinal != null) {
-            while (routeFinal != startNode) {
-                if (routeFinal.getPrevNode() == null) break;
-                routeNodes.add(routeFinal.getPrevNode());
-                routeFinal = routeFinal.getPrevNode();
-            }
-        } else {
-            System.out.println("Dijkstra route not found! " + routeNodes.toString());
-        }
-
-        return routeNodes;
-    }
-
-    /**
-     * Method for clearing the route ArrayList
-     */
-    public void clearRoute() {
-        if (routeFinal != null) {
-            routeFinal.clearNode();
-            routeFinal = null;
-            routeNodes.clear();
-            visitedNodes.clear();
-        }
-        System.out.println("Clearing of dijkstra failed! ");
+    public Node getRouteFinal() {
+        return routeFinal;
     }
 
     /**
@@ -193,32 +164,29 @@ public class DijkstraPath {
     }
 
     /**
-     * Getter for the route ArrayList
+     * Getter for the route MyList
      *
-     * @return Returns route in an ArrayList
+     * @return Returns route in an MyList
      */
     public MyList<Node> getRoute() {
         return routeNodes;
     }
 
     /**
-     * Method for printing, adding and returning the visited nodes in an ArrayList
-     *
-     * @return Returns visited nodes in an ArrayList
+     * Getter for the nodes visited MyList
+     * @return Returns MyList of visited Nodes
      */
-    public ArrayList<Node> printVisitedNodes() {
-        while (visitedNode != startNode) {
-            if (routeFinal.getPrevNode() == null) break;
-            visitedNodes.add(visitedNode.getPrevNode());
-            visitedNode = visitedNode.getPrevNode();
-        }
-        for (Node nodes : visitedNodes) {
-            System.out.println("visitedNodes: " + nodes + " " + visitedNodes.toString());
-        }
+    public MyList<Node> getVisitedNodes() {
         return visitedNodes;
     }
 
-
+    /**
+     * Getter for the last visited Node
+     * @return Returns last visited Node
+     */
+    public Node getVisitedNode() {
+        return visitedNode;
+    }
 }
 
 

@@ -6,8 +6,6 @@ import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.abs;
@@ -149,36 +147,11 @@ public class AStar {
         return sqrt(dx * dx + dy * dy);
     }
 
-    /**
-     * Method for printing, adding and returning the route in an ArrayList
-     *
-     * @return Returns and ArrayList with Node objects
-     */
-    public MyList<Node> printRoute() {
-        if (routeFinal != null) {
-            while (routeFinal != startNode) {
-                routeNodes.add(routeFinal.getPrevNode());
-                routeFinal = routeFinal.getPrevNode();
-            }
-            return routeNodes;
-        } else {
-            System.out.println("No route available! " + routeNodes.toString());
-            return routeNodes;
-        }
+
+    public Node getRouteFinal() {
+        return routeFinal;
     }
 
-    /**
-     * Method for clearing the route ArrayList
-     */
-    public void clearRoute() {
-        if (routeFinal != null) {
-            routeFinal.clearNode();
-            routeFinal = null;
-            routeNodes.clear();
-        } else {
-            System.out.println("Clearing of AStar failed!");
-        }
-    }
 
     /**
      * Method for setting the route
@@ -220,6 +193,13 @@ public class AStar {
             visitedNode = visitedNode.getPrevNode();
         }
         return visitedNodes;
+    }
+
+    public MyList<Node> getVisitedNodes() {
+        return visitedNodes;
+    }
+    public Node getVisitedNode() {
+        return visitedNode;
     }
 
 

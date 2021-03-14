@@ -1,7 +1,5 @@
 package PathfindingLab.utils;
 
-import java.util.Arrays;
-
 public class Heap {
 
     private Node[] minHeap;
@@ -51,7 +49,7 @@ public class Heap {
         if (rightChildVal <= lastEl && minHeap[rightChildVal].compareTo(minHeap[leftChildVal]) < 0) {
             smallestChild = rightChildVal;
         }
-        if(minHeap[i].compareTo(minHeap[smallestChild]) > 0 || minHeap[1] == null) {
+        if (minHeap[i].compareTo(minHeap[smallestChild]) > 0 || minHeap[1] == null) {
             swapNodes(i, smallestChild);
             minHeapify(smallestChild);
         }
@@ -63,53 +61,25 @@ public class Heap {
         }
         minHeap[++lastEl] = node;
         int current = lastEl;
-        int counter = 0;
-            while (current > 1 && (minHeap[current].compareTo(minHeap[parent(current)]) < 0)) {
-                swapNodes(current, parent(current));
-                current = parent(current);
-                //System.out.println("This loop has been done: " + counter++ + " times.");
-            }
-        setMinHeap();
+        while (current > 1 && (minHeap[current].compareTo(minHeap[parent(current)]) < 0)) {
+            swapNodes(current, parent(current));
+            current = parent(current);
+        }
     }
 
     public Node poll() {
         Node polled = minHeap[firstEl];
         minHeap[firstEl] = minHeap[lastEl];
         lastEl--;
-        if(!isEmpty()) minHeapify(firstEl);
+        if (!isEmpty()) minHeapify(firstEl);
         return polled;
     }
 
-    public void setMinHeap() {
-        for (int pos = (lastEl / 2); pos >= 1; pos--) {
-            minHeapify(pos);
-        }
-    }
-
-    public Node lastNode() {
-        Node lastNode = new Node(0,0,0);
-        for(int i = minHeap.length - 1; i > 0; i--) {
-            if(minHeap[i] != null) {
-                lastNode =  minHeap[i];
-                break;
-            }
-        }
-        return lastNode;
-    }
-
     public boolean isEmpty() {
-        if(lastEl > 0) {
+        if (lastEl > 0) {
             return false;
         } else {
             return true;
-        }
-    }
-
-    public void printHeap() {
-        for (int i = 1; i <= lastEl / 2; i++ ) {
-            System.out.print(" PARENT : " + minHeap[i] + " LEFT CHILD : " + minHeap[2*i]
-                    + " RIGHT CHILD :" + minHeap[2 * i  + 1]);
-            System.out.println();
         }
     }
 
