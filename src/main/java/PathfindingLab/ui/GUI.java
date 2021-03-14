@@ -127,7 +127,7 @@ public class GUI {
                     //System.out.println("Dijkstra selected");
                     DijkstraPath dPath = new DijkstraPath();
                     dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathDijkstra(dPath, new Node(this.startPosX,this.startPosY, 0));
+                    drawPathDijkstra(dPath, new Node(this.startPosX, this.startPosY, 0));
                     //drawVisitedDijkstra(canvas);
                     //dPath.clearRoute();
                 }
@@ -135,7 +135,7 @@ public class GUI {
                     //System.out.println("AStar selected");
                     AStar aStar = new AStar();
                     aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
-                    drawPathAStar(aStar, new Node(this.startPosX,this.startPosY, 0));
+                    drawPathAStar(aStar, new Node(this.startPosX, this.startPosY, 0));
                     //aStar.clearRoute();
                 }
             } catch (IOException jk) {
@@ -214,6 +214,11 @@ public class GUI {
         return mainScene;
     }
 
+    /**
+     * Method for ComboBox drop-down list
+     *
+     * @return returns ComboBox with listed algorithms
+     */
     public ComboBox<String> comboBoxFilter() {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().add("Dijkstra");
@@ -225,6 +230,12 @@ public class GUI {
         return comboBox;
     }
 
+    /**
+     * Method for drawing the of Dijkstra
+     *
+     * @param dPath     DijkstraPath type parameter for use of class methods
+     * @param startNode Node type parameter for the starting Node
+     */
     public void drawPathDijkstra(DijkstraPath dPath, Node startNode) {
         Canvas canvas1 = drawPoints();
         MyList<Node> pathAL = printRoute(dPath, null, null, startNode);
@@ -237,6 +248,11 @@ public class GUI {
         borderPane.setCenter(canvas1);
     }
 
+    /**
+     * Method to draw starting and end points set by the user
+     *
+     * @return returns canvas with drawn points
+     */
     public Canvas drawPoints() {
         Canvas canvas1 = new Canvas(wantedWidth, wantedHeight);
         GraphicsContext graphicsContext1 = canvas1.getGraphicsContext2D();
@@ -248,6 +264,12 @@ public class GUI {
         return canvas1;
     }
 
+    /**
+     * Method for drawing the path of AStar
+     *
+     * @param aStar     AStar type parameter for use of class methods
+     * @param startNode Node type parameter for use of starting Node
+     */
     public void drawPathAStar(AStar aStar, Node startNode) {
         Canvas canvas2 = drawPoints();
         MyList<Node> pathAL = printRoute(null, aStar, null, startNode);
@@ -259,6 +281,13 @@ public class GUI {
         borderPane.setCenter(canvas2);
     }
 
+    /**
+     * Method for drawing visited Nodes
+     *
+     * @param canvas    JavaFX Canvas type parameter for using GraphicsContext2D to draw visited Nodes
+     * @param dPath     DijkstraPath type parameter for use of class methods
+     * @param startNode Node type parameter for the starting Node
+     */
     public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath, Node startNode) {
         MyList<Node> visitedNodes = printVisitedNodes(dPath, null, null, startNode);
         for (int i = 0; i < visitedNodes.size(); i++) {
@@ -267,16 +296,23 @@ public class GUI {
         }
     }
 
+    /**
+     * Method for getting route Nodes
+     *
+     * @param dijkstraPath DijkstraPath type parameter for possible use of dijkstra
+     * @param aStar        AStar type parameter for possible use of astar
+     * @param idaStar      IDAStar type parameter for possible use of idastar
+     * @param startNode    Node type parameter for the starting Node
+     * @return returns MyList type list of route Nodes
+     */
     public MyList<Node> printRoute(DijkstraPath dijkstraPath, AStar aStar, IDAStar idaStar, Node startNode) {
-        if(runValue == 1) {
+        if (runValue == 1) {
             routeFinal = dijkstraPath.getRouteFinal();
             routeNodes = dijkstraPath.getRoute();
-        }
-        else if(runValue == 2) {
+        } else if (runValue == 2) {
             routeFinal = aStar.getRouteFinal();
             routeNodes = aStar.getRoute();
-        }
-        else if (runValue == 3) {
+        } else if (runValue == 3) {
             routeFinal = idaStar.getRouteFinal();
             routeNodes = idaStar.getRoute();
         }
@@ -293,16 +329,23 @@ public class GUI {
         return routeNodes;
     }
 
+    /**
+     * Method for getting visited Nodes
+     *
+     * @param dijkstraPath DijkstraPath type parameter for possible use of dijkstra
+     * @param aStar        AStar type parameter for possible use of astar
+     * @param idaStar      IDAStar type parameter for possible use of idastar
+     * @param startNode    Node type parameter for the starting Node
+     * @return returns MyList type list of visited Nodes
+     */
     public MyList printVisitedNodes(DijkstraPath dijkstraPath, AStar aStar, IDAStar idaStar, Node startNode) {
-        if(runValue == 1) {
+        if (runValue == 1) {
             visitedNode = dijkstraPath.getVisitedNode();
             visitedNodes = dijkstraPath.getVisitedNodes();
-        }
-        else if(runValue == 2) {
+        } else if (runValue == 2) {
             visitedNode = aStar.getVisitedNode();
             visitedNodes = aStar.getVisitedNodes();
-        }
-        else if (runValue == 3) {
+        } else if (runValue == 3) {
             visitedNode = idaStar.getVisitedNode();
             visitedNodes = idaStar.getVisitedNodes();
         }
@@ -323,10 +366,9 @@ public class GUI {
             routeFinal = null;
             routeNodes.clear();
         } else {
-            System.out.println("Clearing of AStar failed!");
+            System.out.println("Clearing of failed!");
         }
     }
-
 
 
 }

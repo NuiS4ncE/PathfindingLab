@@ -22,6 +22,9 @@ public class AStar {
     Node visitedNode;
     int endY, endX;
 
+    /**
+     * Constructor for the class
+     */
     public AStar() {
         ioImg = new IOImg();
         routeNodes = new MyList<>();
@@ -117,11 +120,12 @@ public class AStar {
             }
         }
     }
+
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
      *
-     * @param movementY       Integer parameter for current move on Y-axel
-     * @param movementX       Integer parameter for current move on X-axel
+     * @param movementY   Integer parameter for current move on Y-axel
+     * @param movementX   Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
@@ -135,6 +139,7 @@ public class AStar {
 
     /**
      * Method for euclidean distance from current position till the end
+     *
      * @param xNow Integer parameter for current x-coordinate
      * @param yNow Integer parameter for current y-coordinate
      * @param endX Integer parameter for end x-coordinate
@@ -195,9 +200,20 @@ public class AStar {
         return visitedNodes;
     }
 
+    /**
+     * Getter for visited Nodes in MyList form
+     *
+     * @return return MyList with Nodes
+     */
     public MyList<Node> getVisitedNodes() {
         return visitedNodes;
     }
+
+    /**
+     * Getter for getting the last visited Node
+     *
+     * @return returns last visited Node
+     */
     public Node getVisitedNode() {
         return visitedNode;
     }
