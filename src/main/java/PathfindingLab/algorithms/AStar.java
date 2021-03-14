@@ -2,6 +2,7 @@ package PathfindingLab.algorithms;
 
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.Heap;
+import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 
 import java.io.IOException;
@@ -17,16 +18,16 @@ public class AStar {
     IOImg ioImg;
     boolean truthTable[][];
     double[][] distance;
-    ArrayList<Node> routeNodes;
+    MyList<Node> routeNodes;
     Node routeFinal, startNode;
-    ArrayList<Node> visitedNodes;
+    MyList<Node> visitedNodes;
     Node visitedNode;
     int endY, endX;
 
     public AStar() {
         ioImg = new IOImg();
-        routeNodes = new ArrayList<>();
-        visitedNodes = new ArrayList<>();
+        routeNodes = new MyList<>();
+        visitedNodes = new MyList<>();
     }
 
     /**
@@ -153,15 +154,12 @@ public class AStar {
      *
      * @return Returns and ArrayList with Node objects
      */
-    public ArrayList<Node> printRoute() {
+    public MyList<Node> printRoute() {
         if (routeFinal != null) {
             while (routeFinal != startNode) {
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
             }
-            //for (Node nodes : routeNodes) {
-              //  System.out.println(nodes);
-            //}
             return routeNodes;
         } else {
             System.out.println("No route available! " + routeNodes.toString());
@@ -207,7 +205,7 @@ public class AStar {
      *
      * @return Returns route in an ArrayList
      */
-    public ArrayList<Node> getRoute() {
+    public MyList<Node> getRoute() {
         return routeNodes;
     }
 
@@ -216,13 +214,10 @@ public class AStar {
      *
      * @return Returns visited nodes in an ArrayList
      */
-    public ArrayList<Node> printVisitedNodes() {
+    public MyList<Node> printVisitedNodes() {
         while (visitedNode != startNode) {
             visitedNodes.add(visitedNode.getPrevNode());
             visitedNode = visitedNode.getPrevNode();
-        }
-        for (Node nodes : visitedNodes) {
-            System.out.println("visitedNodes: " + nodes);
         }
         return visitedNodes;
     }

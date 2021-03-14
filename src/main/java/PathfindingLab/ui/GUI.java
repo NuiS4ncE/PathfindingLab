@@ -6,6 +6,7 @@ import javax.swing.*;
 import PathfindingLab.algorithms.AStar;
 import PathfindingLab.algorithms.DijkstraPath;
 import PathfindingLab.io.IOImg;
+import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -41,6 +42,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class GUI {
@@ -83,8 +85,6 @@ public class GUI {
      */
     public Scene buildScene(String stageTitle) throws IOException {
         ioImg = new IOImg();
-        //dPath = new DijkstraPath();
-        //aStar = new AStar();
         primaryStage.setTitle(stageTitle);
         gridPane = new GridPane();
         borderPane = new BorderPane();
@@ -94,15 +94,8 @@ public class GUI {
         wantedWidth = 800;
 
         Canvas canvas = new Canvas(wantedWidth, wantedHeight);
-        //Canvas drawCanvas = new Canvas(600, 600);
+
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-
-
-        //BufferedImage buffImg = ioImg.getBuffImg();
-        //Image image = SwingFXUtils.toFXImage(buffImg, null);
-        //WritableImage refittedImage = new WritableImage(image.getPixelReader(), )
-
-        //graphicsContext.drawImage(image, 0, 0);
 
         ToggleButton startButton = new ToggleButton("Start");
         ToggleButton endButton = new ToggleButton("End");
@@ -120,7 +113,6 @@ public class GUI {
         }
 
         ComboBox<String> comboFilter = comboBoxFilter();
-        //comboFilter.setPadding(new Insets(5));
 
         comboFilter.setOnAction((e) -> {
             if (comboFilter.getValue().equals("Dijkstra")) {
@@ -247,7 +239,7 @@ public class GUI {
 
     public void drawPathDijkstra(DijkstraPath dPath) {
         Canvas canvas1 = drawPoints();
-        ArrayList<Node> pathAL = dPath.printRoute();
+        MyList<Node> pathAL = dPath.printRoute();
         for (int i = 0; i < pathAL.size(); i++) {
             canvas1.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas1.getGraphicsContext2D().stroke();
@@ -270,14 +262,13 @@ public class GUI {
 
     public void drawPathAStar(AStar aStar) {
         Canvas canvas2 = drawPoints();
-        ArrayList<Node> pathAL = aStar.printRoute();
+        MyList<Node> pathAL = aStar.printRoute();
         for (int i = 0; i < pathAL.size(); i++) {
             canvas2.getGraphicsContext2D().lineTo(pathAL.get(i).getX(), pathAL.get(i).getY());
             canvas2.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
         borderPane.setCenter(canvas2);
-        //System.out.println(pathAL.toString());
     }
 
     public void drawVisitedDijkstra(Canvas canvas, DijkstraPath dPath) {
@@ -287,5 +278,24 @@ public class GUI {
             canvas.getGraphicsContext2D().setFill(Color.RED);
         }
     }
+/*
+    /**
+     * Method for printing, adding and returning the route in an ArrayList
+     *
+     * @return Returns and ArrayList with Node objects
+     *//*
+    public MyList<Node> printRoute(DijkstraPath dijkstraPath) {
+        if (dijkstraPath.getRoute() != null) {
+            while (routeFinal != startNode) {
+                if (routeFinal.getPrevNode() == null) break;
+                routeNodes.add(routeFinal.getPrevNode());
+                routeFinal = routeFinal.getPrevNode();
+            }
+        } else {
+            System.out.println("Dijkstra route not found! " + routeNodes.toString());
+        }
+
+        return routeNodes;
+    }*/
 
 }

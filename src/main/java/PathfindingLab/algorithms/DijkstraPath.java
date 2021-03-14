@@ -2,6 +2,7 @@ package PathfindingLab.algorithms;
 
 import PathfindingLab.io.IOImg;
 import PathfindingLab.utils.Heap;
+import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ public class DijkstraPath {
     IOImg ioImg;
     boolean truthTable[][];
     double[][] distance;
-    ArrayList<Node> routeNodes;
+    MyList<Node> routeNodes;
     Node routeFinal, startNode;
     ArrayList<Node> visitedNodes;
     Node visitedNode;
@@ -28,7 +29,7 @@ public class DijkstraPath {
      */
     public DijkstraPath() {
         ioImg = new IOImg();
-        routeNodes = new ArrayList<>();
+        routeNodes = new MyList<>();
         visitedNodes = new ArrayList<>();
     }
 
@@ -125,8 +126,8 @@ public class DijkstraPath {
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
      *
-     * @param movementY       Integer parameter for current move on Y-axel
-     * @param movementX       Integer parameter for current move on X-axel
+     * @param movementY   Integer parameter for current move on Y-axel
+     * @param movementX   Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
@@ -144,18 +145,13 @@ public class DijkstraPath {
      *
      * @return Returns and ArrayList with Node objects
      */
-    public ArrayList<Node> printRoute() {
+    public MyList<Node> printRoute() {
         if (routeFinal != null) {
             while (routeFinal != startNode) {
                 if (routeFinal.getPrevNode() == null) break;
                 routeNodes.add(routeFinal.getPrevNode());
                 routeFinal = routeFinal.getPrevNode();
-
             }
-           // for (Node nodes: routeNodes) {
-             //   System.out.println(nodes);
-            //}
-
         } else {
             System.out.println("Dijkstra route not found! " + routeNodes.toString());
         }
@@ -201,7 +197,7 @@ public class DijkstraPath {
      *
      * @return Returns route in an ArrayList
      */
-    public ArrayList<Node> getRoute() {
+    public MyList<Node> getRoute() {
         return routeNodes;
     }
 
