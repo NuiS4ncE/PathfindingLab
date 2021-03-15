@@ -204,7 +204,7 @@ public class GUI {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().add("Dijkstra");
         comboBox.getItems().add("AStar");
-        comboBox.getItems().add("IDAStar");
+        //comboBox.getItems().add("IDAStar");
         comboBox.setEditable(false);
         comboBox.setValue("");
 
@@ -305,8 +305,6 @@ public class GUI {
         } else {
             System.out.println("Route not found! " + routeNodes.toString());
         }
-        System.out.println(routeNodes.toString());
-        System.out.println("WHAT");
         return routeNodes;
     }
 

@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
+//This algorithm doesn't work therefore the class doesn't work either.
 public class IDAStar {
 
     Node startNode, routeFinal, visitedNode;
