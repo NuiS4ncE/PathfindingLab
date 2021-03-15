@@ -15,7 +15,7 @@ jacocoTestReport {
     }
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['PathfindingLab/ui**', 'PathfindingLab/algorithms/IDAStar.java'])
+            fileTree(dir: it, exclude: ['PathfindingLab/ui**', 'PathfindingLab/algorithms/IDAStar.class'])
         }))
     }
 }
