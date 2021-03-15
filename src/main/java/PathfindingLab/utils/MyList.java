@@ -59,15 +59,16 @@ public class MyList<E> {
 
     /**
      * Method for removing element from a position in array
+     *
      * @param i integer type parameter for remove position
      */
     public void remove(int i) {
         elements[i] = null;
         E temp;
-        if(elements.length > 1) {
-            for(int j = i; j < elements.length -1; j++) {
-               temp = (E) elements[j + 1];
-               elements[j] = temp;
+        if (elements.length > 1) {
+            for (int j = i; j < elements.length - 1; j++) {
+                temp = (E) elements[j + 1];
+                elements[j] = temp;
             }
             size--;
             //decreaseCapacity();
