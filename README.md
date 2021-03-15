@@ -10,6 +10,6 @@
 </br>
 [Test documentation](https://github.com/NuiS4ncE/PathfindingLab/blob/master/documentation/testdocumentation.md)
 </br>
-[User guide]()
+[User guide](https://github.com/NuiS4ncE/PathfindingLab/blob/master/documentation/userguide.md)
 </br>
-[Release]()
+[Release](https://github.com/NuiS4ncE/PathfindingLab/releases/tag/1.0)
