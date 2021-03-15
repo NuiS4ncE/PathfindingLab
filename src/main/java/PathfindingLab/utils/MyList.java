@@ -75,17 +75,6 @@ public class MyList<E> {
         }
     }
 
-    /**
-     * Method for decreasing list size for remove method
-     */
-    private void decreaseCapacity() {
-        int newSize = elements.length - 1;
-        Object[] tempArray = new Object[newSize];
-        for (int i = 0; i < size; i++) {
-            tempArray[i] = elements[i];
-        }
-        elements = tempArray;
-    }
 
     /**
      * Method for dynamically growing the capacity of the list

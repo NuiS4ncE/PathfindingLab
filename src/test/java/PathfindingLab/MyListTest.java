@@ -67,4 +67,11 @@ public class MyListTest {
         myList.remove(1);
         assertEquals(2, myList.size());
     }
+
+    @Test
+    public void toStringPrintsCorrectly() {
+        Node first = new Node(0,0,0);
+        myList.add(first);
+        assertEquals("[" + first.toString() + " ]", myList.toString());
+    }
 }
