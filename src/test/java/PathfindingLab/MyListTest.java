@@ -72,6 +72,24 @@ public class MyListTest {
     public void toStringPrintsCorrectly() {
         Node first = new Node(0,0,0);
         myList.add(first);
-        assertEquals("[" + first.toString() + " ]", myList.toString());
+        String testString = "[" + first.toString() + "]";
+        String testString2 = myList.toString();
+        System.out.println(testString);
+        System.out.println(testString2);
+        assertEquals(testString, testString2);
+    }
+
+    @Test
+    public void toStringPrintsCorrectlyMultiple() {
+        Node first = new Node(0,0,0);
+        Node second = new Node(1,2,1);
+        myList.add(first);
+        myList.add(second);
+        myList.add(first);
+        myList.add(second);
+        myList.add(first);
+        String testString = "[" + first.toString() + ", " + second.toString() + ", " + first.toString() + ", " + second.toString() + ", " + first.toString() + "]";
+        String testString2 = myList.toString();
+        assertEquals(testString, testString2);
     }
 }

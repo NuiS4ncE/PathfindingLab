@@ -95,12 +95,15 @@ public class MyList<E> {
      */
     @Override
     public String toString() {
-        String closeStringBegin = "[" + elements[0].toString();
+        String returnString = "[" + elements[0].toString() + "]";
+        if(size == 1) return returnString;
+        String closeStringBegin = "[" + elements[0].toString() + ",";
         String closeStringEnd = "]";
         String result = " ";
         for (int i = 1; i < size; i++) {
-            result += elements[i].toString() + ", ";
             if (i == size - 1) result += elements[i].toString();
+            else result += elements[i].toString() + ", ";
+
         }
         return closeStringBegin + result + closeStringEnd;
     }
