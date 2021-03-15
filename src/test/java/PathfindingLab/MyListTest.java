@@ -74,8 +74,6 @@ public class MyListTest {
         myList.add(first);
         String testString = "[" + first.toString() + "]";
         String testString2 = myList.toString();
-        System.out.println(testString);
-        System.out.println(testString2);
         assertEquals(testString, testString2);
     }
 

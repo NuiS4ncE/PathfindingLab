@@ -65,13 +65,12 @@ public class MyList<E> {
     public void remove(int i) {
         elements[i] = null;
         E temp;
-        if (elements.length > 1) {
+        if (size > 1) {
             for (int j = i; j < elements.length - 1; j++) {
                 temp = (E) elements[j + 1];
                 elements[j] = temp;
             }
             size--;
-            //decreaseCapacity();
         }
     }
 
