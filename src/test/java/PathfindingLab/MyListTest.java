@@ -56,4 +56,14 @@ public class MyListTest {
         myList.clear();
         assertEquals(null, myList.get(0));
     }
+
+    @Test
+    public void elementIsRemovedAndMyListIsPrinted() {
+        Node first = new Node(0,0,0);
+        myList.add(first);
+        myList.add(first);
+        myList.add(first);
+        myList.remove(1);
+        assertEquals(2, myList.size());
+    }
 }

@@ -1,6 +1,8 @@
 package PathfindingLab.utils;
 
 
+import java.util.Arrays;
+
 public class MyList<E> {
 
     private int size = 0;
@@ -56,20 +58,32 @@ public class MyList<E> {
     }
 
     /**
-     * Method for printing out the contents of the list
-     *
-     * @return returns string of list contents
+     * Method for removing element from a position in array
+     * @param i integer type parameter for remove position
      */
-    @Override
-    public String toString() {
-        String closeStringBegin = "[";
-        String closeStringEnd = "]";
-        String result = " ";
-        for (int i = 1; i < size; i++) {
-            result += elements[i].toString() + ", ";
-            if (i == size - 1) result += elements[i].toString();
+    public void remove(int i) {
+        elements[i] = null;
+        E temp;
+        if(elements.length > 1) {
+            for(int j = i; j < elements.length -1; j++) {
+               temp = (E) elements[j + 1];
+               elements[j] = temp;
+            }
+            size--;
+            //decreaseCapacity();
         }
-        return closeStringBegin + result + closeStringEnd;
+    }
+
+    /**
+     * Method for decreasing list size for remove method
+     */
+    private void decreaseCapacity() {
+        int newSize = elements.length - 1;
+        Object[] tempArray = new Object[newSize];
+        for (int i = 0; i < size; i++) {
+            tempArray[i] = elements[i];
+        }
+        elements = tempArray;
     }
 
     /**
@@ -82,6 +96,23 @@ public class MyList<E> {
             tempArray[i] = elements[i];
         }
         elements = tempArray;
+    }
+
+    /**
+     * Method for printing out the contents of the list
+     *
+     * @return returns string of list contents
+     */
+    @Override
+    public String toString() {
+        String closeStringBegin = "[" + elements[0].toString();
+        String closeStringEnd = "]";
+        String result = " ";
+        for (int i = 1; i < size; i++) {
+            result += elements[i].toString() + ", ";
+            if (i == size - 1) result += elements[i].toString();
+        }
+        return closeStringBegin + result + closeStringEnd;
     }
 
 }

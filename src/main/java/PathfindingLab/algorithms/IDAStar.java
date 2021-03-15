@@ -1,5 +1,6 @@
 package PathfindingLab.algorithms;
 
+import PathfindingLab.utils.Heap;
 import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 import javafx.scene.layout.Priority;
@@ -19,64 +20,17 @@ public class IDAStar {
     public IDAStar() {
 
     }
-/*
-    public boolean idaStarFind(int[][] map, int startX, int startY, int endX, int endY, double startDistance) throws IOException {
-        boolean truthValue = false;
-        this.endX = endX;
-        this.endY = endY;
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        Node startNode = new Node(startX, startY, 0);
-        //Node currentNode = null;
-        int yLength = map[0].length;
-        int xLength = map.length;
-        while(true) {
-            Node currentNode = idaSearch(map, startNode, xLength, yLength, xNow, yNow,);
-            if(currentNode.getX() == endX && currentNode.getY() == endY){
-                System.out.println("IDAStar completed successfully!");
-                return false;
-            }
-        }
-    }
-
-    public double idaSearch(int[][] map, Node currentNode, int xLength, int yLength, PriorityQueue<Node> pq, int xNow, int yNow, double[][] distance) {
-
-        for (int movementX = -1; movementX <= 1; movementX++) {
-            for (int movementY = -1; movementY <= 1; movementY++) {
-
-                if (movementX == 0 && movementY == 0) {
-                    continue;
-                }
-
-                int moveX = xNow + movementX;
-                int moveY = yNow + movementY;
-
-                if (moveX < 0 || moveY < 0 || moveX >= xLength || moveY >= yLength) {
-                    continue;
-                }
-
-                if(map[xNow][yNow] == 0) {
-                    continue;
-                }
-
-                for(currentNode.getPrevNode() : currentNode){
-                    double f = currentNode.getDistance() + euclideanDistance(xNow, endX, endY)
-                }
-
-            }
-        }
-                return f;
-    }*/
-
 
     public boolean idaStar(int[][] map, int startX, int startY, int endX, int endY) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
+        Heap pq = new Heap(9999999);
+        double t;
+        int foundValue = 0;
         boolean truthValue = false;
         this.endX = endX;
         this.endY = endY;
         double heuristic = euclideanDistance(startX, startY, endX, endY);
         Node startNode = new Node(startX, startY, 0);
         pq.add(startNode);
-        double t;
         while(!truthValue) {
             t = search(map, pq, 0, heuristic);
             if(t == heuristic) truthValue = true;
@@ -90,13 +44,17 @@ public class IDAStar {
         return false;
     }
 
-    public double search(int[][] map, PriorityQueue<Node> pq, double distance, double heuristic) {
+    public double search(int[][] map, Heap pq, double distance, double heuristic) {
+        double t;
         Node currentNode = pq.poll();
+        Node succNode = currentNode.getPrevNode();
         double min = Integer.MAX_VALUE;
         int xNow = currentNode.getX();
         int yNow = currentNode.getY();
         int yLength = map[0].length;
         int xLength = map.length;
+        double f = distance + euclideanDistance(currentNode.getX(), currentNode.getY(), endX, endY);
+        if(f > heuristic) return min;
         if(xNow == endX && yNow == endY) return min;
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
@@ -114,8 +72,12 @@ public class IDAStar {
                 if (map[xNow][yNow] == 0) {
                     continue;
                 }
-                double f = distance + euclideanDistance(currentNode.getX(), currentNode.getY(), endX, endY);
-                if(f > heuristic) return f;
+                while(succNode != null) {
+                    pq.add(succNode);
+                    t = search(map, pq, distance, heuristic);
+                    if(t == 1) return min;
+                    routeFinal = pq.poll();
+                }
 
             }
         }

@@ -305,6 +305,8 @@ public class GUI {
         } else {
             System.out.println("Route not found! " + routeNodes.toString());
         }
+        System.out.println(routeNodes.toString());
+        System.out.println("WHAT");
         return routeNodes;
     }
 
