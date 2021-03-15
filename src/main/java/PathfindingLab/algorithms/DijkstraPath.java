@@ -64,10 +64,8 @@ public class DijkstraPath {
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
-                long timeEnd = System.nanoTime();
-                long timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
-                System.out.println("Dijkstra completed successfully! Time elapsed: " + timeElapsed + " ms");
-                System.out.println("routeFinal distance in Dijkstra: " + routeFinal.getDistance());
+                long timeElapsed = getTime(timeStart);
+                System.out.println("Dijkstra completed successfully! Time elapsed: " + timeElapsed + " ms " + "Distance in Dijkstra: " + routeFinal.getDistance());
                 return true;
             }
             truthTable[xNow][yNow] = true;
@@ -133,6 +131,17 @@ public class DijkstraPath {
             return distanceNext = distance[currentNode.getX()][currentNode.getY()] + 1;
         }
         return distanceNext = distance[currentNode.getX()][currentNode.getY()] + sqrt(2);
+    }
+
+    /**
+     * Getter for time difference
+     * @param timeStart long type parameter for beginning of time count
+     * @return returns the time difference from the beginning and the end
+     */
+    public long getTime(long timeStart) {
+        long timeElapsed;
+        long timeEnd = System.nanoTime();
+        return timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
     }
 
     /**

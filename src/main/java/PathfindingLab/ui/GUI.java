@@ -1,8 +1,5 @@
 package PathfindingLab.ui;
 
-import javax.swing.*;
-//import javax.swing.text.html.ImageView;
-
 import PathfindingLab.algorithms.AStar;
 import PathfindingLab.algorithms.DijkstraPath;
 import PathfindingLab.algorithms.IDAStar;
@@ -33,7 +30,6 @@ import java.io.InputStream;
 
 public class GUI {
 
-    private JFrame frame;
     private Stage primaryStage;
     private BorderPane borderPane;
     private Scene mainScene;
@@ -42,7 +38,6 @@ public class GUI {
     private int endPosX;
     private int endPosY;
     private GridPane gridPane;
-    //private DijkstraPath dPath;
     private IOImg ioImg;
     private int wantedHeight;
     private int wantedWidth;
@@ -51,8 +46,6 @@ public class GUI {
     private int runValue;
     private Node routeFinal, visitedNode;
     private MyList<Node> routeNodes, visitedNodes;
-    //private AStar aStar;
-
 
     /**
      * Constructor for the class
@@ -105,38 +98,29 @@ public class GUI {
         comboFilter.setOnAction((e) -> {
             if (comboFilter.getValue().equals("Dijkstra")) {
                 runValue = 1;
-                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("AStar")) {
                 runValue = 2;
-                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("IDAStar")) {
                 runValue = 3;
-                //System.out.println("runValue: " + runValue);
             }
             if (comboFilter.getValue().equals("All")) {
                 runValue = 4;
-                //System.out.println("runValue: " + runValue);
             }
         });
 
         runButton.setOnMouseClicked((f) -> {
             try {
                 if (runValue == 1) {
-                    //System.out.println("Dijkstra selected");
                     DijkstraPath dPath = new DijkstraPath();
                     dPath.DPathFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
                     drawPathDijkstra(dPath, new Node(this.startPosX, this.startPosY, 0));
-                    //drawVisitedDijkstra(canvas);
-                    //dPath.clearRoute();
                 }
                 if (runValue == 2) {
-                    //System.out.println("AStar selected");
                     AStar aStar = new AStar();
                     aStar.aStarFind(ioImg.getFullMap(), this.startPosX, this.startPosY, this.endPosX, this.endPosY, 0);
                     drawPathAStar(aStar, new Node(this.startPosX, this.startPosY, 0));
-                    //aStar.clearRoute();
                 }
             } catch (IOException jk) {
                 System.out.println(jk);
@@ -161,14 +145,12 @@ public class GUI {
             if (startButton.isSelected()) {
                 this.startPosX = (int) e.getX();
                 this.startPosY = (int) e.getY();
-                //System.out.println("X: " + startPosX + " Y: " + startPosY);
 
                 graphicsContext.setFill(Color.RED);
                 graphicsContext.fillOval(-10 + this.startPosX, -10 + this.startPosY, 10, 10);
             } else if (endButton.isSelected()) {
                 this.endPosX = (int) e.getX();
                 this.endPosY = (int) e.getY();
-                //System.out.println("X: " + endPosX + " Y: " + endPosY);
 
                 graphicsContext.setFill(Color.BLUE);
                 graphicsContext.fillOval(-10 + this.endPosX, -10 + this.endPosY, 10, 10);
@@ -206,7 +188,6 @@ public class GUI {
             }
         });
 
-        //root.getChildren().addAll(canvas, drawCanvas);
         mainScene = new Scene(borderPane, 1000, 1000, Color.BLACK);
         borderPane.setRight(buttonPane);
         borderPane.setCenter(canvas);
@@ -244,7 +225,6 @@ public class GUI {
             canvas1.getGraphicsContext2D().stroke();
         }
         pathAL.clear();
-        //drawVisitedDijkstra(canvas1, dPath);
         borderPane.setCenter(canvas1);
     }
 
@@ -325,7 +305,6 @@ public class GUI {
         } else {
             System.out.println("Route not found! " + routeNodes.toString());
         }
-
         return routeNodes;
     }
 
@@ -355,19 +334,6 @@ public class GUI {
             visitedNode = visitedNode.getPrevNode();
         }
         return visitedNodes;
-    }
-
-    /**
-     * Method for clearing the route ArrayList
-     */
-    public void clearRoute() {
-        if (routeFinal != null) {
-            routeFinal.clearNode();
-            routeFinal = null;
-            routeNodes.clear();
-        } else {
-            System.out.println("Clearing of failed!");
-        }
     }
 
 

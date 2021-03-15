@@ -1,2 +1,6 @@
-package PathfindingLab;public class MyListTest {
+package PathfindingLab;
+
+public class MyListTest {
+
+
 }

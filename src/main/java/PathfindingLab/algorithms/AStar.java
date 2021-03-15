@@ -20,7 +20,7 @@ public class AStar {
     Node routeFinal, startNode;
     MyList<Node> visitedNodes;
     Node visitedNode;
-    int endY, endX;
+    int endY, endX, xNow, yNow;
 
     /**
      * Constructor for the class
@@ -48,8 +48,6 @@ public class AStar {
         startNode = new Node(startX, startY, startDistance);
         int yLength = map[0].length;
         int xLength = map.length;
-        int xNow = 0;
-        int yNow = 0;
         distance = new double[xLength][yLength];
         truthTable = new boolean[xLength][yLength];
         for (int i = 0; i < xLength; i++) {
@@ -63,14 +61,11 @@ public class AStar {
             Node currentNode = pq.poll();
             xNow = currentNode.getX();
             yNow = currentNode.getY();
-
             if (truthTable[xNow][yNow]) continue;
             if (xNow == endX && yNow == endY) {
                 setRoute(currentNode);
-                long timeEnd = System.nanoTime();
-                long timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
-                System.out.println("AStar completed successfully! Time elapsed: " + timeElapsed + " ms");
-                System.out.println("Distance in AStar: " + routeFinal.getAStarDistance());
+                long timeElapsed = getTime(timeStart);
+                System.out.println("AStar completed successfully! Time elapsed: " + timeElapsed + " ms " + "Distance in AStar: " + routeFinal.getAStarDistance());
                 return true;
             }
             truthTable[xNow][yNow] = true;
@@ -78,7 +73,6 @@ public class AStar {
         }
         return false;
     }
-
 
     /**
      * Method for checking the neighbours and moving in the array
@@ -92,7 +86,6 @@ public class AStar {
      * @param xNow        Integer parameter for current x-position
      */
     public void checkNeighbours(int[][] mapFull, Node currentNode, int xLength, int yLength, Heap pq, int xNow, int yNow, double[][] distance) {
-
         for (int movementX = -1; movementX <= 1; movementX++) {
             for (int movementY = -1; movementY <= 1; movementY++) {
 
@@ -124,8 +117,8 @@ public class AStar {
     /**
      * Method for checking if movement is done diagonally or horizontally and vertically
      *
-     * @param movementY   Integer parameter for current move on Y-axel
-     * @param movementX   Integer parameter for current move on X-axel
+     * @param movementY       Integer parameter for current move on Y-axel
+     * @param movementX       Integer parameter for current move on X-axel
      * @param currentNode Node parameter for the current node being inspected
      * @return Returns a double value of distance
      */
@@ -139,7 +132,6 @@ public class AStar {
 
     /**
      * Method for euclidean distance from current position till the end
-     *
      * @param xNow Integer parameter for current x-coordinate
      * @param yNow Integer parameter for current y-coordinate
      * @param endX Integer parameter for end x-coordinate
@@ -152,7 +144,21 @@ public class AStar {
         return sqrt(dx * dx + dy * dy);
     }
 
+    /**
+     * Getter for time difference
+     * @param timeStart long type parameter for beginning of time count
+     * @return returns the time difference from the beginning and the end
+     */
+    public long getTime(long timeStart) {
+        long timeElapsed;
+        long timeEnd = System.nanoTime();
+        return timeElapsed = TimeUnit.NANOSECONDS.toMillis((timeEnd - timeStart));
+    }
 
+    /**
+     * Method for getting the last Node in route
+     * @return returns last Node type object in route
+     */
     public Node getRouteFinal() {
         return routeFinal;
     }
@@ -188,21 +194,7 @@ public class AStar {
     }
 
     /**
-     * Method for printing, adding and returning the visited nodes in an ArrayList
-     *
-     * @return Returns visited nodes in an ArrayList
-     */
-    public MyList<Node> printVisitedNodes() {
-        while (visitedNode != startNode) {
-            visitedNodes.add(visitedNode.getPrevNode());
-            visitedNode = visitedNode.getPrevNode();
-        }
-        return visitedNodes;
-    }
-
-    /**
      * Getter for visited Nodes in MyList form
-     *
      * @return return MyList with Nodes
      */
     public MyList<Node> getVisitedNodes() {
@@ -211,7 +203,6 @@ public class AStar {
 
     /**
      * Getter for getting the last visited Node
-     *
      * @return returns last visited Node
      */
     public Node getVisitedNode() {

@@ -1,7 +1,7 @@
 package PathfindingLab;
 
 import PathfindingLab.algorithms.DijkstraPath;
-import PathfindingLab.ui.GUI;
+import PathfindingLab.utils.MyList;
 import org.junit.Before;
 import org.junit.Test;
 import PathfindingLab.utils.Node;
@@ -9,7 +9,6 @@ import PathfindingLab.utils.Node;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class DijkstraPathTest {
@@ -19,7 +18,7 @@ public class DijkstraPathTest {
     private int startY;
     private int startX;
     private int startBiggestX;
-    private  int startBiggestY;
+    private int startBiggestY;
     private int endYSmall;
     private int endXSmall;
     private int endYBigger;
@@ -27,12 +26,12 @@ public class DijkstraPathTest {
     private int endYBiggest;
     private int endXBiggest;
     private int startDistance;
-    private ArrayList<Node> nodeArrayList;
+    private MyList<Node> nodeMyList;
 
     @Before
     public void setUp() {
         dPath = new DijkstraPath();
-        nodeArrayList = new ArrayList<>();
+        nodeMyList = new MyList<>();
         smallInputMap = new int[][]{
                 {1, 1, 0},
                 {0, 1, 1}
@@ -70,13 +69,12 @@ public class DijkstraPathTest {
 
     @Test
     public void dijkstraFindsRoute() throws IOException {
-        assertEquals(true, dPath.DPathFind(smallInputMap, startX,startY,endXSmall,endYSmall, startDistance));
+        assertEquals(true, dPath.DPathFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
     }
 
     @Test
     public void dijkstraFindsRouteBiggest() throws IOException {
         assertEquals(true, dPath.DPathFind(biggestInputMap, endXBiggest, endYBiggest, startBiggestX, startBiggestY, startDistance));
-
 
 
     }
@@ -88,26 +86,33 @@ public class DijkstraPathTest {
     }
 
     @Test
-    public void nodesAreSaved() throws IOException{
-        Node node = new Node(0,0,0);
-        nodeArrayList.add(node);
-        node = new Node(0,1,1);
-        nodeArrayList.add(node);
-        node = new Node(1,2,2.414213562373095);
-        nodeArrayList.add(node);
+    public void nodesAreSaved() throws IOException {
+        Node node = new Node(0, 0, 0);
+        nodeMyList.add(node);
+        node = new Node(0, 1, 1);
+        nodeMyList.add(node);
+        node = new Node(1, 2, 2.414213562373095);
+        nodeMyList.add(node);
         assertEquals(true, dPath.DPathFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
-        //assertEquals(nodeArrayList.size(), printRoute().size());
+        MyList<Node> myList = new MyList<>();
+        Node finalNode = dPath.getVisitedNode();
+        while(finalNode != null) {
+            myList.add(finalNode);
+            finalNode = finalNode.getPrevNode();
+        }
+        assertEquals(nodeMyList.size(), myList.size());
     }
 
     @Test
-    public void nodeSetterWorks() {
+    public void nodeSetterAndGetterWorks() {
         Node node = new Node(0, 0, 0);
         dPath.setRoute(node);
-        //assertEquals(1, dPath.printRoute().size());
+        assertEquals(node, dPath.getRouteFinal());
     }
 
+
     @Test
-    public void visitedNodesSize() throws IOException{
+    public void visitedNodesSize() throws IOException {
         assertEquals(true, dPath.DPathFind(biggerInputMap, startX, startY, endXBigger, endYBigger, startDistance));
         //assertEquals(25, dPath.printVisitedNodes().size());
     }

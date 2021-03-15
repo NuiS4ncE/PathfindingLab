@@ -19,7 +19,7 @@ public class HeapTest {
     private int startY;
     private int startX;
     private int startBiggestX;
-    private  int startBiggestY;
+    private int startBiggestY;
     private int endYSmall;
     private int endXSmall;
     private int endYBigger;
@@ -71,14 +71,14 @@ public class HeapTest {
 
     @Test
     public void dijkstraFindsRouteWithHeapSmall() throws IOException {
-        assertEquals(true, dPath.DPathFind(smallInputMap, startX,startY,endXSmall,endYSmall, startDistance));
+        assertEquals(true, dPath.DPathFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
     }
 
     @Test
     public void heapReturnsCorrectOrder() {
-        Node first = new Node(0,0,0);
-        Node second = new Node(1,0,1);
-        Node third = new Node(2,0,2.4);
+        Node first = new Node(0, 0, 0);
+        Node second = new Node(1, 0, 1);
+        Node third = new Node(2, 0, 2.4);
         heapTest.add(third);
         heapTest.add(first);
         heapTest.add(second);
@@ -87,9 +87,9 @@ public class HeapTest {
 
     @Test
     public void heapGetsEmpty() {
-        Node first = new Node(0,0,0);
-        Node second = new Node(1,0,1);
-        Node third = new Node(2,0,2.4);
+        Node first = new Node(0, 0, 0);
+        Node second = new Node(1, 0, 1);
+        Node third = new Node(2, 0, 2.4);
         heapTest.add(third);
         heapTest.add(first);
         heapTest.add(second);

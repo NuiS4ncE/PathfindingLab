@@ -5,9 +5,7 @@ import PathfindingLab.utils.MyList;
 import PathfindingLab.utils.Node;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +16,7 @@ public class AStarTest {
     private int startY;
     private int startX;
     private int startBiggestX;
-    private  int startBiggestY;
+    private int startBiggestY;
     private int endYSmall;
     private int endXSmall;
     private int endYBigger;
@@ -69,7 +67,7 @@ public class AStarTest {
 
     @Test
     public void astarFindsRoute() throws IOException {
-        assertEquals(true, aStar.aStarFind(smallInputMap, startX,startY,endXSmall,endYSmall, startDistance));
+        assertEquals(true, aStar.aStarFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
     }
 
     @Test
@@ -83,12 +81,12 @@ public class AStarTest {
     }
 
     @Test
-    public void nodesAreSaved() throws IOException{
-        Node node = new Node(0,0,0);
+    public void nodesAreSaved() throws IOException {
+        Node node = new Node(0, 0, 0);
         nodeMyList.add(node);
-        node = new Node(0,1,1);
+        node = new Node(0, 1, 1);
         nodeMyList.add(node);
-        node = new Node(1,2,2.414213562373095);
+        node = new Node(1, 2, 2.414213562373095);
         nodeMyList.add(node);
         assertEquals(true, aStar.aStarFind(smallInputMap, startX, startY, endXSmall, endYSmall, startDistance));
     }
